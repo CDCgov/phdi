@@ -32,7 +32,21 @@ def build_save_fhir_data_body(
             "workflow_params": workflow_params,
         },
     ):
-        return {
-            "fhirBundle": input_msg,
-            "saveSource": workflow_params.get("saveSource"),
+        if workflow_params.get("fhirBundle"):
+            fhirBundle = workflow_params["fhirBundle"].json()["extended_bundle"]
+        else:
+            fhirBundle = input_msg
+
+        request = {
+            "fhirBundle": fhirBundle,
         }
+
+        if workflow_params is not None:
+            if workflow_params.get("metadata") is not None:
+                request["metadata"] = workflow_params["metadata"].json()[
+                    "parsed_values"
+                ]
+            if workflow_params.get("saveSource") is not None:
+                request["saveSource"] = workflow_params["saveSource"]
+
+        return request

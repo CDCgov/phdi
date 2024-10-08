@@ -18,7 +18,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 4 : undefined,
+  workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: "html",
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -68,14 +68,8 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "docker compose build --no-cache && docker compose up",
-    port: 3000,
-    timeout: 300 * 1000,
-    reuseExistingServer: !process.env.CI,
-  },
-
   /* Hook to ensure Docker is shut down after tests or on error */
   globalTeardown: "./playwright-teardown",
+  /* Hook to ensure DB is started & migrations have run before tests start*/
+  globalSetup: "./playwright-setup",
 });

@@ -4,39 +4,28 @@ services:
     image: "postgres:alpine"
     ports:
       - "5432:5432"
-    env_file:
-      - "./tefca.env"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=tefca_db
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s
       timeout: 5s
       retries: 20
 
-  # Flyway migrations and DB version control
-  flyway:
-    image: flyway/flyway:10.16-alpine
-    command: -configFiles=/flyway/conf/flyway.conf -schemas=public -connectRetries=60 migrate
-    volumes:
-      - ./flyway/sql:/flyway/sql
-      - ./flyway/conf/flyway.conf:/flyway/conf/flyway.conf
-    depends_on:
-      db:
-        condition: service_started
-
-  # Next.js app
+  # Next.js app with Flyway
   tefca-viewer:
     platform: linux/amd64
     build:
       context: ../../
       dockerfile: ./containers/tefca-viewer/Dockerfile
+    tty: true
     ports:
       - "3000:3000"
-    env_file:
-      - "./tefca.env"
     environment:
       - NODE_ENV=production
+      - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
     depends_on:
       db:
         condition: service_healthy
-      flyway:
-        condition: service_completed_successfully

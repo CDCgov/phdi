@@ -1,8 +1,7 @@
 "use server";
 import { Pool, PoolConfig, QueryResultRow } from "pg";
-import dotenv from "dotenv";
-import { ValueSetItem } from "./constants";
-import { QueryStruct } from "./demoQueries";
+// import dotenv from "dotenv";
+import { ValueSetItem, valueSetTypeToClincalServiceTypeMap } from "./constants";
 
 const getQuerybyNameSQL = `
 select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author as author, vs.type, qic.concept_id, qic.include, c.code, c.code_system, c.display 
@@ -14,15 +13,9 @@ select q.query_name, q.id, qtv.valueset_id, vs.name as valueset_name, vs.author 
   where q.query_name = $1;
 `;
 
-// Load environment variables from tefca.env and establish a Pool configuration
-dotenv.config({ path: "tefca.env" });
+// Load environment variables from .env and establish a Pool configuration
 const dbConfig: PoolConfig = {
-  user: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  host: process.env.POSTGRES_HOST,
   connectionString: process.env.DATABASE_URL,
-  port: Number(process.env.POSTGRES_PORT),
-  database: process.env.POSTGRES_DB,
   max: 10, // Maximum # of connections in the pool
   idleTimeoutMillis: 30000, // A client must sit idle this long before being released
   connectionTimeoutMillis: 2000, // Wait this long before timing out when connecting new client
@@ -66,14 +59,7 @@ export const filterValueSets = async (
 ) => {
   // Assign clinical code type based on desired filter
   // Mapping is established in TCR, so follow that convention
-  let valuesetFilters: string[];
-  if (type == "labs") {
-    valuesetFilters = ["ostc", "lotc", "lrtc"];
-  } else if (type == "medications") {
-    valuesetFilters = ["mrtc"];
-  } else {
-    valuesetFilters = ["dxtc", "sdtc"];
-  }
+  let valuesetFilters = valueSetTypeToClincalServiceTypeMap[type];
   const results = vsItems.filter((vs) =>
     valuesetFilters.includes(vs.clinicalServiceType),
   );
@@ -100,40 +86,4 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
     return vsTranslation;
   });
   return vsItems;
-};
-
-/**
- * Formats a statefully updated list of value set items into a JSON structure
- * used for executing custom queries.
- * @param useCase The base use case being queried for.
- * @param vsItems The list of value set items the user wants included.
- * @returns A structured specification of a query that can be executed.
- */
-export const formatValueSetItemsAsQuerySpec = async (
-  useCase: string,
-  vsItems: ValueSetItem[],
-) => {
-  let secondEncounter: boolean = false;
-  if (["cancer", "chlamydia", "gonorrhea", "syphilis"].includes(useCase)) {
-    secondEncounter = true;
-  }
-  const labCodes: string[] = vsItems
-    .filter((vs) => vs.system === "http://loinc.org")
-    .map((vs) => vs.code);
-  const snomedCodes: string[] = vsItems
-    .filter((vs) => vs.system === "http://snomed.info/sct")
-    .map((vs) => vs.code);
-  const rxnormCodes: string[] = vsItems
-    .filter((vs) => vs.system === "http://www.nlm.nih.gov/research/umls/rxnorm")
-    .map((vs) => vs.code);
-
-  const spec: QueryStruct = {
-    labCodes: labCodes,
-    snomedCodes: snomedCodes,
-    rxnormCodes: rxnormCodes,
-    classTypeCodes: [] as string[],
-    hasSecondEncounterQuery: secondEncounter,
-  };
-
-  return spec;
 };

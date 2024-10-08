@@ -26,14 +26,14 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
-                  Facility ID
+                  Encounter Type
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line"
                 >
-                  2.16.840.1.113883.4.6
+                  Ambulatory
                 </div>
               </div>
               <div
@@ -45,7 +45,38 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
+                >
+                  Encounter ID
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line"
+                >
+                  123456789
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div>
+          <h4
+            class="usa-summary-box__heading padding-y-105"
+            id="facility-details"
+          >
+            Facility Details
+          </h4>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
                 >
                   Facility Name
                 </div>
@@ -64,7 +95,47 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
+                >
+                  Facility Address
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line"
+                >
+                  5001 North Mount Washington Circle Drive
+North Canton, MA 02740
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility Contact Address
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line"
+                >
+                  5001 North Mount Washington Circle Drive
+North Canton, MA 02740
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
                 >
                   Facility Type
                 </div>
@@ -72,6 +143,25 @@ exports[`Encounter should match snapshot 1`] = `
                   class="grid-col maxw7 text-pre-line"
                 >
                   Healthcare Provider
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility ID
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line"
+                >
+                  2.16.840.1.113883.4.6
                 </div>
               </div>
               <div
@@ -97,7 +187,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Provider Name
                 </div>
@@ -116,7 +206,7 @@ exports[`Encounter should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Provider Contact
                 </div>

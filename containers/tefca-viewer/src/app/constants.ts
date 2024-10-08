@@ -157,7 +157,7 @@ export const demoData: Record<PatientType, DemoDataFields> = {
     LastName: "Hill",
     DOB: "2023-08-29",
     MRN: "18091",
-    Phone: "8161112222",
+    Phone: "",
     FhirServer: "CernerHelios: eHealthExchange",
     UseCase: "newborn-screening",
   },
@@ -300,12 +300,9 @@ export const stateOptions = [
 export type Mode =
   | "search"
   | "results"
-  | "multiple-patients"
-  | "no-patients"
-  | "multiple-patients-results"
   | "customize-queries"
   | "select-query"
-  | "select-patient";
+  | "patient-results";
 
 /*Type to specify the expected components for each item in a value set that will be 
 displayed in the CustomizeQuery component*/
@@ -328,3 +325,9 @@ export interface ValueSet {
 }
 
 export type ValueSetType = keyof ValueSet;
+
+export const valueSetTypeToClincalServiceTypeMap = {
+  labs: ["ostc", "lotc", "lrtc"],
+  medications: ["mrtc"],
+  conditions: ["dxtc", "sdtc"],
+};

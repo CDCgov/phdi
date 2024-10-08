@@ -1,7 +1,7 @@
 import React from "react";
-import { Table } from "@trussworks/react-uswds";
+import Table from "@/app/query/designSystem/Table";
 import { MedicationRequest } from "fhir/r4";
-import { formatCodeableConcept, formatDate } from "../../format-service";
+import { formatCodeableConcept, formatDate } from "../../../../format-service";
 
 /**
  * The props for the MedicationRequestTable component.

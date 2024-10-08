@@ -88,10 +88,16 @@ jobs:
           node-version: ${{env.NODE_VERSION}}
       - name: Install dependencies
         working-directory: ./containers/${{env.CONTAINER}}
-        run: npm install
+        run: npm ci
       - name: Install Playwright Browsers
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright install --with-deps
-      - name: Run Playwright tests
+      - name: Build Query Connector
         working-directory: ./containers/${{env.CONTAINER}}
-        run: npx playwright test
+        run: docker compose build --no-cache
+      - name: Run Query Connector
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: docker compose up -d
+      - name: Playwright Tests
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: npx playwright test e2e --reporter=list --config playwright.config.ts

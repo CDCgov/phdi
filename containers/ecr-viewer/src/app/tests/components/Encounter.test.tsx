@@ -7,16 +7,36 @@ describe("Encounter", () => {
   beforeAll(() => {
     const encounterData = [
       {
-        title: "Facility ID",
-        value: "2.16.840.1.113883.4.6",
+        title: "Encounter Type",
+        value: "Ambulatory",
       },
+      {
+        title: "Encounter ID",
+        value: "123456789",
+      },
+    ];
+    const facilityData = [
       {
         title: "Facility Name",
         value: "PRM- Palmdale Regional Medical Center",
       },
       {
+        title: "Facility Address",
+        value:
+          "5001 North Mount Washington Circle Drive\nNorth Canton, MA 02740",
+      },
+      {
+        title: "Facility Contact Address",
+        value:
+          "5001 North Mount Washington Circle Drive\nNorth Canton, MA 02740",
+      },
+      {
         title: "Facility Type",
         value: "Healthcare Provider",
+      },
+      {
+        title: "Facility ID",
+        value: "2.16.840.1.113883.4.6",
       },
     ];
     const providerData = [
@@ -32,6 +52,7 @@ describe("Encounter", () => {
     container = render(
       <EncounterDetails
         encounterData={encounterData}
+        facilityData={facilityData}
         providerData={providerData}
       />,
     ).container;

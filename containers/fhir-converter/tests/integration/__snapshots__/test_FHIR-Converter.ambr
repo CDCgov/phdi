@@ -38,19 +38,21 @@
               }),
             ]),
             'id': str,
-            'identifier': dict({
-              'type': dict({
-                'coding': list([
-                  dict({
-                    'code': '28570-0',
-                    'display': 'Procedure Note',
-                    'system': 'http://loinc.org',
-                  }),
-                ]),
+            'identifier': list([
+              dict({
+                'type': dict({
+                  'coding': list([
+                    dict({
+                      'code': '28570-0',
+                      'display': 'Procedure Note',
+                      'system': 'http://loinc.org',
+                    }),
+                  ]),
+                }),
+                'use': 'official',
+                'value': 'sTT988',
               }),
-              'use': 'official',
-              'value': 'sTT988',
-            }),
+            ]),
             'meta': dict({
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
@@ -953,9 +955,11 @@
               }),
             ]),
             'id': str,
-            'identifier': dict({
-              'use': 'official',
-            }),
+            'identifier': list([
+              dict({
+                'use': 'official',
+              }),
+            ]),
             'meta': dict({
               'profile': list([
                 'http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-composition',
@@ -977,18 +981,15 @@
                 'extension': list([
                   dict({
                     'url': str,
-                    'valueIdentifier': dict({
-                      'type': dict({
-                        'coding': list([
-                          dict({
-                            'code': '88085-6',
-                            'display': 'Reportability response report Document Public health',
-                            'system': 'http://loinc.org',
-                          }),
-                        ]),
-                      }),
-                      'use': 'official',
-                      'value': '4efa0e5c-c34c-429f-b5de-f1a13aef4a28',
+                    'valueCodeableConcept': dict({
+                      'coding': list([
+                        dict({
+                          'code': '88085-6',
+                          'display': 'Reportability response report Document Public health',
+                          'system': 'http://loinc.org',
+                        }),
+                      ]),
+                      'text': 'official',
                     }),
                   }),
                   dict({

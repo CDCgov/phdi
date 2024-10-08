@@ -1,0 +1,31 @@
+.searchCallToActionContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.searchCallToActionButton {
+  height: 2.5rem;
+}
+
+.searchFormContainer {
+  width: 31.25rem;
+}
+
+.demoQueryFiller {
+  background: #faf3d1;
+  border: 1px solid #fee685;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0px;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.demoQueryDropdownContainer {
+  display: flex;
+  gap: 2rem;
+}

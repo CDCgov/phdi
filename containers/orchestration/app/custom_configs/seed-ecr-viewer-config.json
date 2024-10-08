@@ -26,7 +26,7 @@
       "endpoint": "/stamp-condition-extensions"
     },
     {
-      "name": "message_parser_values",
+      "name": "metadata_values",
       "service": "message_parser",
       "endpoint": "/parse_message",
       "params": {
@@ -34,10 +34,20 @@
         "parsing_schema_name": "ecr_viewer_metadata.json",
         "credential_manager": "azure"
       }
+    },
+    {
+      "name:": "save_bundle",
+      "service": "save_bundle",
+      "url": "${ECR_VIEWER_URL}",
+      "endpoint": "/api/save-fhir-data",
+      "previous_response_to_param_mapping": {
+        "metadata_values": "metadata",
+        "stamped_ecr": "fhirBundle"
+      }
     }
   ],
   "outputs": [
-    "message_parser_values",
+    "metadata_values",
     "stamped_ecr"
   ],
   "default-response": false

@@ -10,15 +10,6 @@
             { {% include 'DataType/Identifier' Identifier: id -%} },
             {% endfor -%}
         ],
-        "type":
-        {
-            "coding":
-            [
-                {
-                    "display":"{{ author.assignedAuthoringDevice.manufacturerModelName._ }}",
-                },
-            ],
-        },
         "manufacturer":"{{ author.assignedAuthoringDevice.manufacturerModelName._ }}",
         "version":
         [
@@ -26,16 +17,19 @@
                 "value":"{{ author.assignedAuthoringDevice.softwareName._ }}",
             },
         ],
-        "category": {
-            "coding":
-            [
-                {
-                    "system": "http://hl7.org/fhir/device-category",
-                    "code": "software",
-                    "display": "software",
-                },
-            ],
-        },
+        "property": [
+            {
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/device-category",
+                            "code": "software",
+                            "display": "software",
+                        },
+                    ]
+                }
+            }
+        ],
     },
     "request":{
         "method":"PUT",

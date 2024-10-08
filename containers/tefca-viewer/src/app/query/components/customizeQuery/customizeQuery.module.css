@@ -3,6 +3,9 @@
   justify-content: flex-start;
   gap: 2rem;
   padding-top: 2rem;
+  align-items: center;
+  margin-bottom: 16px;
+  width: 100%;
 }
 
 .customizeQueryNav ul {
@@ -61,6 +64,12 @@
   border: none;
 }
 
+.noBorderNoBackgroundNoPadding {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
 .customizeQueryCheckbox {
   width: 2.25rem;
   height: 2.25rem;
@@ -69,15 +78,41 @@
   align-items: center;
   cursor: pointer;
   background-color: #fff;
-  border: 1px solid #a9aeb1;
+  border: 1px solid #a9aeb1 !important;
   border-radius: 0.25rem;
+  margin: 0.5rem;
+  padding: 0 !important;
 }
 
-.caret {
-  cursor: pointer;
-  align-items: center;
+.customizeQueryCheckbox svg {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.accordionHeader {
   display: flex;
-  margin: -3px;
+  width: 100%;
+  color: var(--White, #fff);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  gap: 1.25rem;
+}
+
+.accordionSubtitle {
+  display: block;
+  font-weight: normal;
+  font-size: 16px;
+  color: var(--White, #fff);
+  font-size: 16px;
+  line-height: normal;
+}
+
+.accordionButtonTitle {
+  max-width: 40rem;
+  width: 100%;
 }
 
 .customizeQueryAccordion button {
@@ -90,10 +125,6 @@
   outline: none;
 }
 
-.customizeQueryAccordion__body {
-  border: 1px solid #71767a;
-}
-
 .resultsContainer {
   padding-bottom: 1.25rem;
 }
@@ -103,36 +134,43 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
+  border: 1px solid #71767a;
+
+  --column-spacing: 3.75rem 6.25rem 1fr;
+  --column-gap: 3.75rem;
 }
 
 .customizeQueryGridHeader {
   display: grid;
-  grid-template-columns: 130px 160px 1fr;
   align-items: center;
-  padding: 0px 24px;
+  padding: 0.65rem 1.5rem;
   border-bottom: 1px solid #71767a;
   width: 100%;
+  grid-template-columns: var(--column-spacing);
+  gap: var(--column-gap);
+}
+
+.customizeQueryGridHeader th {
+  padding: 0 !important;
 }
 
 .accordionTableHeader {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
   font-weight: bold;
   word-wrap: break-word;
   align-items: center;
-  gap: 20px;
   width: 100%;
   box-sizing: border-box;
-  margin-left: 6px;
-  margin-top: 10px;
+  border: none !important;
 }
 
 .customizeQueryGridRow {
   display: grid;
-  grid-template-columns: 160px 160px 1fr;
+  grid-template-columns: var(--column-spacing);
+  gap: var(--column-gap);
   align-items: center;
-  padding: 14px 0px;
+  padding: 0.88rem 1.5rem;
 }
 
 .customizeQueryGridRow:nth-child(even) {
@@ -145,34 +183,8 @@
   border-bottom: none;
 }
 
-.usaNav {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-.hideCheckboxLabel {
-  background-color: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-
-  & > label {
-    margin-top: 0;
-    width: 24px;
-    height: 24px;
-
-    &::before {
-      margin-left: 0;
-      width: 24px;
-      height: 24px;
-      background-size: 14px auto !important;
-    }
-
-    & > .hide-me {
-      display: none;
-    }
-  }
+.bulkSelectLink {
+  padding: 1.25rem 0;
+  text-decoration: underline;
+  padding-right: 1rem;
 }

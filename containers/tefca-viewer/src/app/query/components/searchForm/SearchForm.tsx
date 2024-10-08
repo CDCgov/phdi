@@ -4,10 +4,8 @@ import {
   Label,
   TextInput,
   Select,
-  Alert,
   Button,
 } from "@trussworks/react-uswds";
-import { fhirServers } from "../../fhir-servers";
 import {
   USE_CASES,
   FHIR_SERVERS,
@@ -17,51 +15,53 @@ import {
   patientOptions,
   stateOptions,
   Mode,
-} from "../../constants";
+  ValueSetItem,
+} from "../../../constants";
 import {
   UseCaseQueryResponse,
   UseCaseQuery,
   UseCaseQueryRequest,
-} from "../../query-service";
-
-import { FormatPhoneAsDigits } from "@/app/format-service";
+} from "../../../query-service";
+import { fhirServers } from "../../../fhir-servers";
+import styles "./searchForm.module.css"
+import { FormatPhoneAsDigits } from "../../../format-service";
 
 interface SearchFormProps {
   useCase: USE_CASES;
+  queryValueSets: ValueSetItem[];
   setUseCase: (useCase: USE_CASES) => void;
   setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
   setQueryType: (queryType: string) => void;
-  userJourney: "test" | "demo";
 }
 
 /**
  * @param root0 - SearchFormProps
  * @param root0.useCase - The use case this query will cover.
+ * @param root0.queryValueSets - Stateful collection of valuesets to use in the query.
  * @param root0.setUseCase - Update stateful use case.
  * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
  * @param root0.setQueryType - The function to set the query type.
- * @param root0.userJourney - The user journey.
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
+  queryValueSets,
   setUseCase,
   setOriginalRequest,
   setUseCaseQueryResponse,
   setMode,
   setLoading,
   setQueryType,
-  userJourney,
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
-    patientOptions[useCase]?.[0]?.value || ""
+    patientOptions[useCase]?.[0]?.value || "",
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -70,6 +70,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
 
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [autofilled, setAutofilled] = useState(false); // boolean indicating if the form was autofilled, changes color if true
 
   // Fills fields with sample data based on the selected patientOption
@@ -84,23 +85,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setPhone(data.Phone);
         setFhirServer(data.FhirServer as FHIR_SERVERS);
         setUseCase(data.UseCase as USE_CASES);
-        // setQueryType(
-        //     demoQueryOptions.find((option) => option.value === data.UseCase)
-        //         ?.label || "",
-        // );
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType]
+    [patientOption, setUseCase, setQueryType],
   );
-
-  // Fills fields if patientOption changes (auto-fill)
-  useEffect(() => {
-    if (!patientOption || userJourney !== "demo") {
-      return;
-    }
-    fillFields(patientOption as PatientType);
-  }, [fillFields, patientOption, userJourney]);
 
   // Change the selectedDemoOption in the dropdown and update the
   // query type (which governs the DB fetch) accordingly
@@ -108,7 +97,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     setPatientOption(patientOptions[selectedDemoOption][0].value);
     setQueryType(
       demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        ""
+        "",
     );
   };
 
@@ -117,11 +106,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
   };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (!useCase || !fhirServer) {
       console.error("Use case and FHIR server are required.");
       return;
     }
-    event.preventDefault();
     setLoading(true);
 
     const originalRequest = {
@@ -134,14 +123,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
       phone: FormatPhoneAsDigits(phone),
     };
     setOriginalRequest(originalRequest);
-    const queryResponse = await UseCaseQuery(originalRequest);
+    const queryResponse = await UseCaseQuery(originalRequest, queryValueSets);
     setUseCaseQueryResponse(queryResponse);
-    if (!queryResponse.Patient || queryResponse.Patient.length === 0) {
-      setMode("no-patients");
-    } else if (queryResponse.Patient.length === 1) {
+
+    if (queryResponse.Patient && queryResponse.Patient.length === 1) {
       setMode("results");
     } else {
-      setMode("multiple-patients");
+      setMode("patient-results");
     }
     setLoading(false);
   }
@@ -151,77 +139,53 @@ const SearchForm: React.FC<SearchFormProps> = ({
 
   return (
     <>
-      <form className="patient-search-form" onSubmit={HandleSubmit}>
-        <h1 className="font-sans-2xl text-bold">Search for a Patient</h1>
-        {userJourney === "test" && (
-          <>
-            <h2 className="font-sans-lg search-form-section-label">
-              <strong>Query information</strong>
-            </h2>
-            <Label htmlFor="query">
-              <b>Query</b>
+      <form className="content-container-smaller-width" onSubmit={HandleSubmit}>
+        <h1 className="font-sans-2xl text-bold margin-bottom-105">
+          Search for a Patient
+        </h1>
+        <h2 className="font-sans-lg text-normal margin-top-0 margin-bottom-105">
+          Enter patient information below to search for a patient. We will query
+          the connected network to find matching records.{" "}
+        </h2>
+        {
+          <div className={`usa-summary-box ${styles.demoQueryFiller}`}>
+            <Label
+              className="no-margin-top-important maxw-full font-sans text-normal"
+              htmlFor="query"
+            >
+              The demo site uses synthetic data to provide examples of possible
+              queries that you can make with the TEFCA Viewer. Select a query
+              use case, a sample patient, and then click “fill fields” below.
             </Label>
-            <div className="grid-row grid-gap">
-              <div className="usa-combo-box" data-enhanced="true">
-                <select
-                  id="query"
-                  name="query"
-                  className="usa-select margin-top-1"
-                  value={useCase}
-                  onChange={(event) => {
-                    handleDemoQueryChange(event.target.value);
-                    setUseCase(event.target.value as USE_CASES);
-                  }}
-                >
-                  {demoQueryOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
+            <div className={`${styles.demoQueryDropdownContainer}`}>
+              <div>
+                <Label htmlFor="query">Query</Label>
+                <div className="display-flex flex-align-start query-page-wrapper">
+                  <select
+                    id="query"
+                    name="query"
+                    className="usa-select margin-top-1"
+                    value={useCase}
+                    onChange={(event) => {
+                      handleDemoQueryChange(event.target.value);
+                      setUseCase(event.target.value as USE_CASES);
+                    }}
+                  >
+                    <option value="" disabled>
+                      {" "}
+                      -- Select an Option --{" "}
                     </option>
-                  ))}
-                </select>
+                    {demoQueryOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-            </div>
-            <Label htmlFor="fhir_server">
-              <b>FHIR Server (QHIN)</b>
-            </Label>
-            <div className="grid-row grid-gap">
-              <div className="usa-combo-box">
-                <Select
-                  id="fhir_server"
-                  name="fhir_server"
-                  value={fhirServer}
-                  onChange={(event) => {
-                    setFhirServer(event.target.value as FHIR_SERVERS);
-                  }}
-                  required
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Select FHIR Server
-                  </option>
-                  {Object.keys(fhirServers).map((fhirServer: string) => (
-                    <option key={fhirServer} value={fhirServer}>
-                      {fhirServer}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-            </div>
-            <h2 className="font-sans-lg search-form-section-label">
-              <strong>Patient information</strong>
-            </h2>
-            <div className="usa-summary-box test-query-filler">
-              <Label
-                className="usa-label margin-bottom-2 font-sans-xs"
-                htmlFor="query"
-              >
-                <b>
-                  Select a patient type to populate the form with sample data.
-                </b>
-              </Label>
-              <div className="display-flex flex-align-start">
-                <div className="usa-combo-box flex-1" data-enhanced="true">
-                  <Label htmlFor="patient">Patient</Label>
+              <div>
+                <Label htmlFor="patient">Patient</Label>
+                <div className="display-flex flex-align-start query-page-wrapper">
                   <select
                     id="patient"
                     name="patient"
@@ -238,76 +202,68 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     ))}
                   </select>
                 </div>
-
-                <Button
-                  className="margin-left-1  margin-top-4 usa-button--outline bg-white"
-                  type="button"
-                  value={patientOption}
-                  onClick={() => {
-                    fillFields(patientOption as PatientType, false);
-                  }}
-                >
-                  Fill fields
-                </Button>
               </div>
             </div>
-          </>
-        )}
-        {userJourney === "demo" && (
-          <div className="usa-summary-box usa-summary-box demo-query-filler">
-            <Label className="usa-label" htmlFor="query">
-              <b>Select a sample query and patient to populate the form.</b>
-            </Label>
-            <Label htmlFor="query">Query</Label>
-            <div className="display-flex flex-align-start query-customize-wrapper">
-              <select
-                id="query"
-                name="query"
-                className="usa-select margin-top-1"
-                defaultValue={""}
-                value={useCase}
-                onChange={(event) => {
-                  handleDemoQueryChange(event.target.value);
-                  setUseCase(event.target.value as USE_CASES);
+
+            <div className={`${styles.searchCallToActionContainer}`}>
+              <Button
+                className={`"usa-button" ${styles.searchCallToActionButton}`}
+                type="button"
+                onClick={() => {
+                  fillFields(patientOption as PatientType, false);
                 }}
               >
-                <option value="" disabled>
-                  {" "}
-                  -- Select An Option --{" "}
-                </option>
-                {demoQueryOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                Fill fields
+              </Button>
               <Button
                 type="button"
-                className="usa-button usa-button--outline customize-query-button"
+                className={`usa-button--outline bg-white ${styles.searchCallToActionButton}`}
                 onClick={() => handleClick()}
               >
                 Customize query
               </Button>
+              <Button
+                className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
+                type="button"
+                onClick={() => {
+                  setShowAdvanced(!showAdvanced);
+                }}
+              >
+                Advanced
+              </Button>
             </div>
-            <Label htmlFor="patient">Patient</Label>
-            <select
-              id="patient"
-              name="patient"
-              className="usa-select margin-top-1"
-              value={patientOption}
-              onChange={(event) => {
-                setPatientOption(event.target.value);
-              }}
-            >
-              {patientOptions[useCase]?.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
           </div>
-        )}
-        <Fieldset>
+        }
+        <Fieldset className={`${styles.searchFormContainer}`}>
+          {showAdvanced && (
+            <div>
+              <Label htmlFor="fhir_server">
+                <b>FHIR Server (QHIN)</b>
+              </Label>
+              <div className="grid-row grid-gap">
+                <div className="usa-combo-box">
+                  <Select
+                    id="fhir_server"
+                    name="fhir_server"
+                    value={fhirServer}
+                    onChange={(event) => {
+                      setFhirServer(event.target.value as FHIR_SERVERS);
+                    }}
+                    required
+                  >
+                    <option value="" disabled>
+                      Select FHIR Server
+                    </option>
+                    {Object.keys(fhirServers).map((fhirServer: string) => (
+                      <option key={fhirServer} value={fhirServer}>
+                        {fhirServer}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
           <h2 className="font-sans-md search-form-section-label">
             <strong>Name</strong>
           </h2>
@@ -429,7 +385,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
                   Select a state
                 </option>
                 {stateOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.label} value={option.value}>
                     {option.label}
                   </option>
                 ))}

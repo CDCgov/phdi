@@ -3,7 +3,6 @@ import styles from "./customizeQuery.module.css";
 import { GroupedValueSet } from "./customizeQueryUtils";
 
 type CustomizeQueryAccordionProps = {
-  selectedCount: number;
   handleSelectAllChange: (groupIndex: string, checked: boolean) => void;
   groupIndex: string;
   group: GroupedValueSet;
@@ -12,7 +11,6 @@ type CustomizeQueryAccordionProps = {
 /**
  * Rendering component for customize query header
  * @param param0 - props for rendering
- * @param param0.selectedCount - stateful tally of the number of selected valuesets
  * @param param0.handleSelectAllChange
  * Listner function to include all valuesets when checkbox is selected
  * @param param0.groupIndex - index corresponding to group
@@ -20,13 +18,17 @@ type CustomizeQueryAccordionProps = {
  * @returns A component that renders the customization query body
  */
 const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
-  selectedCount,
   handleSelectAllChange,
   groupIndex,
   group,
 }) => {
+  const selectedTotal = group.items.length;
+  const selectedCount = group.items.filter((item) => item.include).length;
+
   return (
-    <div className="accordion-header display-flex flex-no-wrap flex-align-start customize-query-header">
+    <div
+      className={`${styles.accordionHeader} display-flex flex-no-wrap flex-align-start customize-query-header`}
+    >
       <div
         id="select-all"
         className={`hide-checkbox-label ${styles.customizeQueryCheckbox}`}
@@ -43,6 +45,7 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
             className="usa-icon bg-base-lightest"
             size={4}
             color="#565C65"
+            aria-label="Checkmark icon indicating addition"
           />
         )}
         {selectedCount > 0 && selectedCount < group.items.length && (
@@ -50,18 +53,19 @@ const CustomizeQueryAccordionHeader: React.FC<CustomizeQueryAccordionProps> = ({
             className="usa-icon bg-base-lightest"
             size={4}
             color="#565C65"
+            aria-label="Minus icon indicating removal"
           />
         )}
       </div>
-      <div>
+      <div className={`${styles.accordionButtonTitle}`}>
         {`${group.valueSetName}`}
 
-        <span className="accordion-subtitle margin-top-2">
+        <span className={`${styles.accordionSubtitle} margin-top-2`}>
           <strong>Author:</strong> {group.author}{" "}
           <strong style={{ marginLeft: "20px" }}>System:</strong> {group.system}
         </span>
       </div>
-      <span className="margin-left-auto">{`${selectedCount} selected`}</span>
+      <span className="margin-left-auto">{`${selectedCount} of ${selectedTotal} selected`}</span>
     </div>
   );
 };

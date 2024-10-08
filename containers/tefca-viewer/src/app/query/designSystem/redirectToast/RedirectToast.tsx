@@ -5,7 +5,7 @@ import styles from "./redirectToast.module.css";
 
 export type AlertType = "info" | "success" | "warning" | "error";
 
-type RedirectionToastProps = {
+type RedirectToastProps = {
   toastVariant: AlertType;
   heading: string;
   body: string;
@@ -23,7 +23,7 @@ type RedirectionToastProps = {
  * defaults to h4
  * @returns A toast component using the USWDS alert
  */
-const RedirectionToast: React.FC<RedirectionToastProps> = ({
+const RedirectToast: React.FC<RedirectToastProps> = ({
   toastVariant,
   heading,
   body,
@@ -45,8 +45,8 @@ const options = {
   position: "bottom-left" as const,
   closeOnClick: true,
   closeButton: false,
-  className: styles.padding0,
-  bodyClassName: styles.padding0,
+  className: styles.noPaddingImportant,
+  bodyClassName: styles.noPaddingImportant,
   pauseOnFocusLoss: false,
 };
 
@@ -64,7 +64,7 @@ export function showRedirectConfirmation(content: {
   headingLevel?: HeadingLevel;
 }) {
   toast.success(
-    <RedirectionToast
+    <RedirectToast
       toastVariant="success"
       heading={content.heading}
       headingLevel={content.headingLevel}
@@ -74,4 +74,4 @@ export function showRedirectConfirmation(content: {
   );
 }
 
-export default RedirectionToast;
+export default RedirectToast;

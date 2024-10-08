@@ -27,7 +27,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Tribal Affiliation
                 </div>
@@ -46,7 +46,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Preffered Language
                 </div>
@@ -78,7 +78,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Travel History
                 </div>
@@ -97,7 +97,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Pregnancy Status
                 </div>
@@ -116,7 +116,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Alcohol Use
                 </div>
@@ -135,7 +135,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Sexual Orientation
                 </div>
@@ -154,7 +154,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Gender Identity
                 </div>
@@ -186,9 +186,155 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
+                >
+                  Encounter Date/Time
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Encounter Type
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Encounter ID
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="margin-bottom-4"
+        >
+          <h3
+            class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+          >
+            Facility Details
+          </h3>
+          <div
+            class="usa-summary-box__text"
+          >
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility Name
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
                 >
                   Facility Address
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility Contact Address
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility Type
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility ID
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -218,7 +364,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Miscellaneous Notes
                 </div>
@@ -250,9 +396,28 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
-                  Provider Name
+                  Provider Facility Name
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Provider Facility Address
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -282,7 +447,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Reason for Visit
                 </div>
@@ -301,7 +466,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Problems List
                 </div>
@@ -333,7 +498,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Vitals
                 </div>
@@ -365,7 +530,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Immunization History
                 </div>
@@ -397,7 +562,7 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
                   Procedures
                 </div>
@@ -429,9 +594,28 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 class="grid-row"
               >
                 <div
-                  class="data-title"
+                  class="data-title padding-right-1"
                 >
-                  Sender Software
+                  EHR Software Name
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Custodian Contact
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"

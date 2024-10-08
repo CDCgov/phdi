@@ -10,24 +10,34 @@
             ]
         },
         "identifier":
-        {
-            "use":"official",
-            "type":
+        [
             {
-                {% assign codes = composition.code | to_array -%}
-                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                "use":"official",
+                "type":
+                {
+                    {% assign codes = composition.code | to_array -%}
+                    {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
+                },
+                "value":"{{ composition.setId.extension }}",
+                "assigner": 
+                {
+                    "display": "{{ composition.setId.assigningAuthorityName }}"
+                },
             },
-            "value":"{{ composition.setId.extension }}",
-            "assigner": 
-            {
-                "display": "{{ composition.setId.assigningAuthorityName }}"
-            },
-        },
+        ],
         "extension":[
             {
                 "url" : "http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber",
                 "valueString" : "{{ composition.versionNumber.value }}"
             },
+            {% for template in msg.ClinicalDocument.templateId %}
+                {% if template.root == "2.16.840.1.113883.10.20.15.2" %}
+                    {
+                        "url": "https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436",
+                        "valueString": "{{ template.extension }}"
+                    },
+                {% endif %}
+            {% endfor %}
         ],
         "status":"final",
         "type":
@@ -70,12 +80,7 @@
                     {
                         "status":"generated",
                         {% if component.section.text -%}
-                            {% assign componentDiv = component.section.text | to_html_string %}
-                            {% if componentDiv contains "http://www.w3.org/1999/xhtml" %}
-                              "div": "{{ componentDiv }}",
-                            {% else -%}
-                              "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ componentDiv }}</div>",
-                            {% endif -%}
+                            "div": "{{ component.section.text | to_html_string | remove: '\"' | remove: '"'}}",
                         {% elsif component.section.title._ -%}
                             "div":"<div xmlns=\"http://www.w3.org/1999/xhtml\">{{ component.section.title._ | escape }}</div>",
                         {% else -%}
@@ -89,7 +94,15 @@
                     "mode":"snapshot",
                     {% if component.section.templateId.root and component.section.templateId.root == "2.16.840.1.113883.10.20.22.2.12" -%}
                         {%  assign tds = component.section | concatenate_tds -%}
-                        {% if component.section.text and component.section.text.content and component.section.text.content._ -%}
+                        {% if component.section.text and component.section.text._ and component.section.text._ != null -%}
+                            "extension":
+                            [
+                                {
+                                    "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
+                                    "valueString" : "{{ component.section.text._ }}"
+                                },
+                            ],
+                        {% elsif component.section.text and component.section.text.content and component.section.text.content._ != null -%}
                             "extension":
                             [
                                 {
@@ -97,12 +110,12 @@
                                     "valueString" : "{{ component.section.text.content._ }}"
                                 },
                             ],
-                        {% elsif component.section.text and component.section.text._ and component.section.text._ != null -%}
+                        {% elsif component.section.text and component.section.text.paragraph._ and component.section.text.paragraph._ != null -%}
                             "extension":
                             [
                                 {
                                     "url" : "http://hl7.org/fhir/cda/ccda/StructureDefinition/2.16.840.1.113883.10.20.22.2.12",
-                                    "valueString" : "{{ component.section.text.content._ }}"
+                                    "valueString" : "{{ component.section.text.paragraph._ }}"
                                 },
                             ],
                         {% elsif tds and tds != '' -%}
@@ -211,16 +224,12 @@
                 [
             
                     {
-                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/rr-composition",
-                        "valueIdentifier": 
+                        "url": "http://hl7.org/fhir/us/ecr/StructureDefinition/eicr-initiation-type-extension",
+                        "valueCodeableConcept": 
                         {
-                            "use":"official",
-                            "type":
-                            {
-                                {% assign codes = composition.section.code | to_array -%}
-                                {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%}
-                            },
-                            "value":"{{ composition.section.id.root }}",
+                            "text":"official",
+                            {% assign codes = composition.section.code | to_array -%}
+                            {% include 'DataType/CodeableConcept' CodeableConcept: codes.first -%},
                         },
                     },
                     {
@@ -231,12 +240,38 @@
                                     {% assign rrentries = composition.section.entry | to_array -%}
                                     {% for rrentry in rrentries -%}
                                         {% if rrentry.act.templateId.root == "2.16.840.1.113883.10.20.15.2.3.29" -%}
-                                            {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                            {% if rrentry.act.code.code == "RRVS20" %}
+                                                {% assign subrrentrys = rrentry.act.entryRelationship | to_array -%}
+                                                {% for subrrentry in subrrentrys %}
+                                                    {% if subrrentry.typeCode != "SPRT" %}
+                                                        "entries": [
+                                                            {
+                                                            "eRSDwarnings": [
+                                                                {
+                                                                    "id": "{{ subrrentry.observation.id.root }}",
+                                                                    {% include 'DataType/Coding' Coding: subrrentry.observation.value -%}
+                                                                },
+                                                                {% assign ers = subrrentry.observation.entryRelationship | to_array -%}
+                                                                {% for er in ers -%}
+                                                                    {
+                                                                        "id": "{{ er.observation.id.root }}",
+                                                                        "value": "{{- er.observation.value._ -}}",
+                                                                        {% include 'DataType/Coding' Coding: er.observation.code -%},
+                                                                    },
+                                                                {% endfor -%}
+                                                                ],
+                                                            },
+                                                        ],
+                                                    {% endif -%}
+                                                {% endfor %}
+                                            {% else %}
+                                                {% include 'DataType/Coding' Coding: rrentry.act.code -%}
+                                            {% endif -%}
                                         {% endif -%}
                                     {% endfor -%}
                                 },
                             ],
-                        }
+                        },
                     },
                 ],
                 "code": {

@@ -184,16 +184,20 @@ async def call_apis(
             service = step["service"]
             endpoint = step["endpoint"]
             endpoint_name = endpoint.split("/")[-1]
-            params = step.get("params", None)
+            params = step.get("params", {})
+            previous_response_to_param_mapping = step.get(
+                "previous_response_to_param_mapping", None
+            )
             call_span.add_event(
                 "formatting parameters for service " + service,
                 attributes={
                     "service": service,
                     "endpoint": endpoint,
                     "endpoint_name": endpoint_name,
-                    "config_params": [f"{k}: {v}" for k, v in params.items()]
-                    if params is not None
-                    else "",
+                    "config_params": _param_dict_to_str(params),
+                    "previous_response_to_param_mapping": _param_dict_to_str(
+                        previous_response_to_param_mapping
+                    ),
                 },
             )
 
@@ -208,6 +212,10 @@ async def call_apis(
                     "response_extraction_handler": response_func.__str__(),
                 },
             )
+
+            if previous_response_to_param_mapping:
+                for k, v in previous_response_to_param_mapping.items():
+                    params[v] = responses[k]
             request_body = request_body_func(current_message, input, params)
             call_span.add_event("posting to `service_url` " + service_url)
             response = post_request(service_url, request_body)
@@ -231,7 +239,7 @@ async def call_apis(
                     ),
                     attributes={"status_code": service_response.status_code},
                 )
-                error_detail = f"Service {service} failed with error {service_response.msg_content}"
+                error_detail = f"Service {service} failed with error {service_response.msg_content}, endpoint: {endpoint_name}"
                 call_span.set_status(StatusCode(2), error_detail)
                 raise HTTPException(
                     status_code=service_response.status_code, detail=error_detail
@@ -241,10 +249,8 @@ async def call_apis(
                 call_span.record_exception(
                     HTTPException, attributes={"status_code": 400}
                 )
-                error_detail = (
-                    f"Service {service} completed, but orchestration cannot continue "
-                )
-                +f"{service_response.msg_content}"
+                error_detail = f"Service {service} completed, but orchestration cannot continue: {service_response.msg_content}"
+
                 call_span.set_status(StatusCode(2), error_detail)
                 raise HTTPException(
                     status_code=400,
@@ -257,6 +263,11 @@ async def call_apis(
                     "updating input data with building block modifications"
                 )
                 current_message = service_response.msg_content
-            responses[service] = response
+            name = step.get("name", service)
+            responses[name] = response
         call_span.set_status(StatusCode(1))
         return (response, responses)
+
+
+def _param_dict_to_str(a_dict: dict):
+    return [f"{k}: {v}" for k, v in (a_dict or {}).items()]

@@ -236,9 +236,8 @@ h4 {
   }
 }
 
-.ecrTable {
+.fixed-table {
   table-layout: fixed;
-  width: 100%;
 }
 
 td {
@@ -285,26 +284,30 @@ td {
 }
 
 .back-button-wrapper {
-  margin-top:1.5rem;
   display: flex;
   .usa-icon{
     color: #71767A;
     margin-right: .5rem;
   }
-  .usa-button {
+  .usa-link {
     text-decoration-line: underline;
     align-items: center;
   }
+}
+
+.back-button {
+  margin-bottom:1.5rem;
 }
 
 .content-wrapper {
   display: flex;
   gap: $ecr-viewer-gap;
   overflow: visible;
-  margin-top: 1.5rem;
 }
 
 .nav-wrapper {
+  margin-top: 1.5rem;
+  padding-top: .63rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
