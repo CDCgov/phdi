@@ -4,9 +4,9 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "dev": "docker-compose -f docker-compose-dev.yaml up && next dev",
-    "dev-win": "start docker-compose -f docker-compose-dev.yaml up && next dev",
-    "dev:db": "docker-compose -f docker-compose-dev.yaml up",
+    "dev": "docker compose -f docker-compose-dev.yaml up -d && next dev",
+    "dev-win": "start docker compose -f docker-compose-dev.yaml up && next dev",
+    "dev:db": "docker compose -f docker-compose-dev.yaml up",
     "dev:next": "dotenv -e ./tefca.env.local -e ./tefca.env -- next dev",
     "setup-local-env": "./setup-env.sh",
     "build": "next build && cp -r .next/static .next/standalone/.next && cp -r public .next/standalone/",
@@ -16,6 +16,7 @@
     "test:unit": "jest --testPathPattern=tests/unit",
     "test:unit:watch": "jest --watch",
     "test:integration": "jest --testPathPattern=tests/integration",
+    "test:playwright": "docker compose build --no-cache && docker compose up -d && npx playwright test --reporter=list",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
   },

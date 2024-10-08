@@ -188,7 +188,45 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title padding-right-1"
                 >
-                  Encounter type
+                  Encounter Date/Time
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Encounter Type
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Encounter ID
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -220,7 +258,83 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title padding-right-1"
                 >
+                  Facility Name
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
                   Facility Address
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility Contact Address
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility Type
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Facility ID
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"
@@ -284,7 +398,26 @@ exports[`UnavailableInfo should match snapshot 1`] = `
                 <div
                   class="data-title padding-right-1"
                 >
-                  Provider Name
+                  Provider Facility Name
+                </div>
+                <div
+                  class="grid-col maxw7 text-pre-line text-italic text-base"
+                >
+                  No data
+                </div>
+              </div>
+              <div
+                class="section__line_gray"
+              />
+            </div>
+            <div>
+              <div
+                class="grid-row"
+              >
+                <div
+                  class="data-title padding-right-1"
+                >
+                  Provider Facility Address
                 </div>
                 <div
                   class="grid-col maxw7 text-pre-line text-italic text-base"

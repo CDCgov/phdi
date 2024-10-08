@@ -1,4 +1,3 @@
-BEGIN;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS conditions (
@@ -81,6 +80,7 @@ CREATE TABLE IF NOT EXISTS query_included_concepts (
 -- Create indexes for all primary and foreign keys
 
 CREATE INDEX IF NOT EXISTS conditions_id_index ON conditions (id);
+CREATE INDEX IF NOT EXISTS conditions_name_index ON conditions (name);
 
 CREATE INDEX IF NOT EXISTS valuesets_id_index ON valuesets (id);
 
@@ -97,6 +97,7 @@ CREATE INDEX IF NOT EXISTS valueset_to_concept_concept_id_index ON valueset_to_c
 CREATE INDEX IF NOT EXISTS icd_crosswalk_id_index ON icd_crosswalk (id);
 
 CREATE INDEX IF NOT EXISTS query_id_index ON query (id);
+CREATE INDEX IF NOT EXISTS query_name_index ON query (query_name);
 
 CREATE INDEX IF NOT EXISTS query_to_valueset_id_index ON query_to_valueset (id);
 CREATE INDEX IF NOT EXISTS query_to_valueset_query_id_index ON query_to_valueset (query_id);
@@ -105,5 +106,3 @@ CREATE INDEX IF NOT EXISTS query_to_valueset_valueset_id_index ON query_to_value
 CREATE INDEX IF NOT EXISTS query_included_concepts_id_index ON query_included_concepts (id);
 CREATE INDEX IF NOT EXISTS query_included_concepts_query_by_valueset_id_index ON query_included_concepts (query_by_valueset_id);
 CREATE INDEX IF NOT EXISTS query_included_concepts_concept_id_index ON query_included_concepts (concept_id);
-
-COMMIT;

@@ -39,19 +39,47 @@ describe("UnavailableInfo", () => {
     ];
     const encounterUnavailableData = [
       {
-        title: "Encounter type",
+        title: "Encounter Date/Time",
+        value: "",
+      },
+      {
+        title: "Encounter Type",
+        value: "",
+      },
+      {
+        title: "Encounter ID",
         value: "",
       },
     ];
     const facilityUnavailableData = [
       {
+        title: "Facility Name",
+        value: "",
+      },
+      {
         title: "Facility Address",
+        value: "",
+      },
+      {
+        title: "Facility Contact Address",
+        value: "",
+      },
+      {
+        title: "Facility Type",
+        value: "",
+      },
+      {
+        title: "Facility ID",
         value: "",
       },
     ];
     const providerUnavailableData = [
       {
-        title: "Provider Name",
+        title: "Provider Facility Name",
+        value: "",
+      },
+      {
+        title: "Provider Facility Address",
         value: "",
       },
     ];
