@@ -51,12 +51,33 @@ export const evaluatePatientRace = (
 ) => {
   const raceCat = evaluate(fhirBundle, mappings.patientRace)[0];
   const raceDetailedExt =
-    evaluate(fhirBundle, mappings.patinetRaceExtension)[0] ?? "";
+    evaluate(fhirBundle, mappings.patientRaceExtension)[0] ?? "";
 
   if (raceDetailedExt) {
-    return `${raceCat}, ${raceDetailedExt}`;
+    return raceCat + "\n" + raceDetailedExt;
   } else {
     return raceCat;
+  }
+};
+
+/**
+ * Evaluates the patients ethnicity from the FHIR bundle and formats for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns - The patient's ethnicity information, including additional ethnicity extension (if available).
+ */
+export const evaluatePatientEthnicity = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const ethnicity = evaluate(fhirBundle, mappings.patientEthnicity)[0] ?? "";
+  const ethnicityExt =
+    evaluate(fhirBundle, mappings.patientEthnicityExtension)[0] ?? "";
+
+  if (ethnicityExt) {
+    return ethnicity + "\n" + ethnicityExt;
+  } else {
+    return ethnicity;
   }
 };
 
@@ -264,7 +285,7 @@ export const evaluateDemographicsData = (
     },
     {
       title: "Ethnicity",
-      value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
+      value: evaluatePatientEthnicity(fhirBundle, mappings),
     },
     {
       title: "Tribal Affiliation",
