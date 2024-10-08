@@ -77,7 +77,7 @@ jobs:
           cache-to: type=gha,mode=max
 
   playwright-tests:
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -97,7 +97,13 @@ jobs:
         run: docker compose build --no-cache
       - name: Run Query Connector
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose up
+        run: docker compose up -d
+      - name: Poll until Query Connector is ready
+        run: |
+          for i in {1..30}; do
+            curl -s http://localhost:3000/tefca-viewer && break
+            sleep 5
+          done
       - name: Playwright Tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright test e2e --reporter=list --config playwright.config.ts
