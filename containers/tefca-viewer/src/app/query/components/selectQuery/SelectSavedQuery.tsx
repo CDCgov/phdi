@@ -13,6 +13,15 @@ type SelectSavedQueryProps = {
   setShowCustomizedQuery: (showCustomize: boolean) => void;
   handleSubmit: () => void;
 };
+/**
+ *
+ * @param root0
+ * @param root0.goBack
+ * @param root0.selectedQuery
+ * @param root0.setSelectedQuery
+ * @param root0.setShowCustomizedQuery
+ * @param root0.handleSubmit
+ */
 const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
   goBack,
   selectedQuery,

@@ -28,6 +28,9 @@ interface SelectQueryProps {
  * @param root0.setMode - Callback to switch mode
  * @param root0.onSubmit - Callback for submit action
  * @param root0.goBack - back button
+ * @param root0.patientForQuery
+ * @param root0.resultsQueryResponse
+ * @param root0.setResultsQueryResponse
  * @returns - The selectQuery component.
  */
 const SelectQuery: React.FC<SelectQueryProps> = ({
