@@ -7,7 +7,7 @@ import {
   Identifier,
 } from "fhir/r4";
 import { ValueSetItem } from "./constants";
-import { QueryStruct } from "./demoQueries";
+import { QueryStruct } from "./query-service";
 
 /**
  * Formats a string.
