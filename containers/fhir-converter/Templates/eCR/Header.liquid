@@ -95,36 +95,43 @@
 
 {% assign authors = msg.ClinicalDocument.author | to_array -%}
 {% for author in authors -%}
+  {% assign fullAuthorOrgId  = null %}
+  {% assign fullAuthorPractitionerId = null %}
+  {% assign fullAuthoringDeviceId = null %}
+
   {% if author.assignedAuthor.assignedAuthoringDevice -%}
-    {% assign deviceId = author | to_json_string | generate_uuid -%}
-    {% include 'Resource/Device' author: author.assignedAuthor ID: deviceId -%}
-    {% assign fullDeviceId = deviceId | prepend: 'Device/' -%}
-    {% include 'Reference/Composition/Author' ID: compositionId, REF: fullDeviceId -%}
+    {% assign authoringDeviceId = author.assignedAuthor.assignedAuthoringDevice | to_json_string | generate_uuid -%}
+    {% include 'Resource/Device' author: author.assignedAuthor ID: authoringDeviceId -%}
+    {% assign fullAuthoringDeviceId = authoringDeviceId | prepend: 'Device/' -%}
+    {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthoringDeviceId -%}
+  {% endif -%}
+
+  {% if author.assignedAuthor.assignedPerson and author.assignedAuthor.assignedPerson.name and author.assignedAuthor.assignedPerson.name.given.first._  -%}
+    {% evaluate authorPractitionerId using 'Utils/GenerateId' obj: author.assignedAuthor -%}
+    {% include 'Resource/Practitioner' practitioner: author.assignedAuthor ID: authorPractitionerId -%}
+    {% assign fullAuthorPractitionerId = authorPractitionerId | prepend: 'Practitioner/' -%}
   {% endif -%}
 
   {% if author.assignedAuthor.representedOrganization and author.assignedAuthor.representedOrganization.name and author.assignedAuthor.representedOrganization.name._ -%}
-    {% if author.assignedAuthor.assignedPerson and author.assignedAuthor.assignedPerson.name and author.assignedAuthor.assignedPerson.name.given.first._  -%}
-      {% evaluate authorOrgAndPersonId using 'Utils/GenerateId' obj: author.assignedAuthor -%}
-      {% include 'Resource/Practitioner' practitioner: author.assignedAuthor ID: authorOrgAndPersonId -%}
-      {% assign fullAuthorOrgPersonId = authorOrgAndPersonId | prepend: 'Practitioner/' -%}
-      {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorOrgPersonId -%}
-      {% if deviceId -%}
-        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorOrgPersonId -%}
-      {% endif -%}
-    {% else -%}
-      {% evaluate authorOrgId using 'Utils/GenerateId' obj: author.assignedAuthor.representedOrganization -%}
-      {% include 'Resource/Organization' organization: author.assignedAuthor.representedOrganization ID: authorOrgId -%}
-      {% assign fullAuthorOrgId = AuthorOrgId | prepend: 'Organization/' -%}
-      {% if deviceId -%}
-        {% include 'Reference/Device/Owner' ID: deviceId, REF: fullAuthorOrgId -%}
-      {% endif -%}
-    {% endif -%}
-  {% elsif author.assignedAuthor.assignedPerson and author.assignedAuthor.assignedPerson.name and author.assignedAuthor.assignedPerson.name.given.first._ -%}
-    {% evaluate authorId using 'Utils/GenerateId' obj: author.assignedAuthor -%}
-    {% include 'Resource/Practitioner' practitioner: author.assignedAuthor ID: authorId -%}
-    {% assign fullAuthorId = authorId | prepend: 'Practitioner/' -%}
-    {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorId -%}
+    {% evaluate authorOrgId using 'Utils/GenerateId' obj: author.assignedAuthor.representedOrganization -%}
+    {% include 'Resource/Organization' organization: author.assignedAuthor.representedOrganization ID: authorOrgId -%}
+    {% assign fullAuthorOrgId = AuthorOrgId | prepend: 'Organization/' -%}
+    {% if authoringDeviceId -%}
+      {% include 'Reference/Device/Owner' ID: authoringDeviceId, REF: fullAuthorOrgId -%}
+    {% endif %}
   {% endif -%}
+
+  {% if fullAuthorOrgId and fullAuthorPractitionerId %}
+    {% assign practitionerRoleId =  author | to_json_string | generate_uuid %}
+    {% assign fullPractitionerRoleId = practitionerRoleId | prepend: 'PractitionerRole/' %}
+    {% include 'Reference/PractitionerRole/Organization', REF: fullAuthorOrgId, ID: practitionerRoleId -%}
+    {% include 'Reference/PractitionerRole/Practitioner', REF: fullAuthorPractitionerId, ID: practitionerRoleId -%}
+    {% include 'Reference/Composition/Author' ID: compositionId, REF: fullPractitionerRoleId -%}
+  {% elseif fullAuthorOrgId and fullAuthoringDeviceId == null %}
+      {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorOrgId -%}
+  {% elseif fullAuthorPractitionerId %}
+      {% include 'Reference/Composition/Author' ID: compositionId, REF: fullAuthorPractitionerId -%}
+  {% endif %}
 {% endfor -%}
 
 {% if msg.ClinicalDocument.recordTarget.patientRole -%}
