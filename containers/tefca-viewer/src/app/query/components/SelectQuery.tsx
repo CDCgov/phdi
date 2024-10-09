@@ -76,6 +76,7 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
       isSubscribed,
       queryValueSets,
       setResultsQueryResponse,
+      fhirServer,
     ).catch(console.error);
 
     // Destructor hook to prevent future state updates
@@ -95,8 +96,8 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
   ) : (
     <SelectSavedQuery
       goBack={goBack}
-      setSelectedQuery={setSelectedQuery}
       selectedQuery={selectedQuery}
+      setSelectedQuery={setSelectedQuery}
       setShowCustomizedQuery={setShowCustomizedQuery}
       handleSubmit={onSubmit}
       fhirServer={fhirServer}

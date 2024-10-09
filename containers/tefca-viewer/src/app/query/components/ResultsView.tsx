@@ -78,7 +78,7 @@ const ResultsView: React.FC<ResultsViewProps> = ({
           Patient Record
         </h2>
         <h3>
-          Query:
+          Query:{" "}
           <span className="text-normal display-inline-block">
             {selectedQuery}
           </span>
