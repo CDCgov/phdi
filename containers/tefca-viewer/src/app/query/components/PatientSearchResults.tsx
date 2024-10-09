@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Patient } from "fhir/r4";
 
-import {
-  UseCaseQueryResponse,
-  UseCaseQuery,
-  UseCaseQueryRequest,
-} from "../../query-service";
-import { Mode, ValueSetItem } from "@/app/constants";
+import { Mode } from "@/app/constants";
 import Backlink from "./backLink/Backlink";
 import PatientSearchResultsTable from "./patientSearchResults/PatientSearchResultsTable";
 import NoPatientsFound from "./patientSearchResults/NoPatientsFound";
@@ -33,6 +28,7 @@ export interface PatientSearchResultsProps {
  * @param root0.setUseCaseQueryResponse - State update function to pass the
  * data needed for the results view back up to the parent component
  * @param root0.setMode - Redirect function to handle results view routing
+ * @param root0.setPatientForQueryResponse
  * @returns - The PatientSearchResults component.
  */
 const PatientSearchResults: React.FC<PatientSearchResultsProps> = ({
