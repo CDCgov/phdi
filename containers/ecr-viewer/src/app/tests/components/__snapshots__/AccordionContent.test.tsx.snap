@@ -1489,6 +1489,133 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                   </div>
                 </div>
               </div>
+              <div
+                class="margin-bottom-4"
+              >
+                <h3
+                  class="usa-summary-box__heading padding-bottom-205 unavailable-info"
+                >
+                  eICR Author Details for Practitioner
+                </h3>
+                <div
+                  class="usa-summary-box__text"
+                >
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Author Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Author Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Author Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Author Facility Name
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Author Facility Address
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                  <div>
+                    <div
+                      class="grid-row"
+                    >
+                      <div
+                        class="data-title padding-right-1"
+                      >
+                        Author Facility Contact
+                      </div>
+                      <div
+                        class="grid-col maxw7 text-pre-line text-italic text-base"
+                      >
+                        No data
+                      </div>
+                    </div>
+                    <div
+                      class="section__line_gray"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
