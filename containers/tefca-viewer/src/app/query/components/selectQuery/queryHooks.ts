@@ -51,7 +51,7 @@ export async function fetchQueryResponse(
   isSubscribed: boolean,
   queryValueSets: ValueSetItem[],
   queryResponseStateCallback: SetStateCallback<UseCaseQueryResponse>,
-  fhirServer: FHIR_SERVERS = "HELIOS Meld: Direct",
+  fhirServer: FHIR_SERVERS,
 ) {
   if (patientForQuery && selectedQuery && isSubscribed) {
     const patientFirstName =
@@ -73,9 +73,13 @@ export async function fetchQueryResponse(
       use_case: selectedQuery,
     };
 
-    const queryResponse = await UseCaseQuery(newRequest, queryValueSets, {
-      Patient: [patientForQuery],
-    });
+    const queryResponse = await UseCaseQuery(
+      newRequest,
+      queryValueSets.filter((item) => item.include),
+      {
+        Patient: [patientForQuery],
+      },
+    );
 
     queryResponseStateCallback(queryResponse);
   }
