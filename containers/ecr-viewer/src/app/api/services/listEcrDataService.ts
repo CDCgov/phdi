@@ -81,10 +81,10 @@ export const processMetadata = (
 };
 
 /**
- * Retrieves the total number of eCRs stored in the fhir table.
+ * Retrieves the total number of eCRs stored in the ecr_data table.
  * @returns A promise resolving to the total number of eCRs.
  */
 export const getTotalEcrCount = async (): Promise<number> => {
-  let number = await database.one("SELECT count(*) FROM fhir_metadata");
+  let number = await database.one("SELECT count(*) FROM ecr_data");
   return number.count;
 };

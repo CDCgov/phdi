@@ -204,7 +204,7 @@ export const saveToMetadataPostgres = async (
 
   const { ParameterizedQuery: PQ } = pgPromise;
   const addMetadata = new PQ({
-    text: "INSERT INTO fhir_metadata (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
+    text: "INSERT INTO ecr_data (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
     values: [
       ecrId,
       metadata.first_name,
