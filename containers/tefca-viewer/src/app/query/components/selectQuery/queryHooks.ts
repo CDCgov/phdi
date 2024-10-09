@@ -61,6 +61,7 @@ export async function fetchQueryResponse(
     const queryResponse = await UseCaseQuery(newRequest, queryValueSets, {
       Patient: [patientForQuery],
     });
+
     queryResponseStateCallback(queryResponse);
   }
 }
