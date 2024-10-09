@@ -203,21 +203,32 @@ export const saveToMetadataPostgres = async (
   const database = db(db_url);
 
   const { ParameterizedQuery: PQ } = pgPromise;
-  const addMetadata = new PQ({
-    text: "INSERT INTO ecr_data (ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING ecr_id",
+  const saveToEcrData = new PQ({
+    text: "INSERT INTO ecr_data (eICR_ID,patient_name_last,patient_name_first,patient_birth_date,data_source,report_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ecr_id",
     values: [
       ecrId,
-      metadata.first_name,
       metadata.last_name,
+      metadata.first_name,
       metadata.birth_date,
       "DB",
-      metadata.reportable_condition,
-      metadata.rule_summary,
       metadata.report_date,
     ],
   });
 
+  const saveRRConditions = new PQ({
+    text: "INSERT INTO ecr_rr_conditions (eICR_ID, condition) VALUES ($1, $2)",
+    values: [],
+  });
+
   try {
+    const saveECR = await database.one(saveToEcrData);
+    const savedRRID = await database.one(addMetadata);
+
+    const saveRRSummary = new PQ({
+      text: "INSERT INTO ecr_rr_rule_summaries () VALUES ($1, $2)",
+      values: [],
+    });
+
     const saveECR = await database.one(addMetadata);
 
     return NextResponse.json(
@@ -228,7 +239,7 @@ export const saveToMetadataPostgres = async (
     console.error("Error inserting metadata to database:", error);
     return NextResponse.json(
       { message: "Failed to insert metadata to database. " + error.message },
-      { status: 500 },
+      { status: 422 },
     );
   }
 };
