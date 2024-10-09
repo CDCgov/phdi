@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { FHIR_SERVERS, Mode, USE_CASES, ValueSetItem } from "../../constants";
+import { FHIR_SERVERS, USE_CASES, ValueSetItem } from "../../constants";
 import CustomizeQuery from "./CustomizeQuery";
 import SelectSavedQuery from "./selectQuery/SelectSavedQuery";
 
@@ -34,6 +34,10 @@ interface SelectQueryProps {
  * @param root0.patientForQuery
  * @param root0.resultsQueryResponse
  * @param root0.setResultsQueryResponse
+ * @param root0.selectedQuery
+ * @param root0.setSelectedQuery
+ * @param root0.fhirServer
+ * @param root0.setFhirServer
  * @returns - The selectQuery component.
  */
 const SelectQuery: React.FC<SelectQueryProps> = ({

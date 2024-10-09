@@ -27,6 +27,8 @@ type SelectSavedQueryProps = {
  * @param root0.setSelectedQuery
  * @param root0.setShowCustomizedQuery
  * @param root0.handleSubmit
+ * @param root0.fhirServer
+ * @param root0.setFhirServer
  */
 const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
   goBack,

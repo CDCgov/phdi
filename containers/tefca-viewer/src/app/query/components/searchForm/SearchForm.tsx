@@ -44,6 +44,8 @@ interface SearchFormProps {
  * @param root0.setLoading - The function to set the loading state.
  * @param root0.setQueryType - The function to set the query type.
  * @param root0.setPatientDiscoveryQueryResponse
+ * @param root0.fhirServer
+ * @param root0.setFhirServer
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
