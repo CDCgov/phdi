@@ -3,6 +3,7 @@ import { loadYamlConfig } from "@/app/api/utils";
 import { Bundle } from "fhir/r4";
 import BundleWithTravelHistory from "./assets/BundleTravelHistory.json";
 import BundleWithPatient from "./assets/BundlePatient.json";
+import BundleWithDeceasedPatient from "./assets/BundlePatientDeceased.json";
 import BundleWithSexualOrientation from "./assets/BundleSexualOrientation.json";
 import BundleWithMiscNotes from "./assets/BundleMiscNotes.json";
 import BundleNoActiveProblems from "./assets/BundleNoActiveProblems.json";
@@ -18,6 +19,7 @@ import {
   evaluatePatientName,
   calculatePatientAge,
   evaluatePatientAddress,
+  calculatePatientAgeAtDeath,
 } from "../services/evaluateFhirDataService";
 import {
   evaluateClinicalData,
@@ -166,6 +168,63 @@ describe("Utils", () => {
       );
 
       expect(resultAge).toEqual(expectedAge);
+    });
+    it("should have a defined Current Age, and not have a defined Age at Death when Date of Death is not given", () => {
+      jest.useFakeTimers().setSystemTime(new Date("2024-03-12"));
+
+      const expectedAgeAtDeath = undefined;
+      const expectedAge = 8;
+
+      const patientAge = calculatePatientAge(
+        BundleWithPatient as unknown as Bundle,
+        mappings,
+      );
+
+      const patientAgeAtDeath = calculatePatientAgeAtDeath(
+        BundleWithPatient as unknown as Bundle,
+        mappings,
+      );
+
+      expect(patientAgeAtDeath).toEqual(expectedAgeAtDeath);
+      expect(patientAge).toEqual(expectedAge);
+
+      // Return to real time
+      jest.useRealTimers();
+    });
+  });
+
+  describe("Calculate Age at Death", () => {
+    it("should return age at death when DOD is given", () => {
+      const patientAgeAtDeath = calculatePatientAgeAtDeath(
+        BundleWithDeceasedPatient as unknown as Bundle,
+        mappings,
+      );
+
+      const expectedAgeAtDeath = 4;
+
+      expect(patientAgeAtDeath).toEqual(expectedAgeAtDeath);
+    });
+    it("should have a defined Age at Death, and not have a defined Current Age when Date of Death is given", () => {
+      jest.useFakeTimers().setSystemTime(new Date("2024-03-12"));
+
+      const expectedAgeAtDeath = 4;
+      const expectedAge = undefined;
+
+      const patientAge = calculatePatientAge(
+        BundleWithDeceasedPatient as unknown as Bundle,
+        mappings,
+      );
+
+      const patientAgeAtDeath = calculatePatientAgeAtDeath(
+        BundleWithDeceasedPatient as unknown as Bundle,
+        mappings,
+      );
+
+      expect(patientAgeAtDeath).toEqual(expectedAgeAtDeath);
+      expect(patientAge).toEqual(expectedAge);
+
+      // Return to real time
+      jest.useRealTimers();
     });
   });
 
