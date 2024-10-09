@@ -6,8 +6,8 @@ Display an eCR
 
 **URL Parameters** : 
 - `id=[string]` where `id` is the ID of the eCR.
-- `snomed-code=[string]` where `snomed-code` is the condition the user is viewing the eCR for.
-- `auth=[string]` where `auth` is the authentication token for the user
+- `snomed-code=[string]` where `snomed-code` is the condition the user is viewing the eCR for. OPTIONAL.
+- `auth=[string]` where `auth` is the authentication token for the user. Only required if app_env is production.
 
 **Method** : `GET`
 

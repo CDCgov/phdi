@@ -80,12 +80,42 @@ describe("ECR Metadata", () => {
       },
     ];
 
+    const eicrAuthorDetails = [
+      [
+        {
+          title: "Author Name",
+          value: "Dr. Stella Zinman",
+        },
+        {
+          title: "Author Address",
+          value: "1 Main st",
+        },
+        {
+          title: "Author Contact",
+          value: "(661)382-5000",
+        },
+        {
+          title: "Author Facility Name",
+          value: "PRM- Palmdale Regional Medical Center",
+        },
+        {
+          title: "Author Facility Address",
+          value: "38600 Medical Center Drive\nPalmdale, CA\n93551, USA",
+        },
+        {
+          title: "Author Facility Contact",
+          value: "(661)382-5000",
+        },
+      ],
+    ];
+
     container = render(
       <EcrMetadata
         eicrDetails={eicrDetails}
         rrDetails={rrConditionsList}
         eRSDWarnings={eRSDWarnings}
         eCRCustodianDetails={ecrCustodianDetails}
+        eicrAuthorDetails={eicrAuthorDetails}
       />,
     ).container;
   });

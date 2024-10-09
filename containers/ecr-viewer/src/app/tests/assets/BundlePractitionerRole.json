@@ -1,0 +1,46 @@
+{
+  "resourceType": "Bundle",
+  "type": "batch",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "b18c20c1-123b-fd12-71cf-9dd0abae8ced",
+        "organization": {
+          "reference": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
+        },
+        "practitioner": {
+          "reference": "Practitioner/550b9626-bc9e-7d6b-c5d8-e41c2000ab85"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d319a926-0eb3-5847-3b21-db8b778b4f07",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "d319a926-0eb3-5847-3b21-db8b778b4f07",
+        "name": "Vanderbilt University Medical Center"
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:550b9626-bc9e-7d6b-c5d8-e41c2000ab85",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "550b9626-bc9e-7d6b-c5d8-e41c2000ab85",
+        "name": [
+          {
+            "family": "Interface"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/550b9626-bc9e-7d6b-c5d8-e41c2000ab85"
+      }
+    }
+  ]
+}

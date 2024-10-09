@@ -247,13 +247,15 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="fhir_server"
                     name="fhir_server"
                     value={fhirServer}
+                    defaultValue={""}
                     onChange={(event) => {
                       setFhirServer(event.target.value as FHIR_SERVERS);
                     }}
                     required
                   >
                     <option value="" disabled>
-                      Select FHIR Server
+                      {" "}
+                      -- Select an Option --{" "}
                     </option>
                     {Object.keys(fhirServers).map((fhirServer: string) => (
                       <option key={fhirServer} value={fhirServer}>

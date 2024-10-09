@@ -17,6 +17,7 @@ interface UnavailableInfoProps {
   clinicalNotesData: DisplayDataProps[];
   immunizationsUnavailableData: DisplayDataProps[];
   ecrMetadataUnavailableData: DisplayDataProps[];
+  eicrAuthorDetails: DisplayDataProps[][];
 }
 
 /**
@@ -33,6 +34,7 @@ interface UnavailableInfoProps {
  * @param props.treatmentData The unavailable treatment data
  * @param props.clinicalNotesData The unavailable clinical notes
  * @param props.ecrMetadataUnavailableData The unavailable ecr meta data
+ * @param props.eicrAuthorDetails The unavailable eicrAuthorDetails
  * @returns The JSX element representing all unavailable data.
  */
 const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
@@ -47,6 +49,7 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
   treatmentData,
   clinicalNotesData,
   ecrMetadataUnavailableData,
+  eicrAuthorDetails,
 }) => {
   const renderSection = (sectionTitle: string, data: DisplayDataProps[]) => {
     return (
@@ -91,6 +94,17 @@ const UnavailableInfo: React.FC<UnavailableInfoProps> = ({
         renderSection("Treatment Details", treatmentData)}
       {ecrMetadataUnavailableData?.length > 0 &&
         renderSection("eCR Metadata", ecrMetadataUnavailableData)}
+      {eicrAuthorDetails?.map(
+        (authorDetails, index) =>
+          authorDetails?.length > 0 && (
+            <React.Fragment key={index}>
+              {renderSection(
+                "eICR Author Details for Practitioner",
+                authorDetails,
+              )}
+            </React.Fragment>
+          ),
+      )}
     </AccordionSection>
   );
 };

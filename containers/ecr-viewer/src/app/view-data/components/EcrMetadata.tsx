@@ -20,6 +20,7 @@ interface EcrMetadataProps {
   eicrDetails: DisplayDataProps[];
   eRSDWarnings: ERSDWarning[];
   eCRCustodianDetails: DisplayDataProps[];
+  eicrAuthorDetails: DisplayDataProps[][];
 }
 
 interface ReportableConditionsList {
@@ -72,6 +73,7 @@ const convertDictionaryToRows = (dictionary: ReportableConditionsList) => {
  * @param props.eicrDetails - The eICR details.
  * @param props.eRSDWarnings - The eRSD warnings.
  * @param props.eCRCustodianDetails - The eCR custodian details.
+ * @param props.eicrAuthorDetails - The eICR author details.
  * @returns The JSX element representing the eCR metadata.
  */
 const EcrMetadata = ({
@@ -79,6 +81,7 @@ const EcrMetadata = ({
   eicrDetails,
   eRSDWarnings,
   eCRCustodianDetails,
+  eicrAuthorDetails,
 }: EcrMetadataProps) => {
   return (
     <AccordionSection>
@@ -166,6 +169,21 @@ const EcrMetadata = ({
           return <DataDisplay item={item} key={index} />;
         })}
         <div className={"padding-bottom-1"} />
+        {eicrAuthorDetails?.map((authorDetailsDisplayProps, index) => {
+          if (authorDetailsDisplayProps?.length > 0) {
+            return (
+              <React.Fragment key={index}>
+                <AccordionH4 id={"eicr-author-details-for-practitioner"}>
+                  eICR Author Details for Practitioner
+                </AccordionH4>
+                {authorDetailsDisplayProps.map((item, index) => {
+                  return <DataDisplay item={item} key={index} />;
+                })}
+                <div className={"padding-bottom-1"} />
+              </React.Fragment>
+            );
+          }
+        })}
         <AccordionH4 id={"eicr-custodian-details"}>
           eICR Custodian Details
         </AccordionH4>

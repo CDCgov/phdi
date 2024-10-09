@@ -33,6 +33,7 @@ patientAlcoholUse: "Bundle.entry.resource.where(resourceType='Observation').wher
 patientSexualOrientation: "Bundle.entry.resource.where(resourceType='Observation').where(code.coding.code='76690-7').valueString"
 patientGenderIdentity: "Bundle.entry.resource.where(resourceType = 'Patient').extension.where(url='http: //hl7.org/fhir/us/ecr/StructureDefinition/us-ph-genderidentity-extension').extension.value.coding.display"
 
+#eCR Metadata
 eicrIdentifier: "Bundle.entry.resource.where(resourceType= 'Composition').id"
 eicrReleaseVersion: "Bundle.entry.resource.where(resourceType='Composition').extension.where(url='https://www.hl7.org/implement/standards/product_brief.cfm?product_id=436').valueString"
 eicrCustodianRef: "Bundle.entry.resource.where(resourceType= 'Composition').custodian.reference"
@@ -41,6 +42,7 @@ ehrSoftware: "Bundle.entry.resource.where(resourceType = 'Device').where(propert
 ehrManufacturerModel: "Bundle.entry.resource.where(resourceType = 'Device').where(property[0].type.coding.code='software').manufacturer"
 senderFacilityName: "Bundle.entry.resource.where(resourceType = 'Encounter')[0].location[0].location.display"
 eRSDwarnings: "Bundle.entry.resource.where(resourceType= 'Composition').section.where(title = 'Reportability Response Information Section').extension.where(url = 'http://hl7.org/fhir/us/ecr/StructureDefinition/rr-eicr-processing-status-extension').valueCodeableConcept.coding.entries.eRSDwarnings"
+compositionAuthorRefs: "Bundle.entry.resource.where(resourceType = 'Composition').author"
 
 # Encounter Info
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
