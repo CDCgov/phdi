@@ -1,5 +1,3 @@
-import * as dq from "./demoQueries";
-
 /**
  * The use cases that can be used in the app
  */
@@ -22,17 +20,6 @@ export const UseCaseToQueryName: {
   gonorrhea: "Gonorrhea (disorder)",
   chlamydia: "Chlamydia trachomatis infection (disorder)",
   cancer: "Cancer (Leukemia)",
-};
-
-export const UseCaseToStructMap: {
-  [key in USE_CASES]: dq.QueryStruct;
-} = {
-  "social-determinants": dq.SOCIAL_DETERMINANTS_QUERY,
-  "newborn-screening": dq.NEWBORN_SCREENING_QUERY,
-  syphilis: dq.SYPHILIS_QUERY,
-  gonorrhea: dq.GONORRHEA_QUERY,
-  chlamydia: dq.CHLAMYDIA_QUERY,
-  cancer: dq.CANCER_QUERY,
 };
 
 /**
