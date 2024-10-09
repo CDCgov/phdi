@@ -15,6 +15,10 @@ describe("EcrSummary", () => {
       value: "04/15/2015",
     },
     {
+      title: "Sex",
+      value: "male",
+    },
+    {
       title: "Patient Address",
       value: "1050 CARPENTER ST\nEDWARDS, CA\n93523-2800, US",
     },
@@ -27,10 +31,6 @@ describe("EcrSummary", () => {
     {
       title: "Facility Name",
       value: "PRM- Palmdale Regional Medical Center",
-    },
-    {
-      title: "Facility Address",
-      value: "38600 Medical Center Drive\nPalmdale, CA\n93551, USA",
     },
     {
       title: "Facility Contact",
