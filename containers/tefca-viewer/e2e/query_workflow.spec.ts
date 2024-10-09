@@ -140,9 +140,9 @@ test.describe("querying with the TryTEFCA viewer", () => {
       page.getByRole("heading", { name: "Patient Record" }),
     ).toBeVisible();
     await expect(page.getByText("Patient Name")).toBeVisible();
-    await expect(page.getByText("Veronica Anne Blackstone")).toBeVisible();
+    await expect(page.getByText("Hyper A. Unlucky")).toBeVisible();
     await expect(page.getByText("Contact")).toBeVisible();
-    await expect(page.getByText("937-379-3497")).toBeVisible();
+    await expect(page.getByText("517-425-1398")).toBeVisible();
     await expect(page.getByText("Patient Identifiers")).toBeVisible();
     await expect(page.getByText("34972316")).toBeVisible();
   });
