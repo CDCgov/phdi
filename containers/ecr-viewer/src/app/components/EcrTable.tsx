@@ -88,14 +88,6 @@ const formatRow = (item: EcrDisplay, index: number) => {
   let patientReportDateObj = new Date(item.patient_report_date);
   let patientReportDate = formatDate(patientReportDateObj);
   let patientReportTime = formatTime(patientReportDateObj);
-  let formatReportableCondition = item.reportable_condition.replace(
-    /,(?=\s*[A-Z])/g,
-    "<br /><br />",
-  );
-  let formatRuleSummary = item.rule_summary.replace(
-    /,(?=\s*[A-Z])/g,
-    "<br /><br />",
-  );
 
   return (
     <tr key={`table-row-${index}`}>
@@ -116,8 +108,8 @@ const formatRow = (item: EcrDisplay, index: number) => {
         <br />
         {patientReportTime}
       </td>
-      <td dangerouslySetInnerHTML={{ __html: formatReportableCondition }}></td>
-      <td dangerouslySetInnerHTML={{ __html: formatRuleSummary }}></td>
+      <td>{item.reportable_condition}</td>
+      <td>{item.rule_summary}</td>
     </tr>
   );
 };
