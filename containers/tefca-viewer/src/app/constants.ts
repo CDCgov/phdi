@@ -74,7 +74,7 @@ export const FhirServers = [
   "HELIOS Meld: eHealthExchange",
   "JMC Meld: Direct",
   "JMC Meld: eHealthExchange",
-  "Public HAPI: eHealthExchange",
+  "Public HAPI: Direct",
   "OpenEpic: eHealthExchange",
   "CernerHelios: eHealthExchange",
   "OPHDST Meld: Direct",
@@ -112,7 +112,7 @@ const hyperUnluckyPatient: DemoDataFields = {
   DOB: "1975-12-06",
   MRN: "8692756",
   Phone: "517-425-1398",
-  FhirServer: "Public HAPI: eHealthExchange",
+  FhirServer: "Public HAPI: Direct",
   UseCase: "cancer", // UseCase will be updated per case
 };
 
@@ -130,6 +130,19 @@ export const demoData: Record<PatientType, DemoDataFields> = {
   "sti-syphilis-positive": { ...hyperUnluckyPatient, UseCase: "syphilis" },
 
   // Newborn screening data remains unchanged
+  // We need to figure how to display specific cases for specific referral, fail, pass
+  // "newborn-screening-technical-fail": {
+  //   ...hyperUnluckyPatient,
+  // UseCase: "newborn-screening",
+  // },
+  // "newborn-screening-referral": {
+  //   ...hyperUnluckyPatient,
+  //   UseCase: "newborn-screening",
+  // },
+  // "newborn-screening-pass": {
+  //   ...hyperUnluckyPatient,
+  //   UseCase: "newborn-screening",
+  // },
   "newborn-screening-technical-fail": {
     FirstName: "Mango",
     LastName: "Smith",
