@@ -32,6 +32,7 @@ export type ResultsViewAccordionItem = {
  * @param props.useCaseQueryResponse - The response from the query service.
  * @param props.goBack - The function to go back to the previous page.
  * @param props.queryName - The name of the saved query to display to the user
+ * @param props.goToBeginning
  * @returns The QueryView component.
  */
 const ResultsView: React.FC<ResultsViewProps> = ({

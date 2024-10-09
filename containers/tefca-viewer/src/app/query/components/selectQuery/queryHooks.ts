@@ -13,6 +13,12 @@ import { Patient } from "fhir/r4";
 
 type SetStateCallback<T> = React.Dispatch<React.SetStateAction<T>>;
 
+/**
+ *
+ * @param selectedQuery
+ * @param valueSetStateCallback
+ * @param isSubscribed
+ */
 export async function fetchUseCaseValueSets(
   selectedQuery: USE_CASES,
   valueSetStateCallback: SetStateCallback<ValueSetItem[]>,
@@ -30,6 +36,15 @@ export async function fetchUseCaseValueSets(
   }
 }
 
+/**
+ *
+ * @param patientForQuery
+ * @param selectedQuery
+ * @param isSubscribed
+ * @param queryValueSets
+ * @param queryResponseStateCallback
+ * @param fhirServer
+ */
 export async function fetchQueryResponse(
   patientForQuery: Patient | undefined,
   selectedQuery: USE_CASES,
