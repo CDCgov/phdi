@@ -152,6 +152,24 @@ h4 {
 .table-ecr-library {
   font-size: 1rem;
   border-collapse: separate;
+  font-family: "Source Sans Pro Web";
+
+  a {
+    color: var(--Primary-primary, #005EA2);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  a, u {
+    text-decoration: none;
+  }
+
+  tbody tr td div {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+  }
 
   &.usa-table--striped tbody tr:nth-child(odd) td {
     background-color: white;
