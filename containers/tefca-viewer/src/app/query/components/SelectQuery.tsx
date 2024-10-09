@@ -51,7 +51,6 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
   const [queryValueSets, setQueryValueSets] = useState<ValueSetItem[]>(
     [] as ValueSetItem[],
   );
-
   useEffect(() => {
     // Gate whether we actually update state after fetching so we
     // avoid name-change race conditions
