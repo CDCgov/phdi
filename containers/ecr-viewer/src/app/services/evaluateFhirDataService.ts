@@ -97,33 +97,6 @@ export const evaluateEncounterId = (
 };
 
 /**
- * Evaluates facility address from the FHIR bundle and formats it into structured data for display.
- * @param fhirBundle - The FHIR bundle containing patient contact info.
- * @param mappings - The object containing the fhir paths.
- * @returns The formatted facility address
- */
-export const evaluateFacilityAddress = (
-  fhirBundle: Bundle,
-  mappings: PathMappings,
-) => {
-  const locationReference =
-    evaluate(fhirBundle, mappings.facilityLocation)?.[0] ?? "";
-  const locationResource = evaluateReference(
-    fhirBundle,
-    mappings,
-    locationReference,
-  );
-
-  const streetAddresses = locationResource?.address?.line;
-  const city = locationResource?.address?.city;
-  const state = locationResource?.address?.state;
-  const zipCode = locationResource?.address?.postalCode;
-  const country = locationResource?.address?.country;
-
-  return formatAddress(streetAddresses, city, state, zipCode, country);
-};
-
-/**
  * Evaluates patient contact info from the FHIR bundle and formats it into structured data for display.
  * @param fhirBundle - The FHIR bundle containing patient contact info.
  * @param mappings - The object containing the fhir paths.
@@ -442,20 +415,10 @@ export const evaluateProviderData = (
     encounter,
     mappings["encounterIndividualRef"],
   )[0];
-  const practitionerRole: PractitionerRole | undefined = evaluateReference(
+  const { practitioner, organization } = evaluatePractitionerRoleReference(
     fhirBundle,
     mappings,
     encounterParticipantRef ?? "",
-  );
-  const practitioner: Practitioner | undefined = evaluateReference(
-    fhirBundle,
-    mappings,
-    practitionerRole?.practitioner?.reference ?? "",
-  );
-  const organization: Organization | undefined = evaluateReference(
-    fhirBundle,
-    mappings,
-    practitionerRole?.organization?.reference ?? "",
   );
 
   const providerData = [
@@ -643,4 +606,34 @@ export const evaluateFacilityId = (
   );
 
   return location?.identifier?.[0].value;
+};
+
+/**
+ * Evaluate practitioner role reference
+ * @param fhirBundle - The FHIR bundle containing resources.
+ * @param mappings - Path mappings for resolving references.
+ * @param practitionerRoleRef - practitioner role reference to be searched.
+ * @returns practitioner and organization
+ */
+export const evaluatePractitionerRoleReference = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+  practitionerRoleRef: string,
+): { practitioner?: Practitioner; organization?: Organization } => {
+  const practitionerRole: PractitionerRole | undefined = evaluateReference(
+    fhirBundle,
+    mappings,
+    practitionerRoleRef,
+  );
+  const practitioner: Practitioner | undefined = evaluateReference(
+    fhirBundle,
+    mappings,
+    practitionerRole?.practitioner?.reference ?? "",
+  );
+  const organization: Organization | undefined = evaluateReference(
+    fhirBundle,
+    mappings,
+    practitionerRole?.organization?.reference ?? "",
+  );
+  return { practitioner, organization };
 };

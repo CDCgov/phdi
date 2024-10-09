@@ -4,6 +4,7 @@ import {
   evaluateFacilityId,
   evaluateIdentifiers,
   evaluatePatientRace,
+  evaluatePractitionerRoleReference,
   evaluateReference,
   evaluateValue,
 } from "@/app/services/evaluateFhirDataService";
@@ -11,6 +12,7 @@ import { Bundle } from "fhir/r4";
 import BundleWithMiscNotes from "@/app/tests/assets/BundleMiscNotes.json";
 import BundleWithPatient from "@/app/tests/assets/BundlePatient.json";
 import BundleWithEcrMetadata from "@/app/tests/assets/BundleEcrMetadata.json";
+import BundlePractitionerRole from "@/app/tests/assets/BundlePractitionerRole.json";
 
 const mappings = loadYamlConfig();
 
@@ -128,5 +130,42 @@ describe("Evaluate Encounter ID", () => {
     );
 
     expect(actual).toEqual("1800200448269");
+  });
+});
+
+describe("Evaluate PractitionerRoleReference", () => {
+  it("should return the organization and practitioner when practitioner role is found ", () => {
+    const actual = evaluatePractitionerRoleReference(
+      BundlePractitionerRole as unknown as Bundle,
+      mappings,
+      "PractitionerRole/b18c20c1-123b-fd12-71cf-9dd0abae8ced",
+    );
+
+    expect(actual.organization).toEqual({
+      id: "d319a926-0eb3-5847-3b21-db8b778b4f07",
+      name: "Vanderbilt University Medical Center",
+      resourceType: "Organization",
+    });
+
+    expect(actual.practitioner).toEqual({
+      id: "550b9626-bc9e-7d6b-c5d8-e41c2000ab85",
+      name: [
+        {
+          family: "Interface",
+        },
+      ],
+      resourceType: "Practitioner",
+    });
+  });
+  it("should return undefined organization and practitioner when practitioner role is not found", () => {
+    const actual = evaluatePractitionerRoleReference(
+      BundlePractitionerRole as unknown as Bundle,
+      mappings,
+      "unknown",
+    );
+
+    expect(actual.organization).toBeUndefined();
+
+    expect(actual.practitioner).toBeUndefined();
   });
 });

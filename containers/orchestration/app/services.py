@@ -247,7 +247,11 @@ async def call_apis(
 
             if not service_response.should_continue:
                 call_span.record_exception(
-                    HTTPException, attributes={"status_code": 400}
+                    HTTPException(
+                        status_code=400,
+                        detail=f"Service: {service} returned should_continue",
+                    ),
+                    attributes={"status_code": 400},
                 )
                 error_detail = f"Service {service} completed, but orchestration cannot continue: {service_response.msg_content}"
 
