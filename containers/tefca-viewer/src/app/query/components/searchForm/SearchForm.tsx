@@ -15,13 +15,8 @@ import {
   patientOptions,
   stateOptions,
   Mode,
-  ValueSetItem,
 } from "../../../constants";
-import {
-  UseCaseQueryResponse,
-  UseCaseQuery,
-  UseCaseQueryRequest,
-} from "../../../query-service";
+import { UseCaseQueryResponse, UseCaseQuery } from "../../../query-service";
 import { fhirServers } from "../../../fhir-servers";
 import styles from "./searchForm.module.css";
 
@@ -46,6 +41,7 @@ interface SearchFormProps {
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
  * @param root0.setQueryType - The function to set the query type.
+ * @param root0.setPatientDiscoveryQueryResponse
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
