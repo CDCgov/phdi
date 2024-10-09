@@ -22,12 +22,12 @@ const Query: React.FC = () => {
   const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
-  const [originalRequest, setOriginalRequest] = useState<UseCaseQueryRequest>();
 
   const [patientDiscoveryQueryResponse, setPatientDiscoveryQueryResponse] =
     useState<UseCaseQueryResponse>({});
-
   const [patientForQuery, setPatientForQueryResponse] = useState<Patient>();
+  const [resultsQueryResponse, setResultsQueryResponse] =
+    useState<UseCaseQueryResponse>({});
 
   return (
     <>
@@ -40,11 +40,10 @@ const Query: React.FC = () => {
             setMode={setMode}
             setLoading={setLoading}
             setPatientDiscoveryQueryResponse={setPatientDiscoveryQueryResponse}
-            setOriginalRequest={setOriginalRequest}
           />
         )}
 
-        {mode === "patient-results" && originalRequest && (
+        {mode === "patient-results" && (
           <>
             <PatientSearchResults
               patients={patientDiscoveryQueryResponse?.Patient ?? []}
@@ -57,20 +56,24 @@ const Query: React.FC = () => {
 
         {mode === "select-query" && (
           <SelectQuery
-            patientDiscoveryQueryResponse={patientDiscoveryQueryResponse}
             patientForQuery={patientForQuery}
             setMode={setMode}
             goBack={() => setMode("patient-results")}
             onSubmit={() => setMode("results")}
+            resultsQueryResponse={resultsQueryResponse}
+            setResultsQueryResponse={setResultsQueryResponse}
           />
         )}
 
         {mode === "results" && (
           <>
-            {patientDiscoveryQueryResponse && (
+            {resultsQueryResponse && (
               <ResultsView
-                useCaseQueryResponse={patientDiscoveryQueryResponse}
+                useCaseQueryResponse={resultsQueryResponse}
                 goBack={() => {
+                  setMode("select-query");
+                }}
+                goToBeginning={() => {
                   setMode("search");
                 }}
               />

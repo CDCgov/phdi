@@ -30,7 +30,6 @@ import { FormatPhoneAsDigits } from "@/app/format-service";
 interface SearchFormProps {
   useCase: USE_CASES;
   setUseCase: (useCase: USE_CASES) => void;
-  setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
   setPatientDiscoveryQueryResponse: (
     UseCaseQueryResponse: UseCaseQueryResponse,
   ) => void;
@@ -43,7 +42,6 @@ interface SearchFormProps {
  * @param root0.useCase - The use case this query will cover.
  * @param root0.queryValueSets - Stateful collection of valuesets to use in the query.
  * @param root0.setUseCase - Update stateful use case.
- * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
@@ -53,8 +51,7 @@ interface SearchFormProps {
 const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
   setUseCase,
-  setOriginalRequest,
-  setPatientDiscoveryQueryResponse: setUseCaseQueryResponse,
+  setPatientDiscoveryQueryResponse,
   setMode,
   setLoading,
 }) => {
@@ -113,9 +110,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
       use_case: useCase,
       phone: FormatPhoneAsDigits(phone),
     };
-    setOriginalRequest(originalRequest);
     const queryResponse = await UseCaseQuery(originalRequest, []);
-    setUseCaseQueryResponse(queryResponse);
+    setPatientDiscoveryQueryResponse(queryResponse);
 
     setMode("patient-results");
     setLoading(false);
