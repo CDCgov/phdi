@@ -11,10 +11,12 @@ import DiagnosticReportTable from "./resultsView/tableComponents/DiagnosticRepor
 import EncounterTable from "./resultsView/tableComponents/EncounterTable";
 import MedicationRequestTable from "./resultsView/tableComponents/MedicationRequestTable";
 import ObservationTable from "./resultsView/tableComponents/ObservationTable";
+import Backlink from "./backLink/Backlink";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
   goBack: () => void;
+  goToBeginning: () => void;
   queryName?: string;
 };
 
@@ -35,8 +37,11 @@ export type ResultsViewAccordionItem = {
 const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
   goBack,
+  goToBeginning,
   queryName = "some name",
 }) => {
+  console.log(useCaseQueryResponse);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -56,9 +61,13 @@ const ResultsView: React.FC<ResultsViewProps> = ({
     <>
       <div className="results-banner">
         <div className={`${styles.resultsBannerContent}`}>
+          <Backlink
+            onClick={() => goBack()}
+            label={"Return to query selection"}
+          />
           <button
             className="usa-button usa-button--outline margin-left-auto"
-            onClick={() => goBack()}
+            onClick={() => goToBeginning()}
           >
             New patient search
           </button>
