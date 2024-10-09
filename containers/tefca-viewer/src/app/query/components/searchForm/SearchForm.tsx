@@ -30,6 +30,8 @@ interface SearchFormProps {
   ) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
+  fhirServer: FHIR_SERVERS;
+  setFhirServer: React.Dispatch<React.SetStateAction<FHIR_SERVERS>>;
 }
 
 /**
@@ -50,6 +52,8 @@ const SearchForm: React.FC<SearchFormProps> = ({
   setPatientDiscoveryQueryResponse,
   setMode,
   setLoading,
+  fhirServer,
+  setFhirServer,
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
@@ -57,7 +61,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>();
   const [phone, setPhone] = useState<string>("");
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
@@ -116,6 +119,7 @@ const SearchForm: React.FC<SearchFormProps> = ({
     window.scrollTo(0, 0);
   }, []);
 
+  console.log("fhir server: ", fhirServer);
   return (
     <>
       <form className="content-container-smaller-width" onSubmit={HandleSubmit}>
@@ -218,16 +222,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="fhir_server"
                     name="fhir_server"
                     value={fhirServer}
-                    defaultValue={""}
                     onChange={(event) => {
                       setFhirServer(event.target.value as FHIR_SERVERS);
                     }}
                     required
                   >
-                    <option value="" disabled>
-                      {" "}
-                      -- Select an Option --{" "}
-                    </option>
                     {Object.keys(fhirServers).map((fhirServer: string) => (
                       <option key={fhirServer} value={fhirServer}>
                         {fhirServer}

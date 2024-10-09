@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Mode, USE_CASES, ValueSetItem } from "../../constants";
+import { FHIR_SERVERS, Mode, USE_CASES, ValueSetItem } from "../../constants";
 import CustomizeQuery from "./CustomizeQuery";
 import SelectSavedQuery from "./selectQuery/SelectSavedQuery";
 
@@ -12,12 +12,15 @@ import {
 } from "./selectQuery/queryHooks";
 
 interface SelectQueryProps {
-  setMode: (mode: Mode) => void;
   onSubmit: () => void; // Callback when the user submits the query
   goBack: () => void;
+  selectedQuery: USE_CASES;
+  setSelectedQuery: React.Dispatch<React.SetStateAction<USE_CASES>>;
   patientForQuery: Patient | undefined;
   resultsQueryResponse: QueryResponse;
   setResultsQueryResponse: React.Dispatch<React.SetStateAction<QueryResponse>>;
+  fhirServer: FHIR_SERVERS;
+  setFhirServer: React.Dispatch<React.SetStateAction<FHIR_SERVERS>>;
 }
 
 /**
@@ -34,14 +37,16 @@ interface SelectQueryProps {
  * @returns - The selectQuery component.
  */
 const SelectQuery: React.FC<SelectQueryProps> = ({
-  setMode,
   onSubmit,
   goBack,
+  selectedQuery,
+  setSelectedQuery,
   patientForQuery,
   resultsQueryResponse,
   setResultsQueryResponse,
+  fhirServer,
+  setFhirServer,
 }) => {
-  const [selectedQuery, setSelectedQuery] = useState<USE_CASES>("cancer");
   const [showCustomizeQuery, setShowCustomizedQuery] = useState(false);
   const [queryValueSets, setQueryValueSets] = useState<ValueSetItem[]>(
     [] as ValueSetItem[],
@@ -89,11 +94,13 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
     ></CustomizeQuery>
   ) : (
     <SelectSavedQuery
-      goBack={() => setMode("patient-results")}
+      goBack={goBack}
       setSelectedQuery={setSelectedQuery}
       selectedQuery={selectedQuery}
       setShowCustomizedQuery={setShowCustomizedQuery}
-      handleSubmit={() => setMode("results")}
+      handleSubmit={onSubmit}
+      fhirServer={fhirServer}
+      setFhirServer={setFhirServer}
     ></SelectSavedQuery>
   );
 };

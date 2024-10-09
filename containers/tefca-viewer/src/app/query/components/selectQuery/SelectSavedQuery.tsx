@@ -1,5 +1,9 @@
-import { USE_CASES, demoQueryOptions } from "@/app/constants";
-import fhirServers from "@/app/fhir-servers";
+import {
+  FHIR_SERVERS,
+  FhirServers,
+  USE_CASES,
+  demoQueryOptions,
+} from "@/app/constants";
 import { Select, Button } from "@trussworks/react-uswds";
 import { RETURN_TO_STEP_ONE_LABEL } from "../PatientSearchResults";
 import Backlink from "../backLink/Backlink";
@@ -12,6 +16,8 @@ type SelectSavedQueryProps = {
   selectedQuery: string;
   setShowCustomizedQuery: (showCustomize: boolean) => void;
   handleSubmit: () => void;
+  fhirServer: FHIR_SERVERS;
+  setFhirServer: React.Dispatch<React.SetStateAction<FHIR_SERVERS>>;
 };
 /**
  *
@@ -28,6 +34,8 @@ const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
   setSelectedQuery,
   setShowCustomizedQuery,
   handleSubmit,
+  fhirServer,
+  setFhirServer,
 }) => {
   const [showAdvanced, setShowAdvanced] = useState(false);
 
@@ -59,9 +67,6 @@ const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
           className={`${styles.queryDropDown}`}
           required
         >
-          <option value="" disabled>
-            Select query
-          </option>
           {demoQueryOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -83,16 +88,13 @@ const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
           <Select
             id="fhir_server"
             name="fhir_server"
-            // value={selectedHCO} // Use selectedHCO for the selected value
-            // onChange={handleHCOChange}
+            value={fhirServer}
+            onChange={(e) => setFhirServer(e.target.value as FHIR_SERVERS)}
             required
-            defaultValue=""
             className={`${styles.queryDropDown}`}
           >
-            <option value="" disabled>
-              Select HCO
-            </option>
-            {Object.keys(fhirServers).map((fhirServer: string) => (
+            Select HCO
+            {FhirServers.map((fhirServer: string) => (
               <option key={fhirServer} value={fhirServer}>
                 {fhirServer}
               </option>
@@ -119,7 +121,7 @@ const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
           type="button"
           disabled={!selectedQuery}
           className={selectedQuery ? "usa-button" : "usa-button disabled"}
-          onClick={handleSubmit}
+          onClick={() => handleSubmit()}
         >
           Submit
         </Button>

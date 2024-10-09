@@ -5,7 +5,7 @@ import ResultsView from "./components/ResultsView";
 import PatientSearchResults from "./components/PatientSearchResults";
 import SearchForm from "./components/searchForm/SearchForm";
 import SelectQuery from "./components/SelectQuery";
-import { Mode, USE_CASES } from "../constants";
+import { FHIR_SERVERS, Mode, USE_CASES } from "../constants";
 import LoadingView from "./components/LoadingView";
 import { ToastContainer } from "react-toastify";
 
@@ -22,6 +22,9 @@ const Query: React.FC = () => {
   const [useCase, setUseCase] = useState<USE_CASES>("" as USE_CASES);
   const [mode, setMode] = useState<Mode>("search");
   const [loading, setLoading] = useState<boolean>(false);
+  const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>(
+    "Public HAPI: eHealthExchange",
+  );
 
   const [patientDiscoveryQueryResponse, setPatientDiscoveryQueryResponse] =
     useState<UseCaseQueryResponse>({});
@@ -40,6 +43,8 @@ const Query: React.FC = () => {
             setMode={setMode}
             setLoading={setLoading}
             setPatientDiscoveryQueryResponse={setPatientDiscoveryQueryResponse}
+            fhirServer={fhirServer}
+            setFhirServer={setFhirServer}
           />
         )}
 
@@ -56,12 +61,15 @@ const Query: React.FC = () => {
 
         {mode === "select-query" && (
           <SelectQuery
-            patientForQuery={patientForQuery}
-            setMode={setMode}
             goBack={() => setMode("patient-results")}
             onSubmit={() => setMode("results")}
+            selectedQuery={useCase}
+            setSelectedQuery={setUseCase}
+            patientForQuery={patientForQuery}
             resultsQueryResponse={resultsQueryResponse}
             setResultsQueryResponse={setResultsQueryResponse}
+            fhirServer={fhirServer}
+            setFhirServer={setFhirServer}
           />
         )}
 
@@ -69,6 +77,7 @@ const Query: React.FC = () => {
           <>
             {resultsQueryResponse && (
               <ResultsView
+                selectedQuery={useCase}
                 useCaseQueryResponse={resultsQueryResponse}
                 goBack={() => {
                   setMode("select-query");

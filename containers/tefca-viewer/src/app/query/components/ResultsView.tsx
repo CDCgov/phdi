@@ -12,12 +12,13 @@ import EncounterTable from "./resultsView/tableComponents/EncounterTable";
 import MedicationRequestTable from "./resultsView/tableComponents/MedicationRequestTable";
 import ObservationTable from "./resultsView/tableComponents/ObservationTable";
 import Backlink from "./backLink/Backlink";
+import { USE_CASES } from "@/app/constants";
 
 type ResultsViewProps = {
   useCaseQueryResponse: UseCaseQueryResponse;
+  selectedQuery: USE_CASES;
   goBack: () => void;
   goToBeginning: () => void;
-  queryName?: string;
 };
 
 export type ResultsViewAccordionItem = {
@@ -37,12 +38,10 @@ export type ResultsViewAccordionItem = {
  */
 const ResultsView: React.FC<ResultsViewProps> = ({
   useCaseQueryResponse,
+  selectedQuery,
   goBack,
   goToBeginning,
-  queryName = "some name",
 }) => {
-  console.log(useCaseQueryResponse);
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -79,8 +78,10 @@ const ResultsView: React.FC<ResultsViewProps> = ({
           Patient Record
         </h2>
         <h3>
-          Query:{" "}
-          <span className="text-normal display-inline-block"> {queryName}</span>
+          Query:
+          <span className="text-normal display-inline-block">
+            {selectedQuery}
+          </span>
         </h3>
       </div>
 
