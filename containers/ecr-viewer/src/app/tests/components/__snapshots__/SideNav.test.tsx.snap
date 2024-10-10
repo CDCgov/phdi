@@ -3,11 +3,9 @@
 exports[`SectionConfig should match the snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="nav-wrapper"
+    class="nav-wrapper top-550"
   >
-    <nav
-      class="sticky-nav top-550"
-    >
+    <nav>
       <div
         class="display-flex back-button-wrapper"
       >

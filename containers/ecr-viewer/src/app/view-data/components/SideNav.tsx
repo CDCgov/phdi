@@ -224,7 +224,7 @@ const SideNav: React.FC = () => {
         "top-550": isNonIntegratedViewer,
       })}
     >
-      <nav className="sticky-nav">
+      <nav>
         <BackButton />
         <UswdsSideNav items={sideNavItems} />
       </nav>
