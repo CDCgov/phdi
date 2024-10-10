@@ -144,7 +144,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await expect(page.getByText("Contact")).toBeVisible();
     await expect(page.getByText("517-425-1398")).toBeVisible();
     await expect(page.getByText("Patient Identifiers")).toBeVisible();
-    await expect(page.getByText("34972316")).toBeVisible();
+    await expect(page.getByText("8692756")).toBeVisible();
   });
 
   test("social determinants query with generalized function", async ({
