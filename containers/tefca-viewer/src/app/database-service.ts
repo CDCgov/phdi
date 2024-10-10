@@ -1,6 +1,6 @@
 "use server";
 import { Pool, PoolConfig, QueryResultRow } from "pg";
-// import dotenv from "dotenv";
+import { Bundle, OperationOutcome } from "fhir/r4";
 import { ValueSetItem, valueSetTypeToClincalServiceTypeMap } from "./constants";
 
 const getQuerybyNameSQL = `
@@ -87,3 +87,54 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
   });
   return vsItems;
 };
+
+/*
+ * The expected return type from the eRSD API.
+ */
+type ErsdResponse = Bundle | OperationOutcome;
+
+/*
+ * Fetches the eRSD Specification from the eRSD API.
+ * @param eRSDApiKey - The API key to access the eRSD API; can be  obtained at https://ersd.aimsplatform.org/#/api-keys
+ * @returns The eRSD Specification as a FHIR Bundle or an OperationOutcome if an error occurs.
+ * @throws An error if the fetch request fails.
+ */
+async function getERSD(
+  eRSDApiKey: string,
+  eRSDVersion: number = 2,
+): Promise<ErsdResponse> {
+  const ERSD_API_KEY = process.env.ERSD_API_KEY;
+  const eRSDUrl = `https://ersd.aimsplatform.org/api/ersd/v${eRSDVersion}specification?format=json&api-key=${eRSDApiKey}`;
+  try {
+    const response = await fetch(eRSDUrl);
+    if (response.status === 200) {
+      const data = (await response.json()) as Bundle;
+      return data;
+    } else {
+      return {
+        resourceType: "OperationOutcome",
+        issue: [
+          {
+            severity: "error",
+            code: "processing",
+            diagnostics: `Failed to retrieve data from eRSD: ${response.status} ${response.statusText}`,
+          },
+        ],
+      } as OperationOutcome;
+    }
+  } catch (error) {
+    return {
+      resourceType: "OperationOutcome",
+      issue: [
+        {
+          severity: "error",
+          code: "exception",
+          diagnostics:
+            error instanceof Error
+              ? error.message
+              : "Error retrieving eRSD data. Please confirm that your eRSD API key is valid.",
+        },
+      ],
+    } as OperationOutcome;
+  }
+}
