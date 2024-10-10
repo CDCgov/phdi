@@ -30,6 +30,8 @@
           }
         ],
         "birthDate": "2015-04-15",
+        "deceasedBoolean": true,
+        "deceasedDate": "2020-02-27",
         "gender": "male",
         "extension": [
           {
