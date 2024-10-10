@@ -167,6 +167,7 @@ test.describe("querying with the TryTEFCA viewer", () => {
     await page.getByRole("button", { name: "Go to the demo" }).click();
     await page.getByLabel("Query", { exact: true }).selectOption("chlamydia");
     await page.getByRole("button", { name: "Fill fields" }).click();
+    await page.getByLabel("Phone Number").fill("");
     await page.getByRole("button", { name: "Search for patient" }).click();
     await expect(
       page.getByRole("heading", { name: "Patient Record" }),
