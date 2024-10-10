@@ -93,18 +93,15 @@ export const mapQueryRowsToValueSetItems = async (rows: QueryResultRow[]) => {
  */
 type ErsdResponse = Bundle | OperationOutcome;
 
-/*
- * Fetches the eRSD Specification from the eRSD API.
- * @param eRSDApiKey - The API key to access the eRSD API; can be  obtained at https://ersd.aimsplatform.org/#/api-keys
+/**
+ * Fetches the eRSD Specification from the eRSD API. This function requires an API key
+ * to access the eRSD API. The API key can be obtained at https://ersd.aimsplatform.org/#/api-keys.
+ * @param eRSDVersion - The version of the eRSD specification to retrieve. Defaults to v2.
  * @returns The eRSD Specification as a FHIR Bundle or an OperationOutcome if an error occurs.
- * @throws An error if the fetch request fails.
  */
-async function getERSD(
-  eRSDApiKey: string,
-  eRSDVersion: number = 2,
-): Promise<ErsdResponse> {
+export async function getERSD(eRSDVersion: number = 2): Promise<ErsdResponse> {
   const ERSD_API_KEY = process.env.ERSD_API_KEY;
-  const eRSDUrl = `https://ersd.aimsplatform.org/api/ersd/v${eRSDVersion}specification?format=json&api-key=${eRSDApiKey}`;
+  const eRSDUrl = `https://ersd.aimsplatform.org/api/ersd/v${eRSDVersion}specification?format=json&api-key=${ERSD_API_KEY}`;
   try {
     const response = await fetch(eRSDUrl);
     if (response.status === 200) {
