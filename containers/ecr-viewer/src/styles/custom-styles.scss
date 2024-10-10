@@ -308,13 +308,9 @@ td {
 .nav-wrapper {
   margin-top: 1.5rem;
   padding-top: .63rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   width: $nav-wrapper-width;
   min-width: $nav-wrapper-width;
   position: sticky;
-  align-self: flex-start;
   height: 100vh;
 }
 
