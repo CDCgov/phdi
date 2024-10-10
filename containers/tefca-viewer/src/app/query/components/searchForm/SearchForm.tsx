@@ -15,13 +15,8 @@ import {
   patientOptions,
   stateOptions,
   Mode,
-  ValueSetItem,
 } from "../../../constants";
-import {
-  UseCaseQueryResponse,
-  UseCaseQuery,
-  UseCaseQueryRequest,
-} from "../../../query-service";
+import { UseCaseQueryResponse, UseCaseQuery } from "../../../query-service";
 import { fhirServers } from "../../../fhir-servers";
 import styles from "./searchForm.module.css";
 
@@ -29,13 +24,14 @@ import { FormatPhoneAsDigits } from "@/app/format-service";
 
 interface SearchFormProps {
   useCase: USE_CASES;
-  queryValueSets: ValueSetItem[];
   setUseCase: (useCase: USE_CASES) => void;
-  setOriginalRequest: (originalRequest: UseCaseQueryRequest) => void;
-  setUseCaseQueryResponse: (UseCaseQueryResponse: UseCaseQueryResponse) => void;
+  setPatientDiscoveryQueryResponse: (
+    UseCaseQueryResponse: UseCaseQueryResponse,
+  ) => void;
   setMode: (mode: Mode) => void;
   setLoading: (loading: boolean) => void;
-  setQueryType: (queryType: string) => void;
+  fhirServer: FHIR_SERVERS;
+  setFhirServer: React.Dispatch<React.SetStateAction<FHIR_SERVERS>>;
 }
 
 /**
@@ -43,22 +39,23 @@ interface SearchFormProps {
  * @param root0.useCase - The use case this query will cover.
  * @param root0.queryValueSets - Stateful collection of valuesets to use in the query.
  * @param root0.setUseCase - Update stateful use case.
- * @param root0.setOriginalRequest - The function to set the original request.
  * @param root0.setUseCaseQueryResponse - The function to set the use case query response.
  * @param root0.setMode - The function to set the mode.
  * @param root0.setLoading - The function to set the loading state.
  * @param root0.setQueryType - The function to set the query type.
+ * @param root0.setPatientDiscoveryQueryResponse
+ * @param root0.fhirServer
+ * @param root0.setFhirServer
  * @returns - The SearchForm component.
  */
 const SearchForm: React.FC<SearchFormProps> = ({
   useCase,
-  queryValueSets,
   setUseCase,
-  setOriginalRequest,
-  setUseCaseQueryResponse,
+  setPatientDiscoveryQueryResponse,
   setMode,
   setLoading,
-  setQueryType,
+  fhirServer,
+  setFhirServer,
 }) => {
   //Set the patient options based on the demoOption
   const [patientOption, setPatientOption] = useState<string>(
@@ -66,7 +63,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
   );
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [fhirServer, setFhirServer] = useState<FHIR_SERVERS>();
   const [phone, setPhone] = useState<string>("");
   const [dob, setDOB] = useState<string>("");
   const [mrn, setMRN] = useState<string>("");
@@ -89,21 +85,13 @@ const SearchForm: React.FC<SearchFormProps> = ({
         setAutofilled(highlightAutofilled);
       }
     },
-    [patientOption, setUseCase, setQueryType],
+    [patientOption, setUseCase],
   );
 
   // Change the selectedDemoOption in the dropdown and update the
   // query type (which governs the DB fetch) accordingly
   const handleDemoQueryChange = (selectedDemoOption: string) => {
     setPatientOption(patientOptions[selectedDemoOption][0].value);
-    setQueryType(
-      demoQueryOptions.find((dqo) => dqo.value == selectedDemoOption)?.label ||
-        "",
-    );
-  };
-
-  const handleClick = () => {
-    setMode("customize-queries");
   };
 
   async function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -123,21 +111,17 @@ const SearchForm: React.FC<SearchFormProps> = ({
       use_case: useCase,
       phone: FormatPhoneAsDigits(phone),
     };
-    setOriginalRequest(originalRequest);
-    const queryResponse = await UseCaseQuery(originalRequest, queryValueSets);
-    setUseCaseQueryResponse(queryResponse);
+    const queryResponse = await UseCaseQuery(originalRequest, []);
+    setPatientDiscoveryQueryResponse(queryResponse);
 
-    if (queryResponse.Patient && queryResponse.Patient.length === 1) {
-      setMode("results");
-    } else {
-      setMode("patient-results");
-    }
+    setMode("patient-results");
     setLoading(false);
   }
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  console.log("fhir server: ", fhirServer);
   return (
     <>
       <form className="content-container-smaller-width" onSubmit={HandleSubmit}>
@@ -217,13 +201,6 @@ const SearchForm: React.FC<SearchFormProps> = ({
                 Fill fields
               </Button>
               <Button
-                type="button"
-                className={`usa-button--outline bg-white ${styles.searchCallToActionButton}`}
-                onClick={() => handleClick()}
-              >
-                Customize query
-              </Button>
-              <Button
                 className={`usa-button--unstyled margin-left-auto ${styles.searchCallToActionButton}`}
                 type="button"
                 onClick={() => {
@@ -247,16 +224,11 @@ const SearchForm: React.FC<SearchFormProps> = ({
                     id="fhir_server"
                     name="fhir_server"
                     value={fhirServer}
-                    defaultValue={""}
                     onChange={(event) => {
                       setFhirServer(event.target.value as FHIR_SERVERS);
                     }}
                     required
                   >
-                    <option value="" disabled>
-                      {" "}
-                      -- Select an Option --{" "}
-                    </option>
                     {Object.keys(fhirServers).map((fhirServer: string) => (
                       <option key={fhirServer} value={fhirServer}>
                         {fhirServer}

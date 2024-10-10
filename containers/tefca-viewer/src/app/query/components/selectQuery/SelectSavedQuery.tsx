@@ -1,67 +1,45 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { Button, Select } from "@trussworks/react-uswds";
-import { demoQueryOptions, FHIR_SERVERS, Mode } from "../../../constants";
+import {
+  FHIR_SERVERS,
+  FhirServers,
+  USE_CASES,
+  demoQueryOptions,
+} from "@/app/constants";
+import { Select, Button } from "@trussworks/react-uswds";
+import { RETURN_TO_STEP_ONE_LABEL } from "../PatientSearchResults";
 import Backlink from "../backLink/Backlink";
-import { fhirServers } from "../../../fhir-servers";
 import styles from "./selectQuery.module.css";
+import { useState } from "react";
 
-interface SelectQueryProps {
-  setQueryType: (queryType: string) => void;
-  setHCO: (hco: string) => void;
-  setMode: (mode: Mode) => void;
-  onSubmit: () => void; // Callback when the user submits the query
+type SelectSavedQueryProps = {
   goBack: () => void;
-}
-
+  setSelectedQuery: (selectedQuery: USE_CASES) => void;
+  selectedQuery: string;
+  setShowCustomizedQuery: (showCustomize: boolean) => void;
+  handleSubmit: () => void;
+  fhirServer: FHIR_SERVERS;
+  setFhirServer: React.Dispatch<React.SetStateAction<FHIR_SERVERS>>;
+};
 /**
  *
- * @param root0 - SelectQueryProps
- * @param root0.setQueryType - Callback to update the query type
- * @param root0.setHCO - Callback to update selected Health Care Organization (HCO)
- * @param root0.setMode - Callback to switch mode
- * @param root0.onSubmit - Callback for submit action
- * @param root0.goBack - back button
- * @returns - The selectQuery component.
+ * @param root0
+ * @param root0.goBack
+ * @param root0.selectedQuery
+ * @param root0.setSelectedQuery
+ * @param root0.setShowCustomizedQuery
+ * @param root0.handleSubmit
+ * @param root0.fhirServer
+ * @param root0.setFhirServer
  */
-const SelectQuery: React.FC<SelectQueryProps> = ({
-  setQueryType,
-  setHCO,
-  setMode,
-  onSubmit,
+const SelectSavedQuery: React.FC<SelectSavedQueryProps> = ({
   goBack,
+  selectedQuery,
+  setSelectedQuery,
+  setShowCustomizedQuery,
+  handleSubmit,
+  fhirServer,
+  setFhirServer,
 }) => {
-  const [selectedQuery, setSelectedQuery] = useState<string>("");
-  const [selectedHCO, setSelectedHCO] = useState<string>(""); // Keep this as string for HCO selection
   const [showAdvanced, setShowAdvanced] = useState(false);
-
-  // When query changes, update the parent component state
-  useEffect(() => {
-    setQueryType(selectedQuery);
-  }, [selectedQuery, setQueryType]);
-
-  const handleQueryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedQuery(event.target.value);
-  };
-
-  const handleHCOChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedHCO(event.target.value);
-    setHCO(event.target.value as FHIR_SERVERS); // Update parent component state
-  };
-
-  // Link to go to customize-queries page
-  const handleClick = () => {
-    setMode("customize-queries");
-  };
-
-  // Submit and go to results; if no custom query selected, add alert
-  const handleSubmit = () => {
-    if (selectedQuery) {
-      onSubmit();
-    } else {
-      alert("Please select a query.");
-    }
-  };
 
   return (
     <form className="content-container-smaller-width">
@@ -87,46 +65,38 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
           id="querySelect"
           name="query"
           value={selectedQuery}
-          onChange={handleQueryChange}
+          onChange={(e) => setSelectedQuery(e.target.value as USE_CASES)}
           className={`${styles.queryDropDown}`}
           required
         >
-          <option value="" disabled>
-            Select query
-          </option>
           {demoQueryOptions.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </Select>
-        {/* Customize query button */}
         <Button
           type="button"
           className={`usa-button--outline bg-white ${styles.customizeButton}`}
-          onClick={handleClick}
+          onClick={() => setShowCustomizedQuery(true)}
         >
           Customize query
         </Button>
       </div>
 
-      {/* Show Advanced options only when `showAdvanced` is true */}
       {showAdvanced && (
         <div>
           <h3 className="margin-bottom-3">Health Care Organization (HCO)</h3>
           <Select
             id="fhir_server"
             name="fhir_server"
-            value={selectedHCO} // Use selectedHCO for the selected value
-            onChange={handleHCOChange}
+            value={fhirServer}
+            onChange={(e) => setFhirServer(e.target.value as FHIR_SERVERS)}
             required
-            defaultValue=""
             className={`${styles.queryDropDown}`}
           >
-            <option value="" disabled>
-              Select HCO
-            </option>
-            {Object.keys(fhirServers).map((fhirServer: string) => (
+            Select HCO
+            {FhirServers.map((fhirServer: string) => (
               <option key={fhirServer} value={fhirServer}>
                 {fhirServer}
               </option>
@@ -135,7 +105,6 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
         </div>
       )}
 
-      {/* Only show the "Advanced" button if `showAdvanced` is false */}
       {!showAdvanced && (
         <div>
           <Button
@@ -154,7 +123,7 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
           type="button"
           disabled={!selectedQuery}
           className={selectedQuery ? "usa-button" : "usa-button disabled"}
-          onClick={handleSubmit}
+          onClick={() => handleSubmit()}
         >
           Submit
         </Button>
@@ -163,5 +132,4 @@ const SelectQuery: React.FC<SelectQueryProps> = ({
   );
 };
 
-export default SelectQuery;
-export const RETURN_TO_STEP_ONE_LABEL = "Return to Select patient";
+export default SelectSavedQuery;

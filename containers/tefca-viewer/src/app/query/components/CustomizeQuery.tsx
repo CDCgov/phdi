@@ -125,11 +125,7 @@ const CustomizeQuery: React.FC<CustomizeQueryProps> = ({
   const handleApplyChanges = () => {
     const selectedItems = Object.keys(valueSetOptions).reduce((acc, key) => {
       const items = valueSetOptions[key as ValueSetType];
-      acc = acc.concat(
-        Object.values(items)
-          .flatMap((dict) => dict.items)
-          .filter((item) => item.include),
-      );
+      acc = acc.concat(Object.values(items).flatMap((dict) => dict.items));
       return acc;
     }, [] as ValueSetItem[]);
     setQueryValuesets(selectedItems);

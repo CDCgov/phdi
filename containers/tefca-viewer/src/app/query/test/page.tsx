@@ -35,7 +35,7 @@ const Query: React.FC = () => {
             setUseCase={setUseCase}
             setMode={setMode}
             setLoading={setLoading}
-            setUseCaseQueryResponse={setUseCaseQueryResponse}
+            setPatientDiscoveryQueryResponse={setUseCaseQueryResponse}
             setOriginalRequest={setOriginalRequest}
             setQueryType={() => {}}
           />
