@@ -110,12 +110,12 @@ describe("SectionConfig", () => {
   it("should have top-550 when non-integrated viewer", () => {
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "true";
     render(<SideNav />);
-    expect(screen.getByRole("navigation").parentElement).toHaveClass("top-550");
+    expect(screen.getByRole("navigation")).toHaveClass("top-550");
   });
   it("should have top0 when integrated viewer", () => {
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "false";
     render(<SideNav />);
-    expect(screen.getByRole("navigation").parentElement).toHaveClass("top-0");
+    expect(screen.getByRole("navigation")).toHaveClass("top-0");
   });
 });
 

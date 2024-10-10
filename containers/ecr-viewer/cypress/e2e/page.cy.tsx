@@ -33,7 +33,7 @@ describe("Home Page", () => {
   it("When clicking on an eCR ID link, it should load the individual eCR Viewer", () => {
     cy.get('[data-testid="table"] tbody tr:first-child').find("a").click();
     cy.contains("eCR Summary");
-    cy.get("div").should("have.class", "nav-wrapper");
+    cy.get("nav").should("have.class", "sticky-nav");
     cy.get("div").should("have.class", "ecr-viewer-container");
   });
 });
