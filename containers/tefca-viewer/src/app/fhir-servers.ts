@@ -14,20 +14,23 @@ type FHIR_SERVER_CONFIG = {
  */
 export const fhirServers: Record<FHIR_SERVERS, FHIR_SERVER_CONFIG> = {
   "HELIOS Meld: Direct": {
-    hostname: "https://gw.interop.community/HeliosConnectathonSa/open/",
+    hostname: "https://gw.interop.community/HeliosConnectathonSa/open",
     init: {} as RequestInit,
   },
   "HELIOS Meld: eHealthExchange": configureEHX("MeldOpen"),
   "JMC Meld: Direct": {
-    hostname: "https://gw.interop.community/JMCHeliosSTISandbox/open/",
+    hostname: "https://gw.interop.community/JMCHeliosSTISandbox/open",
     init: {} as RequestInit,
   },
   "JMC Meld: eHealthExchange": configureEHX("JMCHelios"),
-  "Public HAPI: eHealthExchange": configureEHX("PublicHAPI"),
+  "Public HAPI: Direct": {
+    hostname: "https://hapi.fhir.org/baseR4",
+    init: {} as RequestInit,
+  },
   "OpenEpic: eHealthExchange": configureEHX("OpenEpic"),
   "CernerHelios: eHealthExchange": configureEHX("CernerHelios"),
   "OPHDST Meld: Direct": {
-    hostname: "https://gw.interop.community/CDCSepHL7Connectatho/open/",
+    hostname: "https://gw.interop.community/CDCSepHL7Connectatho/open",
     init: {} as RequestInit,
   },
 };

@@ -98,7 +98,7 @@ async function patientQuery(
   queryResponse: QueryResponse,
 ): Promise<void> {
   // Query for patient
-  let query = "Patient?";
+  let query = "/Patient?";
   if (request.first_name) {
     query += `given=${request.first_name}&`;
   }
