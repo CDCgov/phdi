@@ -10,6 +10,8 @@ services:
       - POSTGRES_DB=tefca_db
       # Note: you must have a local .env file with the DATABASE_URL set to the following:
       # DATABASE_URL=postgresql://postgres:pw@localhost:5432/tefca_db
+      # Note: you must have a local .env file with the ERSD_API_KEY set to a key
+      # obtained from the ERSD API at https://ersd.aimsplatform.org/#/api-keys
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 2s

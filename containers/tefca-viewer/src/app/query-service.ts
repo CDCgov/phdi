@@ -14,7 +14,6 @@ import {
 
 import FHIRClient from "./fhir-servers";
 import { USE_CASES, FHIR_SERVERS, ValueSetItem } from "./constants";
-import * as dq from "./demoQueries";
 import { CustomQuery } from "./CustomQuery";
 import { GetPhoneQueryFormats } from "./format-service";
 import { formatValueSetItemsAsQuerySpec } from "./format-service";
@@ -45,15 +44,15 @@ export type UseCaseQueryRequest = {
   phone?: string;
 };
 
-const UseCaseToStructMap: {
-  [key in USE_CASES]: dq.QueryStruct;
-} = {
-  "social-determinants": dq.SOCIAL_DETERMINANTS_QUERY,
-  "newborn-screening": dq.NEWBORN_SCREENING_QUERY,
-  syphilis: dq.SYPHILIS_QUERY,
-  gonorrhea: dq.GONORRHEA_QUERY,
-  chlamydia: dq.CHLAMYDIA_QUERY,
-  cancer: dq.CANCER_QUERY,
+/**
+ * Expected structure of a query object
+ */
+export type QueryStruct = {
+  labCodes: string[];
+  snomedCodes: string[];
+  rxnormCodes: string[];
+  classTypeCodes: string[];
+  hasSecondEncounterQuery: boolean;
 };
 
 // Expected responses from the FHIR server

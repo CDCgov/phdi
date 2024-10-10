@@ -1,5 +1,6 @@
 import { Table } from "@trussworks/react-uswds";
 import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
+import { toSentenceCase } from "@/app/services/formatService";
 
 const basePath =
   process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_BASEPATH : "";
@@ -68,22 +69,76 @@ const EcrTable = async ({
  */
 const renderListEcrTableData = (listFhirData: EcrDisplay[]) => {
   return listFhirData.map((item, index) => {
-    return (
-      <tr key={`table-row-${index}`}>
-        <td>
-          <a href={`${basePath}/view-data?id=${item.ecrId}`}>
-            {item.patient_first_name} {item.patient_last_name}
-          </a>
-          <br />
-          {"DOB: " + item.patient_date_of_birth || ""}
-        </td>
-        <td>{item.date_created}</td>
-        <td>{item.patient_report_date}</td>
-        <td>{item.reportable_condition}</td>
-        <td>{item.rule_summary}</td>
-      </tr>
-    );
+    return formatRow(item, index);
   });
+};
+
+/**
+ * Formats a single row of the eCR table.
+ * @param item - The eCR data to be formatted.
+ * @param index - The index of the eCR data in the list.
+ * @returns A JSX table row element representing the eCR data.
+ */
+const formatRow = (item: EcrDisplay, index: number) => {
+  let patient_first_name = toSentenceCase(item.patient_first_name);
+  let patient_last_name = toSentenceCase(item.patient_last_name);
+  let createDateObj = new Date(item.date_created);
+  let createDateDate = formatDate(createDateObj);
+  let createDateTime = formatTime(createDateObj);
+  let patientReportDateObj = new Date(item.patient_report_date);
+  let patientReportDate = formatDate(patientReportDateObj);
+  let patientReportTime = formatTime(patientReportDateObj);
+
+  return (
+    <tr key={`table-row-${index}`}>
+      <td>
+        <a href={`${basePath}/view-data?id=${item.ecrId}`}>
+          {patient_first_name} {patient_last_name}
+        </a>
+        <br />
+        <div>{"DOB: " + item.patient_date_of_birth || ""}</div>
+      </td>
+      <td>
+        {createDateDate}
+        <br />
+        {createDateTime}
+      </td>
+      <td>
+        {patientReportDate}
+        <br />
+        {patientReportTime}
+      </td>
+      <td>{item.reportable_condition}</td>
+      <td>{item.rule_summary}</td>
+    </tr>
+  );
+};
+
+/**
+ * Formats a date object to a string in the format MM/DD/YYYY.
+ * @param date - The date object to be formatted.
+ * @returns A string in the format MM/DD/YYYY.
+ */
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString("en-US");
+};
+
+/**
+ * Formats a date object to a string in the format HH:MM AM/PM.
+ * @param date - The date object to be formatted.
+ * @returns A string in the format HH:MM AM/PM.
+ */
+const formatTime = (date: Date) => {
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+
+  const minutesStr = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${hours}:${minutesStr} ${ampm}`;
 };
 
 export default EcrTable;

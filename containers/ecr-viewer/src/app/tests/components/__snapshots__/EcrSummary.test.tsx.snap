@@ -63,6 +63,25 @@ exports[`EcrSummary should match snapshot 1`] = `
             <div
               class="data-title padding-right-1"
             >
+              Sex
+            </div>
+            <div
+              class="grid-col maxw7 text-pre-line"
+            >
+              male
+            </div>
+          </div>
+          <div
+            class="section__line_gray"
+          />
+        </div>
+        <div>
+          <div
+            class="grid-row"
+          >
+            <div
+              class="data-title padding-right-1"
+            >
               Patient Address
             </div>
             <div
@@ -124,27 +143,6 @@ MELLY.C.A.16@GMAIL.COM
               class="grid-col maxw7 text-pre-line"
             >
               PRM- Palmdale Regional Medical Center
-            </div>
-          </div>
-          <div
-            class="section__line_gray"
-          />
-        </div>
-        <div>
-          <div
-            class="grid-row"
-          >
-            <div
-              class="data-title padding-right-1"
-            >
-              Facility Address
-            </div>
-            <div
-              class="grid-col maxw7 text-pre-line"
-            >
-              38600 Medical Center Drive
-Palmdale, CA
-93551, USA
             </div>
           </div>
           <div

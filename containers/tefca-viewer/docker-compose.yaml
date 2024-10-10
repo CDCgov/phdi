@@ -26,6 +26,8 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://postgres:pw@db:5432/tefca_db
+      # Note: you must have a local .env file with the ERSD_API_KEY set to a key
+      # obtained from the ERSD API at https://ersd.aimsplatform.org/#/api-keys
     depends_on:
       db:
         condition: service_healthy

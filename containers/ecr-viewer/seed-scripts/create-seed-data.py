@@ -14,7 +14,7 @@ def convert_files():
     :return: A list of fhir bundles
     """
     print("Converting files...")
-    subfolders = ["LA", "TN", "ME", "KY"]
+    subfolders = ["LA"]
     # Iterate over the subfolders
     for subfolder in subfolders:
         subfolder_path = os.path.join(BASEDIR, "baseECR", subfolder)

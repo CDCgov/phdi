@@ -2,10 +2,16 @@ import {
   formatAddress,
   formatContactPoint,
   formatDateTime,
+  formatName,
 } from "@/app/services/formatService";
-import { PathMappings, evaluateData } from "@/app/view-data/utils/utils";
-import { Bundle, Organization } from "fhir/r4";
+import {
+  CompleteData,
+  evaluateData,
+  PathMappings,
+} from "@/app/view-data/utils/utils";
+import { Bundle, Organization, Reference } from "fhir/r4";
 import { evaluate } from "@/app/view-data/utils/evaluate";
+import { evaluatePractitionerRoleReference } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import { evaluateReference } from "@/app/services/evaluateFhirDataService";
 
@@ -13,6 +19,14 @@ export interface ReportableConditions {
   [condition: string]: {
     [trigger: string]: Set<string>;
   };
+}
+
+interface EcrMetadata {
+  eicrDetails: CompleteData;
+  ecrCustodianDetails: CompleteData;
+  rrDetails: ReportableConditions;
+  eicrAuthorDetails: CompleteData[];
+  eRSDWarnings: ERSDWarning[];
 }
 
 export interface ERSDWarning {
@@ -31,7 +45,7 @@ export interface ERSDWarning {
 export const evaluateEcrMetadata = (
   fhirBundle: Bundle,
   mappings: PathMappings,
-) => {
+): EcrMetadata => {
   const rrDetails = evaluate(fhirBundle, mappings.rrDetails);
 
   let reportableConditionsList: ReportableConditions = {};
@@ -159,10 +173,116 @@ export const evaluateEcrMetadata = (
     },
   ];
 
+  const eicrAuthorDetails = evaluateEcrAuthorDetails(fhirBundle, mappings);
+
   return {
     eicrDetails: evaluateData(eicrDetails),
     ecrCustodianDetails: evaluateData(ecrCustodianDetails),
     rrDetails: reportableConditionsList,
     eRSDWarnings: eRSDTextList,
+    eicrAuthorDetails: eicrAuthorDetails.map((details) =>
+      evaluateData(details),
+    ),
   };
+};
+
+const evaluateEcrAuthorDetails = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+): DisplayDataProps[][] => {
+  const authorRefs: Reference[] = evaluate(
+    fhirBundle,
+    mappings["compositionAuthorRefs"],
+  );
+
+  const authorDetails: DisplayDataProps[][] = [];
+  authorRefs.forEach((ref) => {
+    if (ref.reference?.includes("PractitionerRole/")) {
+      const practitionerRoleRef = ref?.reference;
+      const { practitioner, organization } = evaluatePractitionerRoleReference(
+        fhirBundle,
+        mappings,
+        practitionerRoleRef ?? "",
+      );
+
+      authorDetails.push([
+        {
+          title: "Author Name",
+          value: formatName(
+            practitioner?.name?.[0].given,
+            practitioner?.name?.[0].family,
+            practitioner?.name?.[0].prefix,
+            practitioner?.name?.[0].suffix,
+          ),
+        },
+        {
+          title: "Author Address",
+          value: practitioner?.address?.map((address) =>
+            formatAddress(
+              address.line ?? [],
+              address.city ?? "",
+              address.state ?? "",
+              address.postalCode ?? "",
+              address.country ?? "",
+            ),
+          ),
+        },
+        {
+          title: "Author Contact",
+          value: formatContactPoint(practitioner?.telecom).join("\n"),
+        },
+        {
+          title: "Author Facility Name",
+          value: organization?.name,
+        },
+        {
+          title: "Author Facility Address",
+          value: organization?.address?.map((address) =>
+            formatAddress(
+              address.line ?? [],
+              address.city ?? "",
+              address.state ?? "",
+              address.postalCode ?? "",
+              address.country ?? "",
+            ),
+          ),
+        },
+        {
+          title: "Author Facility Contact",
+          value: formatContactPoint(organization?.telecom).join("\n"),
+        },
+      ]);
+    }
+  });
+
+  if (authorDetails.length === 0) {
+    authorDetails.push([
+      {
+        title: "Author Name",
+        value: null,
+      },
+      {
+        title: "Author Address",
+        value: null,
+      },
+      {
+        title: "Author Contact",
+        value: null,
+      },
+      {
+        title: "Author Facility Name",
+        value: null,
+      },
+      {
+        title: "Author Facility Address",
+        value: null,
+      },
+      {
+        title: "Author Facility Contact",
+        value: null,
+      },
+    ]);
+  }
+
+  return authorDetails;
 };

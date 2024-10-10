@@ -98,6 +98,12 @@ jobs:
       - name: Run Query Connector
         working-directory: ./containers/${{env.CONTAINER}}
         run: docker compose up -d
+      - name: Poll until Query Connector is ready
+        run: |
+          until curl -s http://localhost:3000/tefca-viewer; do
+            echo "Waiting for Query Connector to be ready before running Playwright..."
+            sleep 5
+          done
       - name: Playwright Tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npx playwright test e2e --reporter=list --config playwright.config.ts

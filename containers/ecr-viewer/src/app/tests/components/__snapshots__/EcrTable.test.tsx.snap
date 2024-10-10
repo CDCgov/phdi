@@ -51,18 +51,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-1"
             >
-              first-1
+              First-1
                
-              last-1
+              Last-1
             </a>
             <br />
-            DOB: 2000-01-01
+            <div>
+              DOB: 2000-01-01
+            </div>
           </td>
           <td>
-            2021-01-01
+            12/31/2020
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-01
+            12/31/2020
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-1
@@ -76,18 +82,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-2"
             >
-              first-2
+              First-2
                
-              last-2
+              Last-2
             </a>
             <br />
-            DOB: 2000-01-02
+            <div>
+              DOB: 2000-01-02
+            </div>
           </td>
           <td>
-            2021-01-02
+            1/1/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-02
+            1/1/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-2
@@ -101,18 +113,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-3"
             >
-              first-3
+              First-3
                
-              last-3
+              Last-3
             </a>
             <br />
-            DOB: 2000-01-03
+            <div>
+              DOB: 2000-01-03
+            </div>
           </td>
           <td>
-            2021-01-03
+            1/2/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-03
+            1/2/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-3
@@ -126,18 +144,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-4"
             >
-              first-4
+              First-4
                
-              last-4
+              Last-4
             </a>
             <br />
-            DOB: 2000-01-04
+            <div>
+              DOB: 2000-01-04
+            </div>
           </td>
           <td>
-            2021-01-04
+            1/3/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-04
+            1/3/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-4
@@ -151,18 +175,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-5"
             >
-              first-5
+              First-5
                
-              last-5
+              Last-5
             </a>
             <br />
-            DOB: 2000-01-05
+            <div>
+              DOB: 2000-01-05
+            </div>
           </td>
           <td>
-            2021-01-05
+            1/4/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-05
+            1/4/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-5
@@ -176,18 +206,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-6"
             >
-              first-6
+              First-6
                
-              last-6
+              Last-6
             </a>
             <br />
-            DOB: 2000-01-06
+            <div>
+              DOB: 2000-01-06
+            </div>
           </td>
           <td>
-            2021-01-06
+            1/5/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-06
+            1/5/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-6
@@ -201,18 +237,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-7"
             >
-              first-7
+              First-7
                
-              last-7
+              Last-7
             </a>
             <br />
-            DOB: 2000-01-07
+            <div>
+              DOB: 2000-01-07
+            </div>
           </td>
           <td>
-            2021-01-07
+            1/6/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-07
+            1/6/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-7
@@ -226,18 +268,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-8"
             >
-              first-8
+              First-8
                
-              last-8
+              Last-8
             </a>
             <br />
-            DOB: 2000-01-08
+            <div>
+              DOB: 2000-01-08
+            </div>
           </td>
           <td>
-            2021-01-08
+            1/7/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-08
+            1/7/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-8
@@ -251,18 +299,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-9"
             >
-              first-9
+              First-9
                
-              last-9
+              Last-9
             </a>
             <br />
-            DOB: 2000-01-09
+            <div>
+              DOB: 2000-01-09
+            </div>
           </td>
           <td>
-            2021-01-09
+            1/8/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-09
+            1/8/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-9
@@ -276,18 +330,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-10"
             >
-              first-10
+              First-10
                
-              last-10
+              Last-10
             </a>
             <br />
-            DOB: 2000-01-01
+            <div>
+              DOB: 2000-01-01
+            </div>
           </td>
           <td>
-            2021-01-01
+            12/31/2020
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-01
+            12/31/2020
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-10
@@ -301,18 +361,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-11"
             >
-              first-11
+              First-11
                
-              last-11
+              Last-11
             </a>
             <br />
-            DOB: 2000-01-02
+            <div>
+              DOB: 2000-01-02
+            </div>
           </td>
           <td>
-            2021-01-02
+            1/1/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-02
+            1/1/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-11
@@ -326,18 +392,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-12"
             >
-              first-12
+              First-12
                
-              last-12
+              Last-12
             </a>
             <br />
-            DOB: 2000-01-03
+            <div>
+              DOB: 2000-01-03
+            </div>
           </td>
           <td>
-            2021-01-03
+            1/2/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-03
+            1/2/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-12
@@ -351,18 +423,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-13"
             >
-              first-13
+              First-13
                
-              last-13
+              Last-13
             </a>
             <br />
-            DOB: 2000-01-04
+            <div>
+              DOB: 2000-01-04
+            </div>
           </td>
           <td>
-            2021-01-04
+            1/3/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-04
+            1/3/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-13
@@ -376,18 +454,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-14"
             >
-              first-14
+              First-14
                
-              last-14
+              Last-14
             </a>
             <br />
-            DOB: 2000-01-05
+            <div>
+              DOB: 2000-01-05
+            </div>
           </td>
           <td>
-            2021-01-05
+            1/4/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-05
+            1/4/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-14
@@ -401,18 +485,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-15"
             >
-              first-15
+              First-15
                
-              last-15
+              Last-15
             </a>
             <br />
-            DOB: 2000-01-06
+            <div>
+              DOB: 2000-01-06
+            </div>
           </td>
           <td>
-            2021-01-06
+            1/5/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-06
+            1/5/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-15
@@ -426,18 +516,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-16"
             >
-              first-16
+              First-16
                
-              last-16
+              Last-16
             </a>
             <br />
-            DOB: 2000-01-07
+            <div>
+              DOB: 2000-01-07
+            </div>
           </td>
           <td>
-            2021-01-07
+            1/6/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-07
+            1/6/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-16
@@ -451,18 +547,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-17"
             >
-              first-17
+              First-17
                
-              last-17
+              Last-17
             </a>
             <br />
-            DOB: 2000-01-08
+            <div>
+              DOB: 2000-01-08
+            </div>
           </td>
           <td>
-            2021-01-08
+            1/7/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-08
+            1/7/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-17
@@ -476,18 +578,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-18"
             >
-              first-18
+              First-18
                
-              last-18
+              Last-18
             </a>
             <br />
-            DOB: 2000-01-09
+            <div>
+              DOB: 2000-01-09
+            </div>
           </td>
           <td>
-            2021-01-09
+            1/8/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-09
+            1/8/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-18
@@ -501,18 +609,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-19"
             >
-              first-19
+              First-19
                
-              last-19
+              Last-19
             </a>
             <br />
-            DOB: 2000-01-01
+            <div>
+              DOB: 2000-01-01
+            </div>
           </td>
           <td>
-            2021-01-01
+            12/31/2020
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-01
+            12/31/2020
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-19
@@ -526,18 +640,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-20"
             >
-              first-20
+              First-20
                
-              last-20
+              Last-20
             </a>
             <br />
-            DOB: 2000-01-02
+            <div>
+              DOB: 2000-01-02
+            </div>
           </td>
           <td>
-            2021-01-02
+            1/1/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-02
+            1/1/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-20
@@ -551,18 +671,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-21"
             >
-              first-21
+              First-21
                
-              last-21
+              Last-21
             </a>
             <br />
-            DOB: 2000-01-03
+            <div>
+              DOB: 2000-01-03
+            </div>
           </td>
           <td>
-            2021-01-03
+            1/2/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-03
+            1/2/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-21
@@ -576,18 +702,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-22"
             >
-              first-22
+              First-22
                
-              last-22
+              Last-22
             </a>
             <br />
-            DOB: 2000-01-04
+            <div>
+              DOB: 2000-01-04
+            </div>
           </td>
           <td>
-            2021-01-04
+            1/3/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-04
+            1/3/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-22
@@ -601,18 +733,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-23"
             >
-              first-23
+              First-23
                
-              last-23
+              Last-23
             </a>
             <br />
-            DOB: 2000-01-05
+            <div>
+              DOB: 2000-01-05
+            </div>
           </td>
           <td>
-            2021-01-05
+            1/4/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-05
+            1/4/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-23
@@ -626,18 +764,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-24"
             >
-              first-24
+              First-24
                
-              last-24
+              Last-24
             </a>
             <br />
-            DOB: 2000-01-06
+            <div>
+              DOB: 2000-01-06
+            </div>
           </td>
           <td>
-            2021-01-06
+            1/5/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-06
+            1/5/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-24
@@ -651,18 +795,24 @@ exports[`EcrTable should match snapshot 1`] = `
             <a
               href="/view-data?id=id-25"
             >
-              first-25
+              First-25
                
-              last-25
+              Last-25
             </a>
             <br />
-            DOB: 2000-01-07
+            <div>
+              DOB: 2000-01-07
+            </div>
           </td>
           <td>
-            2021-01-07
+            1/6/2021
+            <br />
+            7:00 PM
           </td>
           <td>
-            2021-01-07
+            1/6/2021
+            <br />
+            7:00 PM
           </td>
           <td>
             reportable-condition-25
