@@ -98,7 +98,7 @@ export class CustomQuery {
       this.diagnosticReportQuery,
       this.conditionQuery,
       this.medicationRequestQuery,
-      // this.socialHistoryQuery,
+      this.socialHistoryQuery,
       this.encounterQuery,
       this.encounterClassTypeQuery,
     ];
