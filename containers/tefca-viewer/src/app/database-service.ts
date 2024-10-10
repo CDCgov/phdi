@@ -102,34 +102,18 @@ type ErsdResponse = Bundle | OperationOutcome;
 export async function getERSD(eRSDVersion: number = 2): Promise<ErsdResponse> {
   const ERSD_API_KEY = process.env.ERSD_API_KEY;
   const eRSDUrl = `https://ersd.aimsplatform.org/api/ersd/v${eRSDVersion}specification?format=json&api-key=${ERSD_API_KEY}`;
-  try {
-    const response = await fetch(eRSDUrl);
-    if (response.status === 200) {
-      const data = (await response.json()) as Bundle;
-      return data;
-    } else {
-      return {
-        resourceType: "OperationOutcome",
-        issue: [
-          {
-            severity: "error",
-            code: "processing",
-            diagnostics: `Failed to retrieve data from eRSD: ${response.status} ${response.statusText}`,
-          },
-        ],
-      } as OperationOutcome;
-    }
-  } catch (error) {
+  const response = await fetch(eRSDUrl);
+  if (response.status === 200) {
+    const data = (await response.json()) as Bundle;
+    return data;
+  } else {
     return {
       resourceType: "OperationOutcome",
       issue: [
         {
           severity: "error",
-          code: "exception",
-          diagnostics:
-            error instanceof Error
-              ? error.message
-              : "Error retrieving eRSD data. Please confirm that your eRSD API key is valid.",
+          code: "processing",
+          diagnostics: `Failed to retrieve data from eRSD: ${response.status} ${response.statusText}`,
         },
       ],
     } as OperationOutcome;
