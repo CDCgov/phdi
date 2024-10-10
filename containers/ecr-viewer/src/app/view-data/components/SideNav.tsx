@@ -218,17 +218,15 @@ const SideNav: React.FC = () => {
   let sideNavItems = buildSideNav(sectionConfigs);
 
   return (
-    <div className="nav-wrapper">
-      <nav
-        className={classNames("sticky-nav", {
-          "top-0": !isNonIntegratedViewer,
-          "top-550": isNonIntegratedViewer,
-        })}
-      >
-        <BackButton />
-        <UswdsSideNav items={sideNavItems} />
-      </nav>
-    </div>
+    <nav
+      className={classNames("nav-wrapper", {
+        "top-0": !isNonIntegratedViewer,
+        "top-550": isNonIntegratedViewer,
+      })}
+    >
+      <BackButton />
+      <UswdsSideNav items={sideNavItems} />
+    </nav>
   );
 };
 

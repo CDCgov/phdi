@@ -113,7 +113,7 @@ describe("SectionConfig", () => {
     expect(screen.getByRole("navigation")).toHaveClass("top-550");
   });
   it("should have top0 when integrated viewer", () => {
-    delete process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER;
+    process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER = "false";
     render(<SideNav />);
     expect(screen.getByRole("navigation")).toHaveClass("top-0");
   });
