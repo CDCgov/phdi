@@ -314,7 +314,7 @@ td {
 }
 
 .back-button {
-  margin-bottom:1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .content-wrapper {
@@ -326,19 +326,10 @@ td {
 .nav-wrapper {
   margin-top: 1.5rem;
   padding-top: .63rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   width: $nav-wrapper-width;
   min-width: $nav-wrapper-width;
-}
-
-.sticky-nav {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: auto;
   position: sticky;
-  min-width: 100%;
+  height: 100vh;
 }
 
 .ecr-viewer-container {
@@ -568,7 +559,7 @@ h3 {
   }
 }
 
-.condition-details-accordion{
+.condition-details-accordion {
   .usa-accordion__heading.border-accent-cool-darker {
     &:not(:first-child) {
       margin-top: 1.12rem;
