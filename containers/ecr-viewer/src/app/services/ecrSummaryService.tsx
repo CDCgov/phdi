@@ -96,6 +96,10 @@ export const evaluateEcrSummaryEncounterDetails = (
       value: evaluate(fhirBundle, fhirPathMappings.encounterType),
     },
     {
+      title: "Encounter Reason",
+      value: evaluate(fhirBundle, fhirPathMappings.encounterReasonForVisit),
+    },
+    {
       title: "Facility Name",
       value: evaluate(fhirBundle, fhirPathMappings.facilityName),
     },

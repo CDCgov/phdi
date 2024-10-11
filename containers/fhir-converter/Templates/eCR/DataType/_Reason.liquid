@@ -1,11 +1,18 @@
 {% assign key = "2_16_840_1_113883_10_20_22_2_12" -%}
 {% assign reas_n = Reason[key] -%}
-{% if reason and reas_n.entry and reas_n.entry.observation and reas_n.entry.observation.value and reas_n.entry.observation.value.originalText and reas_n.entry.observation.value.originalText._ %}
-  "reason": [{
-    "value": [{
-      "concept": {
-        "text": "{{ reas_n.entry.observation.value.originalText._ }}",
-      }
-    }]
-  }],
+{% if reason and reas_n.entry %}
+  "reason": [
+    {% assign entries = reas_n.entry | to_array -%}
+    {% for entry in entries -%}
+      {% if entry.observation and entry.observation.value and entry.observation.value.originalText and entry.observation.value.originalText._ %}
+        {
+          "value": [{
+            "concept": {
+              "text": "{{ entry.observation.value.originalText._ }}",
+            }
+          }]
+        },
+      {% endif -%}
+    {% endfor -%}
+  ],
 {% endif -%}

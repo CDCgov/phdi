@@ -654,5 +654,33 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       IConvertible convert = input;
       return convert.ToDouble(null).ToString("0.###");
     }
+  
+    public static IDictionary<string, bool> GetDiagnosisDictionary(IList<object> entries)
+    {
+      var result = new Dictionary<string, bool>();
+      foreach (var entry in entries)
+      {
+        if (entry is IDictionary<string, object> entryDict && entryDict.TryGetValue("encounter", out object? encounter) && encounter is IDictionary<string, object> encounterDict && encounterDict.TryGetValue("entryRelationship", out object? encounterEntryRelationship))
+        {
+          var encounterEntryRelationships = ProcessItem(encounterEntryRelationship);
+          foreach (var encounterER in encounterEntryRelationships)
+          {
+            if (encounterER.TryGetValue("act", out object? act) && act is IDictionary<string, object> actDict && actDict.TryGetValue("entryRelationship", out object? actEntryRelationship))
+            {
+              var actEntryRelationships = ProcessItem(actEntryRelationship);
+              foreach (var actER in actEntryRelationships)
+              {
+                if (actER.TryGetValue("observation", out object? observation) && observation is IDictionary<string, object> observationDict && observationDict.TryGetValue("value", out object? value) && value is IDictionary<string, object> valueDict && valueDict.TryGetValue("code", out object? code))
+                {
+                  result.Add(code.ToString(), true);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return result;
+    }
   }
 }
