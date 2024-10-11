@@ -152,6 +152,24 @@ h4 {
 .table-ecr-library {
   font-size: 1rem;
   border-collapse: separate;
+  font-family: "Source Sans Pro Web";
+
+  a {
+    color: var(--Primary-primary, #005EA2);
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  a, u {
+    text-decoration: none;
+  }
+
+  tbody tr td div {
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+  }
 
   &.usa-table--striped tbody tr:nth-child(odd) td {
     background-color: white;
@@ -296,7 +314,7 @@ td {
 }
 
 .back-button {
-  margin-bottom:1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .content-wrapper {
@@ -308,19 +326,10 @@ td {
 .nav-wrapper {
   margin-top: 1.5rem;
   padding-top: .63rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   width: $nav-wrapper-width;
   min-width: $nav-wrapper-width;
-}
-
-.sticky-nav {
-  flex-grow: 0;
-  flex-shrink: 0;
-  flex-basis: auto;
   position: sticky;
-  min-width: 100%;
+  height: 100vh;
 }
 
 .ecr-viewer-container {
@@ -550,7 +559,7 @@ h3 {
   }
 }
 
-.condition-details-accordion{
+.condition-details-accordion {
   .usa-accordion__heading.border-accent-cool-darker {
     &:not(:first-child) {
       margin-top: 1.12rem;
