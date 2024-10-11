@@ -25,7 +25,7 @@ describe("listEcrDataService", () => {
           patient_name_last: "Person",
           patient_birth_date: new Date(),
           report_date: new Date(),
-          reportable_condition: "Long",
+          condition: "Long",
           rule_summary: "Longer",
           data_source: "DB",
           data: "",
@@ -38,7 +38,7 @@ describe("listEcrDataService", () => {
           patient_name_last: "Test",
           patient_birth_date: new Date(),
           report_date: new Date(),
-          reportable_condition: "Stuff",
+          condition: "Stuff",
           rule_summary: "Other stuff",
           data_source: "DB",
           data: "",
@@ -103,7 +103,7 @@ describe("listEcrDataService", () => {
       database.manyOrNone = jest.fn(() => Promise.resolve([]));
       const actual = await listEcrData(startIndex, itemsPerPage);
       expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-        "SELECT ecr_id, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary, date_created FROM fhir_metadata order by date_created DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
+        "SELECT ed.eICR_ID, ed.patient_name_first, ed.patient_name_last, ed.patient_birth_date, ed.date_created, ed.report_date, erc.condition, ers.rule_summary, ed.report_date FROM ecr_data ed LEFT JOIN ecr_rr_conditions erc ON ed.eICR_ID = erc.eICR_ID LEFT JOIN ecr_rr_rule_summaries ers ON erc.uuid = ers.ecr_rr_conditions_id order by ed.report_date DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
       );
       expect(actual).toBeEmpty();
     });
@@ -118,7 +118,7 @@ describe("listEcrDataService", () => {
             patient_name_first: "Billy",
             patient_name_last: "Bob",
             report_date: new Date("06/21/2024 8:00 AM EDT"),
-            reportable_condition: "stuff",
+            condition: "stuff",
             rule_summary: "yup",
             data: "",
             data_link: "",
@@ -132,7 +132,7 @@ describe("listEcrDataService", () => {
       const actual: EcrDisplay[] = await listEcrData(startIndex, itemsPerPage);
 
       expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-        "SELECT ecr_id, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary, date_created FROM fhir_metadata order by date_created DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
+        "SELECT ed.eICR_ID, ed.patient_name_first, ed.patient_name_last, ed.patient_birth_date, ed.date_created, ed.report_date, erc.condition, ers.rule_summary, ed.report_date FROM ecr_data ed LEFT JOIN ecr_rr_conditions erc ON ed.eICR_ID = erc.eICR_ID LEFT JOIN ecr_rr_rule_summaries ers ON erc.uuid = ers.ecr_rr_conditions_id order by ed.report_date DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
       );
       expect(actual).toEqual([
         {
@@ -158,7 +158,7 @@ describe("listEcrDataService", () => {
             patient_name_last: "lnam",
             patient_birth_date: new Date("1990-01-01T05:00:00.000Z"),
             report_date: new Date("2024-06-20T04:00:00.000Z"),
-            reportable_condition: "sick",
+            condition: "sick",
             rule_summary: "stuff",
             data: "",
             data_link: "",
@@ -171,7 +171,7 @@ describe("listEcrDataService", () => {
       let itemsPerPage = 25;
       const actual: EcrDisplay[] = await listEcrData(startIndex, itemsPerPage);
       expect(database.manyOrNone).toHaveBeenCalledExactlyOnceWith(
-        "SELECT ecr_id, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary, date_created FROM fhir_metadata order by date_created DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
+        "SELECT ed.eICR_ID, ed.patient_name_first, ed.patient_name_last, ed.patient_birth_date, ed.date_created, ed.report_date, erc.condition, ers.rule_summary, ed.report_date FROM ecr_data ed LEFT JOIN ecr_rr_conditions erc ON ed.eICR_ID = erc.eICR_ID LEFT JOIN ecr_rr_rule_summaries ers ON erc.uuid = ers.ecr_rr_conditions_id order by ed.report_date DESC OFFSET 0 ROWS FETCH NEXT 25 ROWS ONLY",
       );
       expect(actual).toEqual([
         {

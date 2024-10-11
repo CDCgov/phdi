@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE ecr_data (
   eICR_ID VARCHAR(200) PRIMARY KEY,
   data_source VARCHAR(2), -- S3 or DB
@@ -5,6 +7,7 @@ CREATE TABLE ecr_data (
   patient_name_first VARCHAR(100),
   patient_name_last VARCHAR(100),
   patient_birth_date DATE,
+  date_created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   report_date DATE
 );
 

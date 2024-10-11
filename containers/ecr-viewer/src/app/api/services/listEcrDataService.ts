@@ -12,7 +12,7 @@ export type EcrMetadataModel = {
   patient_name_first: string;
   patient_name_last: string;
   patient_birth_date: Date;
-  reportable_condition: string;
+  condition: string;
   rule_summary: string;
   report_date: Date;
   date_created: Date;
@@ -38,13 +38,13 @@ export async function listEcrData(
   startIndex: number,
   itemsPerPage: number,
 ): Promise<EcrDisplay[]> {
-  const fhirMetadataQuery =
-    "SELECT ecr_id, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary, date_created FROM fhir_metadata order by date_created DESC OFFSET " +
+  const ecrDataQuery =
+    "SELECT ed.eICR_ID, ed.patient_name_first, ed.patient_name_last, ed.patient_birth_date, ed.date_created, ed.report_date, erc.condition, ers.rule_summary, ed.report_date FROM ecr_data ed LEFT JOIN ecr_rr_conditions erc ON ed.eICR_ID = erc.eICR_ID LEFT JOIN ecr_rr_rule_summaries ers ON erc.uuid = ers.ecr_rr_conditions_id order by ed.report_date DESC OFFSET " +
     startIndex +
     " ROWS FETCH NEXT " +
     itemsPerPage +
     " ROWS ONLY";
-  let list = await database.manyOrNone<EcrMetadataModel>(fhirMetadataQuery);
+  let list = await database.manyOrNone<EcrMetadataModel>(ecrDataQuery);
   return processMetadata(list);
 }
 
@@ -64,7 +64,7 @@ export const processMetadata = (
       patient_date_of_birth: object.patient_birth_date
         ? formatDate(new Date(object.patient_birth_date!).toISOString())
         : "",
-      reportable_condition: object.reportable_condition || "",
+      reportable_condition: object.condition || "",
       rule_summary: object.rule_summary || "",
       date_created: object.date_created
         ? convertUTCToLocalString(

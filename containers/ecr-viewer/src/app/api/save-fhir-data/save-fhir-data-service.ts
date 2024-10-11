@@ -192,7 +192,7 @@ export const saveFhirData = async (
  * @param metadata - The FHIR bundle metadata to be saved.
  * @param ecrId - The unique identifier for the Electronic Case Reporting (ECR) associated with the FHIR bundle.
  * @returns A promise that resolves when the FHIR bundle metadata is successfully saved to postgres.
- * @throws {Error} Throws an error if the FHIR bundle metadata cannot be saved to postgress.
+ * @throws {Error} Throws an error if the FHIR bundle metadata cannot be saved to postgres.
  */
 export const saveToMetadataPostgres = async (
   metadata: BundleMetadata,
@@ -204,7 +204,7 @@ export const saveToMetadataPostgres = async (
 
   const { ParameterizedQuery: PQ } = pgPromise;
   const saveToEcrData = new PQ({
-    text: "INSERT INTO ecr_data (eICR_ID,patient_name_last,patient_name_first,patient_birth_date,data_source,report_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ecr_id",
+    text: "INSERT INTO ecr_data (eICR_ID,patient_name_last,patient_name_first,patient_birth_date,data_source,report_date) VALUES ($1, $2, $3, $4, $5, $6) RETURNING eICR_ID",
     values: [
       ecrId,
       metadata.last_name,
@@ -216,23 +216,23 @@ export const saveToMetadataPostgres = async (
   });
 
   const saveRRConditions = new PQ({
-    text: "INSERT INTO ecr_rr_conditions (eICR_ID, condition) VALUES ($1, $2)",
-    values: [],
+    text: "INSERT INTO ecr_rr_conditions (uuid, eICR_ID, condition) VALUES (uuid_generate_v4(), $1, $2) RETURNING uuid",
+    values: [ecrId, metadata.reportable_condition],
   });
 
   try {
     const saveECR = await database.one(saveToEcrData);
-    const savedRRID = await database.one(addMetadata);
+    const savedRRCondition = await database.one(saveRRConditions);
 
     const saveRRSummary = new PQ({
-      text: "INSERT INTO ecr_rr_rule_summaries () VALUES ($1, $2)",
-      values: [],
+      text: "INSERT INTO ecr_rr_rule_summaries (uuid, ecr_rr_conditions_id,rule_summary) VALUES (uuid_generate_v4(), $1, $2)",
+      values: [savedRRCondition.uuid, metadata.rule_summary],
     });
 
-    const saveECR = await database.one(addMetadata);
+    await database.one(saveRRSummary);
 
     return NextResponse.json(
-      { message: "Success. Saved metadata to database: " + saveECR.ecr_id },
+      { message: "Success. Saved metadata to database: " + saveECR.eICR_ID },
       { status: 200 },
     );
   } catch (error: any) {

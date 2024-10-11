@@ -1,5 +1,7 @@
 -- ./seed-scripts/init.sql
 
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE IF NOT EXISTS fhir (
   ecr_id VARCHAR(200) NOT NULL,
   data JSONB NOT NULL,
@@ -14,6 +16,7 @@ CREATE TABLE ecr_data (
   patient_name_first VARCHAR(100),
   patient_name_last VARCHAR(100),
   patient_birth_date DATE,
+  date_created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   report_date DATE
 );
 
