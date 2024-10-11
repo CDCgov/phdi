@@ -14,7 +14,7 @@
 {% if msg.ClinicalDocument.componentOf.encompassingEncounter -%}
   {% assign encounterId = msg.ClinicalDocument.componentOf.encompassingEncounter | to_json_string | generate_uuid -%}
   {% assign reasonForVisit = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.12' %}
-  {% include 'Resource/Encounter' encounter: msg.ClinicalDocument.componentOf.encompassingEncounter, ID: encounterId, REASON: reasonForVisit, ENTRIES: encounterEntries  -%}
+  {% include 'Resource/Encounter' encounter: msg.ClinicalDocument.componentOf.encompassingEncounter, ID: encounterId, REASON: reasonForVisit  -%}
   {% assign encounterSection = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.22.1' %}  
   {% assign encounterEntries = encounterSection.2_16_840_1_113883_10_20_22_2_22_1.entry | to_array %}
   {% assign diagnoses = encounterEntries | get_diagnosis_dictionary %}
