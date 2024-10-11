@@ -239,7 +239,7 @@ export const saveToMetadataPostgres = async (
     console.error("Error inserting metadata to database:", error);
     return NextResponse.json(
       { message: "Failed to insert metadata to database. " + error.message },
-      { status: 422 },
+      { status: 500 },
     );
   }
 };
