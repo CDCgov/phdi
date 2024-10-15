@@ -450,7 +450,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                           <div
                             class="usa-tooltip__trigger usa-tooltip"
                             data-testid="triggerElement"
-                            position="top"
                             tabindex="0"
                             title=""
                           >
@@ -1267,7 +1266,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                           <div
                             class="usa-tooltip__trigger usa-tooltip"
                             data-testid="triggerElement"
-                            position="top"
                             tabindex="0"
                             title=""
                           >
@@ -1365,7 +1363,6 @@ exports[`Snapshot test for Accordion Content Given no data, info message for emp
                           <div
                             class="usa-tooltip__trigger usa-tooltip short-tooltip"
                             data-testid="triggerElement"
-                            position="top"
                             tabindex="0"
                             title=""
                           >

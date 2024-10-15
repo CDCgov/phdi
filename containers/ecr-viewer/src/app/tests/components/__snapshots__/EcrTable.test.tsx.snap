@@ -6,7 +6,7 @@ exports[`EcrTable should match snapshot 1`] = `
     class="ecr-library-wrapper width-full overflow-auto"
   >
     <table
-      class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W usa-table--striped table-ecr-library margin-0"
+      class="usa-table usa-table--borderless width-full _fixed_1khz6_1 usa-table--striped table-ecr-library margin-0"
       data-testid="table"
     >
       <thead

@@ -21,7 +21,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
           class="usa-summary-box__text"
         >
           <table
-            class="usa-table width-full src-components-Table-Table-module__fixed--Eq00W rrTable"
+            class="usa-table width-full _fixed_1khz6_1 rrTable"
             data-testid="table"
           >
             <caption>
@@ -40,7 +40,6 @@ exports[`ECR Metadata should match snapshot 1`] = `
                       aria-describedby="[object Object]"
                       class="usa-tooltip__trigger usa-tooltip"
                       data-testid="triggerElement"
-                      position="top"
                       tabindex="0"
                       title=""
                     >
@@ -67,7 +66,6 @@ exports[`ECR Metadata should match snapshot 1`] = `
                       aria-describedby="[object Object]"
                       class="usa-tooltip__trigger usa-tooltip"
                       data-testid="triggerElement"
-                      position="top"
                       tabindex="0"
                       title=""
                     >
@@ -96,7 +94,6 @@ exports[`ECR Metadata should match snapshot 1`] = `
                       aria-describedby="[object Object]"
                       class="usa-tooltip__trigger usa-tooltip"
                       data-testid="triggerElement"
-                      position="top"
                       tabindex="0"
                       title=""
                     >
@@ -164,7 +161,7 @@ exports[`ECR Metadata should match snapshot 1`] = `
               class="section__line_gray"
             />
             <table
-              class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W ersd-table fixed-table border-top border-left border-right border-bottom"
+              class="usa-table usa-table--borderless width-full _fixed_1khz6_1 ersd-table fixed-table border-top border-left border-right border-bottom"
               data-testid="table"
             >
               <caption>

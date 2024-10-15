@@ -86,7 +86,6 @@ exports[`Snapshot test for Clinical Notes should match snapshot for table notes 
                           aria-describedby="[object Object]"
                           class="usa-tooltip__trigger usa-tooltip"
                           data-testid="triggerElement"
-                          position="top"
                           tabindex="0"
                           title=""
                         >
@@ -175,7 +174,7 @@ exports[`Snapshot test for Procedures (Treatment Details) should match snapshot 
                 class="grid-col-auto width-full text-pre-line"
               >
                 <table
-                  class="usa-table usa-table--borderless width-full src-components-Table-Table-module__fixed--Eq00W table-caption-margin margin-y-0 border-top border-left border-right"
+                  class="usa-table usa-table--borderless width-full _fixed_1khz6_1 table-caption-margin margin-y-0 border-top border-left border-right"
                   data-testid="table"
                 >
                   <caption>
