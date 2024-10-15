@@ -68,6 +68,7 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
       ...ecrMetadata.eicrDetails.unavailableData,
       ...ecrMetadata.ecrCustodianDetails.unavailableData,
       ecrMetadata.eRSDWarnings,
+      ecrMetadata.eicrAuthorDetails.map((details) => details.unavailableData),
     ];
     return unavailableDataArrays.some(
       (array) => Array.isArray(array) && array.length > 0,
@@ -164,6 +165,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
           {Object.keys(ecrMetadata.rrDetails).length > 0 ||
           ecrMetadata.eRSDWarnings.length > 0 ||
           ecrMetadata.eicrDetails.availableData.length > 0 ||
+          ecrMetadata.eicrAuthorDetails.find(
+            (authorDetails) => authorDetails.availableData.length > 0,
+          ) ||
           ecrMetadata.ecrCustodianDetails.availableData.length > 0 ? (
             <EcrMetadata
               eicrDetails={ecrMetadata.eicrDetails.availableData}
@@ -172,6 +176,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
               }
               rrDetails={ecrMetadata.rrDetails}
               eRSDWarnings={ecrMetadata.eRSDWarnings}
+              eicrAuthorDetails={ecrMetadata.eicrAuthorDetails.map(
+                (details) => details.availableData,
+              )}
             />
           ) : (
             <p className="text-italic padding-bottom-05">
@@ -211,6 +218,9 @@ const AccordionContent: React.FC<AccordionContainerProps> = ({
                   : []),
                 ...ecrMetadata.ecrCustodianDetails.unavailableData,
               ]}
+              eicrAuthorDetails={ecrMetadata.eicrAuthorDetails.map(
+                (authorDetails) => authorDetails.unavailableData,
+              )}
             />
           ) : (
             <p className="text-italic padding-bottom-105 margin-0">

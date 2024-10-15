@@ -458,6 +458,9 @@
             "reference": "PractitionerRole/b18c20c1-123b-fd12-71cf-9dd0abae8ced"
           },
           {
+            "reference": "PractitionerRole/b18c20c1-123b-fd12-71cf-1234512312"
+          },
+          {
             "reference": "Device/a57ef88d-1c60-d952-e7ca-5e9e16c7ef05"
           }
         ]
@@ -465,6 +468,72 @@
       "request": {
         "method": "PUT",
         "url": "Composition/1.2.840.114350.1.13.478.3.7.8.688883.230886"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "PractitionerRole",
+        "id": "b18c20c1-123b-fd12-71cf-1234512312",
+        "organization": {
+          "reference": "Organization/d319a926-0eb3-5847-3b21-db8b778b4f07"
+        },
+        "practitioner": {
+          "reference": "Practitioner/550b9626-bc9e-7d6b-c5d8-1234512312"
+        },
+        "meta": {
+          "source": "ecr"
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:550b9626-bc9e-7d6b-c5d8-1234512312",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "550b9626-bc9e-7d6b-c5d8-1234512312",
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+          ],
+          "source": "ecr"
+        },
+        "identifier": [
+          {
+            "system": "urn:oid:1.2.840.114350.1.13.478.3.7.2.697780",
+            "value": "EDILABIH"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "line": [
+              "3401 West End Ave"
+            ],
+            "city": "NASHVILLE",
+            "state": "TN",
+            "country": "USA",
+            "postalCode": "37203",
+            "district": "DAVIDSON"
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "value": "+1-615-322-5000",
+            "use": "work"
+          }
+        ],
+        "name": [
+          {
+            "family": "Quinn",
+            "given": [
+              "Harley"
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Practitioner/550b9626-bc9e-7d6b-c5d8-1234512312"
       }
     },
     {
