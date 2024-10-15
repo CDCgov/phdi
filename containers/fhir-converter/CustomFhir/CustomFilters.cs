@@ -655,22 +655,31 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return convert.ToDouble(null).ToString("0.###");
     }
   
+    /// <summary>
+    /// Creates dictionary of diagnosis codes from list of entries
+    /// </summary>
+    /// <param name="entries">The list of entries to parse.</param>
+    /// <returns>A dictionary of codes found in the entries, with the value being true.</returns>
     public static IDictionary<string, bool> GetDiagnosisDictionary(IList<object> entries)
     {
       var result = new Dictionary<string, bool>();
-      foreach (var entry in entries)
+      var entryDicts = ProcessItem(entries);
+
+      foreach (var entry in entryDicts)
       {
-        if (entry is IDictionary<string, object> entryDict && entryDict.TryGetValue("encounter", out object? encounter) && encounter is IDictionary<string, object> encounterDict && encounterDict.TryGetValue("entryRelationship", out object? encounterEntryRelationship))
-        {
-          var encounterEntryRelationships = ProcessItem(encounterEntryRelationship);
+        var encounterEntryRelationships = DrillDown(entry, new List<string> { "encounter", "entryRelationship" });
+
+        if (encounterEntryRelationships != null) {
           foreach (var encounterER in encounterEntryRelationships)
           {
-            if (encounterER.TryGetValue("act", out object? act) && act is IDictionary<string, object> actDict && actDict.TryGetValue("entryRelationship", out object? actEntryRelationship))
-            {
-              var actEntryRelationships = ProcessItem(actEntryRelationship);
+            var actEntryRelationships = DrillDown(encounterER, new List<string> { "act", "entryRelationship" });
+
+            if (actEntryRelationships != null) {
               foreach (var actER in actEntryRelationships)
               {
-                if (actER.TryGetValue("observation", out object? observation) && observation is IDictionary<string, object> observationDict && observationDict.TryGetValue("value", out object? value) && value is IDictionary<string, object> valueDict && valueDict.TryGetValue("code", out object? code))
+                // There will only be one but DrillDown returns a list
+                var value = DrillDown(actER, new List<string> { "observation", "value" });
+                if (value != null && value.Count > 0 && value.First().TryGetValue("code", out object? code) && code != null) 
                 {
                   result.Add(code.ToString(), true);
                 }

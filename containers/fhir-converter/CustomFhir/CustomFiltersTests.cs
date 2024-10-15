@@ -289,4 +289,11 @@ public class CustomFilterTests
     var actual = Filters.ConcatenateTds(inputData);
     Assert.Equal(expected, actual);
   }
+
+  [Fact]
+  public void GetDiagnosisDictionary_ReturnsDiagnosisDictionary()
+  {
+    var actual = Filters.GetDiagnosisDictionary(CustomFilterTestFixtures.EncounterDiagnoses);
+    Assert.Equal(new Dictionary<string, bool>() {{ "B05.9", true }, { "B06.0", true }, { "B06.1", true }, { "B06.2", true }}, actual);
+  }
 }

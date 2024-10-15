@@ -314,10 +314,66 @@ public class CustomFilterTestFixtures : IEnumerable<object[]>
                 }}
               }}
             }
-
           }}
         }
       }}
     }}
+  };
+
+  public static IList<object> EncounterDiagnoses = new List<object>() { 
+    new Dictionary<string, object>() {
+      { "encounter", new Dictionary<string, object>() {
+        { "entryRelationship", new List<Dictionary<string, object>>() { 
+          new Dictionary<string, object>() {
+            { "act", new Dictionary<string, object>() {
+              { "entryRelationship", new List<Dictionary<string, object>>() { new Dictionary<string, object>() {
+                { "observation", new Dictionary<string, object>() {
+                  { "value", new Dictionary<string, object>() {
+                    { "code", "B05.9" }
+                  }}
+                }} 
+              }}}
+            }}
+        },
+          new Dictionary<string, object>() {
+            { "act", new Dictionary<string, object>() {
+              { "entryRelationship", new List<Dictionary<string, object>>() { 
+                new Dictionary<string, object>() {
+                  { "observation", new Dictionary<string, object>() {
+                    { "value", new Dictionary<string, object>() {
+                      { "code", "B06.0" }
+                    }}
+                  }} 
+                },
+                new Dictionary<string, object>() {
+                  { "observation", new Dictionary<string, object>() {
+                    { "value", new Dictionary<string, object>() {
+                      { "code", "B06.1" }
+                    }}
+                  }} 
+                }
+              }},
+            }}
+          }
+        }}
+      }}
+    },
+    new Dictionary<string, object>() {
+      { "encounter", new Dictionary<string, object>() {
+        { "entryRelationship", new List<Dictionary<string, object>>() { 
+          new Dictionary<string, object>() {
+            { "act", new Dictionary<string, object>() {
+              { "entryRelationship", new List<Dictionary<string, object>>() { new Dictionary<string, object>() {
+                { "observation", new Dictionary<string, object>() {
+                  { "value", new Dictionary<string, object>() {
+                    { "code", "B06.2" }
+                  }}
+                }} 
+              }}}
+            }}
+          }
+        }}
+      }}
+    }
   };
 }
