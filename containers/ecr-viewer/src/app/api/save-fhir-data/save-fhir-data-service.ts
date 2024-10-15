@@ -196,9 +196,9 @@ export const saveMetadataToSqlServer = async (
   ecrId: string,
 ) => {
   let pool = await sql.connect({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    server: process.env.DB_SERVER || "localhost",
+    user: process.env.SQL_SERVER_USER,
+    password: process.env.SQL_SERVER_PASSWORD,
+    server: process.env.SQL_SERVER_SERVER || "localhost",
     options: {
       trustServerCertificate: true,
     },
@@ -208,7 +208,7 @@ export const saveMetadataToSqlServer = async (
 
   const transaction = new sql.Transaction(pool);
 
-  if (process.env.DATABASE_SCHEMA == "extended") {
+  if (process.env.METADATA_DATABASE_SCHEMA == "extended") {
     try {
       await transaction.begin();
       await pool
@@ -452,7 +452,7 @@ export const saveMetadataToPostgres = async (
   const { ParameterizedQuery: PQ } = pgPromise;
 
   let addMetadata = undefined;
-  if (process.env.DATABASE_SCHEMA == "extended") {
+  if (process.env.METADATA_DATABASE_SCHEMA == "extended") {
     return NextResponse.json(
       {
         message:
