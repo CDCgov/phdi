@@ -26,8 +26,7 @@ services:
       - "1433:1433"
     volumes:
       - ./sql:/var/opt/mssql/scripts
-      - ./sql-scripts:/usr/config
-    entrypoint: /usr/config/entrypoint.sh
+    entrypoint: /var/opt/mssql/scripts/entrypoint.sh
     healthcheck:
       test:
         [
