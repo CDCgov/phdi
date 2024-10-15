@@ -63,6 +63,7 @@ const EcrPaginationWrapper = ({
   return (
     <div className="main-container height-full flex-column flex-align-center">
       {children}
+      hi
       <div className="pagination-bar width-full padding-x-3 padding-y-105 flex-align-self-stretch display-flex flex-align-center">
         <div className={"flex-1"}>
           Showing {startIndex}-{endIndex} of {totalCount} eCRs
