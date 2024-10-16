@@ -80,6 +80,21 @@ jobs:
             sleep 5
           done
 
+      - name: Verify Database Schema
+        env:
+          PGPASSWORD: pw
+          PGUSER: postgres
+          PGHOST: 127.0.0.1:5432
+          PGDATABASE: ecr_viewer_db
+        run: |
+          echo “Checking PostgreSQL database schema...”
+          # List all tables in the current database schema
+          psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c “\dt”
+          # Show columns for each table
+          psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c “\d+”
+          # Optionally, list all schemas in the database
+          psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c “\dn”
+
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
