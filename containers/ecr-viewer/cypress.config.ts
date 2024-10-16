@@ -5,9 +5,9 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: `http://localhost:3000${isDev ? "" : ""}`,
+    baseUrl: `http://localhost:3000${isDev ? "" : "/ecr-viewer"}`,
     env: {
-      BASE_PATH: `${isDev ? "/" : "/"}`,
+      BASE_PATH: `${isDev ? "/" : "/ecr-viewer"}`,
     },
   },
 });
