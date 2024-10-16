@@ -84,7 +84,7 @@ jobs:
         env:
           PGPASSWORD: pw
           PGUSER: postgres
-          PGHOST: 127.0.0.1
+          PGHOST: localhost
           PGDATABASE: ecr_viewer_db
         run: |
           echo “Checking PostgreSQL database schema...”
