@@ -82,7 +82,7 @@ jobs:
 
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}
-        run: npm run cypress:run-prod
+        run: npm run cypress:run-local
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 20
