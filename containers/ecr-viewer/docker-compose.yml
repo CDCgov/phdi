@@ -4,8 +4,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./sql/:/docker-entrypoint-initdb.d/
-      - ./seed-scripts/sql/:/docker-entrypoint-initdb.d/
+      - ./sql/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
       - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
     environment:
       - POSTGRES_USER=postgres
