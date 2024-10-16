@@ -71,7 +71,7 @@ jobs:
 
       - name: Start ${{env.CONTAINER}}
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose --env-file .env.test up -d
+        run: docker compose ecr-viewer postgres --env-file .env.test up -d
 
       - name: Wait for server to be ready
         run: |
