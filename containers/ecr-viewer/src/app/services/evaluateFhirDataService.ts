@@ -50,11 +50,11 @@ export const evaluatePatientRace = (
   mappings: PathMappings,
 ) => {
   const raceCat = evaluate(fhirBundle, mappings.patientRace)[0];
-  const raceDetailedExt =
-    evaluate(fhirBundle, mappings.patientRaceExtension)[0] ?? "";
+  const raceDetailed =
+    evaluate(fhirBundle, mappings.patientRaceDetailed)[0] ?? "";
 
-  if (raceDetailedExt) {
-    return raceCat + "\n" + raceDetailedExt;
+  if (raceDetailed) {
+    return raceCat + "\n" + raceDetailed;
   } else {
     return raceCat;
   }
@@ -71,11 +71,11 @@ export const evaluatePatientEthnicity = (
   mappings: PathMappings,
 ) => {
   const ethnicity = evaluate(fhirBundle, mappings.patientEthnicity)[0] ?? "";
-  const ethnicityExt =
-    evaluate(fhirBundle, mappings.patientEthnicityExtension)[0] ?? "";
+  const ethnicityDetailed =
+    evaluate(fhirBundle, mappings.patientEthnicityDetailed)[0] ?? "";
 
-  if (ethnicityExt) {
-    return ethnicity + "\n" + ethnicityExt;
+  if (ethnicityDetailed) {
+    return ethnicity + "\n" + ethnicityDetailed;
   } else {
     return ethnicity;
   }
@@ -301,9 +301,10 @@ export const evaluateDemographicsData = (
     },
     {
       title: "Vital Status",
-      value: evaluate(fhirBundle, mappings.patientVitalStatus)[0]
-        ? "Deceased"
-        : "Alive",
+      value:
+        evaluate(fhirBundle, mappings.patientVitalStatus)[0] == null
+          ? "Deceased"
+          : "Alive",
     },
     {
       title: "Date of Death",
