@@ -248,6 +248,8 @@ def test_process_message_philly_config(setup):
         orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
         assert orchestration_response.status_code == 200
         assert orchestration_response.json()["message"] == "Processing succeeded!"
+    except Exception as e:
+        pytest.fail(f"Error: {e}")
     finally:
         os.environ["METADATA_DATABASE_TYPE"] = original_env_vars[
             "METADATA_DATABASE_TYPE"
