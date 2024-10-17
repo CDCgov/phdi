@@ -13,10 +13,11 @@
     "test": "TZ=America/New_York jest",
     "test:watch": "TZ=America/New_York jest --watch",
     "convert-seed-data": ". ./.env.local && docker compose -f ./seed-scripts/docker-compose.yml --profile seed-$(node ./check-source-env.mjs) up --abort-on-container-exit",
+    "update-cypress-data": "docker compose -f ./seed-scripts/docker-compose-create-sql.yml up --build --abort-on-container-exit",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:run-local": "NODE_ENV=dev cypress run",
-    "cypress:run-prod": "NODE_ENV=production cypress run"
+    "cypress:run-local": "cp ./cypress/assets/data.sql ./seed-scripts/sql && docker compose --env-file .env.test up db -d && concurrently --kill-others 'npm run dev' 'npx wait-on http://localhost:3000 && NODE_ENV=dev cypress run ; docker compose down && rm ./seed-scripts/sql/data.sql'",
+    "cypress:run-prod": "NODE_ENV=prod cypress run"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.621.0",
@@ -74,6 +75,7 @@
     "@typescript-eslint/parser": "^6.17.0",
     "autoprefixer": "^10.4.19",
     "aws-sdk-client-mock": "^3.1.0",
+    "concurrently": "^9.0.1",
     "cypress": "^13.6.6",
     "dotenv": "^16.4.5",
     "eslint": "^8.56.0",
