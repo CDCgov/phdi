@@ -77,7 +77,12 @@ const EcrPaginationWrapper = ({
           pathname={""}
           className={"flex-1"}
           onClickPageNumber={(e, page) => {
-            console.log(page);
+            console.log("page", page);
+            const updatedUserPreferences: UserPreferences = {
+              ...userPreferences,
+              page: page,
+            };
+            setUserPreferences(updatedUserPreferences);
           }}
         />
         <div
