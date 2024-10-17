@@ -41,22 +41,22 @@ CREATE TABLE ECR_DATA
     encounter_start_time     TIME,
     encounter_end_date       DATE,
     encounter_end_time       TIME,
-    reason_for_visit         VARCHAR,
-    active_problems          VARCHAR
+    reason_for_visit         VARCHAR(MAX),
+    active_problems          VARCHAR(MAX)
 );
 
 CREATE TABLE ecr_rr_conditions
 (
     UUID      VARCHAR(200) PRIMARY KEY,
     eICR_ID   VARCHAR(200) NOT NULL REFERENCES ECR_DATA (eICR_ID),
-    condition VARCHAR
+    condition VARCHAR(MAX)
 );
 
 CREATE TABLE ecr_rr_rule_summaries
 (
     UUID                 VARCHAR(200) PRIMARY KEY,
     ECR_RR_CONDITIONS_ID VARCHAR(200) REFERENCES ecr_rr_conditions (UUID),
-    rule_summary         VARCHAR
+    rule_summary         VARCHAR(MAX)
 );
 
 
@@ -75,7 +75,7 @@ CREATE TABLE ecr_labs
     test_result_code_system                VARCHAR(50),
     test_result_interpretation             VARCHAR(255),
     test_result_interpretation_code        VARCHAR(50),
-    test_result_interpretation_system      VARCHAR(50),
+    test_result_interpretation_system      VARCHAR(255),
     test_result_reference_range_low_value  FLOAT,
     test_result_reference_range_low_units  VARCHAR(50),
     test_result_reference_range_high_value FLOAT,

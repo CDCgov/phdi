@@ -65,24 +65,30 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm install
 
-      - name: Copy seed data
-        working-directory: ./containers/${{env.CONTAINER}}
-        run: cp ./cypress/assets/data.sql ./seed-scripts/sql
-
       - name: Start ${{env.CONTAINER}}
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose --env-file .env.test up -d
+        run: docker compose --env-file .env.test up ecr-viewer postgres -d
 
       - name: Wait for server to be ready
         run: |
           until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer); do
             echo "Waiting for server to be ready..."
-            sleep 5
+            sleep 10
           done
 
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
+
+      - name: Archive cypress failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results
+          path: |
+            containers/ecr-viewer/cypress/screenshots/*
+            containers/ecr-viewer/cypress/videos/*
+
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 20
