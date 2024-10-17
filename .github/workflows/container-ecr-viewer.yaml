@@ -73,7 +73,7 @@ jobs:
         run: |
           until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer); do
             echo "Waiting for server to be ready..."
-            sleep 5
+            sleep 10
           done
 
       - name: Run cypress tests
