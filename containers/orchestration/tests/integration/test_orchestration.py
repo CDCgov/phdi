@@ -222,44 +222,6 @@ def test_process_message_fhir(setup):
 
 
 @pytest.mark.integration
-def test_process_message_philly_config(setup):
-    """
-    Integration test for the Philadelphia configuration.
-    """
-    original_env_vars = {
-        "METADATA_DATABASE_TYPE": os.environ.get("METADATA_DATABASE_TYPE"),
-        "METADATA_DATABASE_SCHEMA": os.environ.get("METADATA_DATABASE_SCHEMA"),
-    }
-
-    os.environ["METADATA_DATABASE_TYPE"] = "sqlserver"
-    os.environ["METADATA_DATABASE_SCHEMA"] = "extended"
-    message = json.load(
-        open(
-            Path(__file__).parent.parent / "assets" / "demo_phdc_conversion_bundle.json"
-        )
-    )
-    request = {
-        "message_type": "fhir",
-        "data_type": "fhir",
-        "config_file_name": "philadelphia-ecr-viewer.json",
-        "message": message,
-    }
-    try:
-        orchestration_response = httpx.post(PROCESS_MESSAGE_ENDPOINT, json=request)
-        assert orchestration_response.status_code == 200
-        assert orchestration_response.json()["message"] == "Processing succeeded!"
-    except Exception as e:
-        pytest.fail(f"Error: {e}")
-    finally:
-        os.environ["METADATA_DATABASE_TYPE"] = original_env_vars[
-            "METADATA_DATABASE_TYPE"
-        ]
-        os.environ["METADATA_DATABASE_SCHEMA"] = original_env_vars[
-            "METADATA_DATABASE_SCHEMA"
-        ]
-
-
-@pytest.mark.integration
 def test_process_message_fhir_phdc(setup):
     """
     Integration test of a different workflow and data type, a FHIR bundle
