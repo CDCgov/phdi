@@ -10,4 +10,5 @@ export default defineConfig({
       BASE_PATH: `${isDev ? "/" : "/ecr-viewer"}`,
     },
   },
+  video: true,
 });
