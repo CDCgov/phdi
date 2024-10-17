@@ -17,7 +17,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:run-local": "cp ./cypress/assets/data.sql ./seed-scripts/sql && docker compose --env-file .env.test up db -d && concurrently --kill-others 'npm run dev' 'npx wait-on http://localhost:3000 && NODE_ENV=dev cypress run ; docker compose down && rm ./seed-scripts/sql/data.sql'",
-    "cypress:run-prod": "NODE_ENV=prod cypress run"
+    "cypress:run-prod": "NODE_ENV=production cypress run"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.621.0",
