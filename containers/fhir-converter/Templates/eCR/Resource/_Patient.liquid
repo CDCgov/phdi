@@ -25,8 +25,12 @@
             {% endfor -%}
         ],
         "birthDate":"{{ patientRole.patient.birthTime.value | add_hyphens_date }}",
-        {% assign deceasedValue = patientRole.patient['sdtc_deceasedInd'].value %}
-        "deceasedBoolean": {% if deceasedValue == "true" %} true {% else %} false {% endif %},
+        {% assign deceasedDateValue = patientRole.patient['sdtc_deceasedTime'].value %}
+        {% if deceasedDateValue %}
+            "deceasedDate": "{{ deceasedDateValue | add_hyphens_date }}",
+        {% else %}
+            "deceasedBoolean": false,
+        {% endif %}
         "gender":"{{ patientRole.patient.administrativeGenderCode.code | get_property: 'ValueSet/Gender' }}",
         "extension":
         [
