@@ -6,6 +6,7 @@ import requests
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 URL = "http://orchestration-service:8080"
 
+
 def save_sql_insert_fhir(fhir_bundles):
     """
     Save FHIR bundles as SQL INSERT queries to a file.
@@ -18,6 +19,7 @@ def save_sql_insert_fhir(fhir_bundles):
             bundle = json.dumps(bundle).replace("'", "''")
             query = f"INSERT INTO fhir (ecr_id, data) VALUES ('{bundle_id}', '{bundle}') ON CONFLICT (ecr_id) DO NOTHING;\n"
             output_file.write(query)
+
 
 def save_sql_insert_metadata(metadata):
     """
@@ -42,6 +44,7 @@ def save_sql_insert_metadata(metadata):
             ) ON CONFLICT (ecr_id) DO NOTHING;\n"""
             output_file.write(query)
 
+
 def convert_files():
     """
     Convert eICR and RR into FHIR bundles using the FHIR converter.
@@ -54,49 +57,54 @@ def convert_files():
     folder_path = os.path.join(BASEDIR, "baseECR", "cypress")
     if os.path.isdir(folder_path):
         for subfolder in os.listdir(folder_path):
-          subfolder_path = os.path.join(folder_path, subfolder)
+            subfolder_path = os.path.join(folder_path, subfolder)
 
-          # Check if it's a directory
-          if os.path.isdir(subfolder_path):
-            with (
-                open(os.path.join(subfolder_path, "CDA_RR.xml"), "r") as rr_file,
-                open(os.path.join(subfolder_path, "CDA_eICR.xml"), "r") as eicr_file,
-            ):
-                # need to create new orchestration config
-                print("I AM NEW!")
-                payload = {
-                    "message_type": "ecr",
-                    "data_type": "ecr",
-                    "config_file_name": "create-seed-sql.json",
-                    "message": eicr_file.read(),
-                    "rr_data": rr_file.read(),
-                }
+            # Check if it's a directory
+            if os.path.isdir(subfolder_path):
+                with (
+                    open(os.path.join(subfolder_path, "CDA_RR.xml"), "r") as rr_file,
+                    open(
+                        os.path.join(subfolder_path, "CDA_eICR.xml"), "r"
+                    ) as eicr_file,
+                ):
+                    # need to create new orchestration config
+                    print("I AM NEW!")
+                    payload = {
+                        "message_type": "ecr",
+                        "data_type": "ecr",
+                        "config_file_name": "create-seed-sql.json",
+                        "message": eicr_file.read(),
+                        "rr_data": rr_file.read(),
+                    }
 
-                print(f"{URL}/process-message")
-                response = requests.post(f"{URL}/process-message", json=payload)
-                if response.status_code == 200:
-                    responses_json = response.json()["processed_values"]["responses"]
-                    for response in responses_json:
-                        if "stamped_ecr" in response:
-                            fhir_bundles.append(
-                                response["stamped_ecr"]["extended_bundle"]
-                            )
-                            with open(
-                                os.path.join(folder_path, "bundle.json"), "w"
-                            ) as fhir_file:
-                                json.dump(
-                                    response["stamped_ecr"]["extended_bundle"],
-                                    fhir_file,
-                                    indent=4,
+                    print(f"{URL}/process-message")
+                    response = requests.post(f"{URL}/process-message", json=payload)
+                    if response.status_code == 200:
+                        responses_json = response.json()["processed_values"][
+                            "responses"
+                        ]
+                        for response in responses_json:
+                            if "stamped_ecr" in response:
+                                fhir_bundles.append(
+                                    response["stamped_ecr"]["extended_bundle"]
                                 )
-                        if "message_parser_values" in response:
-                            metadata.append(
-                                response["message_parser_values"]["parsed_values"]
-                            )
-                    print("Converted successfully.")
-                else:
-                    print(f"Failed to convert. Response: {response.text}")
+                                with open(
+                                    os.path.join(folder_path, "bundle.json"), "w"
+                                ) as fhir_file:
+                                    json.dump(
+                                        response["stamped_ecr"]["extended_bundle"],
+                                        fhir_file,
+                                        indent=4,
+                                    )
+                            if "message_parser_values" in response:
+                                metadata.append(
+                                    response["message_parser_values"]["parsed_values"]
+                                )
+                        print("Converted successfully.")
+                    else:
+                        print(f"Failed to convert. Response: {response.text}")
         return fhir_bundles, metadata
+
 
 bundle_arr, metadata = convert_files()
 save_sql_insert_fhir(bundle_arr)
