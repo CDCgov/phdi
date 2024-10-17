@@ -302,9 +302,9 @@ export const evaluateDemographicsData = (
     {
       title: "Vital Status",
       value:
-        evaluate(fhirBundle, mappings.patientVitalStatus)[0] == null
-          ? "Deceased"
-          : "Alive",
+        evaluate(fhirBundle, mappings.patientVitalStatus)[0] === false
+          ? "Alive"
+          : "Deceased",
     },
     {
       title: "Date of Death",
