@@ -79,6 +79,16 @@ jobs:
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
+
+      - name: Archive cypress failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results
+          path: |
+            cypress/videos/*
+            cypress/screenshots/*
+
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 20

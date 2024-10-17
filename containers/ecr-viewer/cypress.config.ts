@@ -1,4 +1,5 @@
 import { defineConfig } from "cypress";
+
 const isDev = process.env.NODE_ENV === "dev";
 export default defineConfig({
   e2e: {
@@ -10,4 +11,5 @@ export default defineConfig({
       BASE_PATH: `${isDev ? "/" : "/ecr-viewer"}`,
     },
   },
+  video: true,
 });
