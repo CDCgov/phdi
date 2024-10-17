@@ -9,7 +9,10 @@
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}/containers/orchestration",
       "justMyCode": false,
-      "python": "${workspaceFolder}/containers/orchestration/.venv/bin/python"
+      "python": "${workspaceFolder}/containers/orchestration/.venv/bin/python",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/containers/orchestration"
+      }
     },
     {
       "name": "Python Debugger: Trigger Code Reference",

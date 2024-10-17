@@ -8,7 +8,7 @@ namespace NodeJS {
     AWS_SECRET_ACCESS_KEY: string;
     AZURE_STORAGE_CONNECTION_STRING: string;
     AZURE_CONTAINER_NAME: string;
-    DATABASE_SCHEMA: "core" | "extended";
+    METADATA_DATABASE_SCHEMA: "core" | "extended";
     DATABASE_TYPE: string;
     DATABASE_URL: string;
     ECR_BUCKET_NAME: string;
