@@ -86,8 +86,8 @@ jobs:
         with:
           name: cypress-results
           path: |
-            cypress/videos/*
-            cypress/screenshots/*
+            containers/ecr-viewer/cypress/screenshots/*
+            containers/ecr-viewer/cypress/videos/*
 
   lighthouse:
     runs-on: ubuntu-latest
