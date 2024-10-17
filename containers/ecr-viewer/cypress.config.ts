@@ -10,4 +10,5 @@ export default defineConfig({
       BASE_PATH: `${isDev ? "/" : "/ecr-viewer"}`,
     },
   },
+  defaultCommandTimeout: 10000,
 });
