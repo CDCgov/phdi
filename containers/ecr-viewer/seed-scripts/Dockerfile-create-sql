@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+# Set the working directory in the container
+WORKDIR /code
+
+# Copy the dependencies file
+COPY ./requirements.txt /code/requirements.txt
+
+# Install any dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the script into the container
+COPY create-e2e-sql.py /code/create-e2e-sql.py
+COPY ./baseECR/cypress /code/baseECR/cypress
+
+# Command to run the script
+CMD ["python", "./create-e2e-sql.py"]
