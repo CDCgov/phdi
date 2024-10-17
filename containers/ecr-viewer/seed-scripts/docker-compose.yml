@@ -126,7 +126,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./sql/:/docker-entrypoint-initdb.d/
+      - ./sql/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ../sql/core.sql:/docker-entrypoint-initdb.d/core.sql
       - ./sql/.pgpass/:/usr/local/lib/.pgpass
       - db:/var/lib/postgresql/data
     environment:

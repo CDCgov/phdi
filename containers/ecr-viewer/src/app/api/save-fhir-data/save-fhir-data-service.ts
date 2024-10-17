@@ -229,7 +229,7 @@ export const saveToMetadataPostgres = async (
       values: [savedRRCondition.uuid, metadata.rule_summary],
     });
 
-    await database.one(saveRRSummary);
+    await database.none(saveRRSummary);
 
     return NextResponse.json(
       { message: "Success. Saved metadata to database: " + saveECR.eICR_ID },
