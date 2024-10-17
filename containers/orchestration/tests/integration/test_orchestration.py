@@ -20,7 +20,7 @@ def clean_up_db():
     connection_string = os.environ.get("DATABASE_URL").replace("@db", "@localhost")
     dbconn = psycopg2.connect(connection_string)
     cursor = dbconn.cursor()
-    query = "DELETE FROM fhir;"
+    query = "DELETE FROM fhir; DELETE FROM ecr_data; DELETE FROM ecr_rr_conditions; DELETE FROM ecr_rr_rule_summaries"
     cursor.execute(query)
     dbconn.commit()
     cursor.close()
@@ -190,6 +190,7 @@ def test_previous_response_mapping_for_ecr_viewer(setup, clean_up_db):
             "message_type": "ecr",
             "data_type": "zip",
             "config_file_name": "seed-ecr-viewer-config.json",
+            "include_error_types": ["errors"],
         }
         files = {"upload_file": ("file.zip", file)}
         orchestration_response = httpx.post(
