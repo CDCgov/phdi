@@ -32,7 +32,7 @@
     "@opentelemetry/propagation-utils": "^0.30.10",
     "@opentelemetry/propagator-aws-xray": "^1.25.1",
     "@opentelemetry/redis-common": "^0.36.2",
-    "@opentelemetry/resource-detector-alibaba-cloud": "^0.28.10",
+    "@opentelemetry/resource-detector-alibaba-cloud": "^0.29.1",
     "@opentelemetry/resource-detector-aws": "^1.5.2",
     "@opentelemetry/resource-detector-azure": "^0.2.9",
     "@opentelemetry/resource-detector-container": "^0.3.11",
