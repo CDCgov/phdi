@@ -78,8 +78,6 @@ def convert_files():
                         os.path.join(subfolder_path, "CDA_eICR.xml"), "r"
                     ) as eicr_file,
                 ):
-                    # need to create new orchestration config
-                    print("I AM NEW!")
                     payload = {
                         "message_type": "ecr",
                         "data_type": "ecr",
