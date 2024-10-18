@@ -25,6 +25,7 @@ services:
       - "1433:1433"
     volumes:
       - ./sql:/var/opt/mssql/scripts
+      - sql-server-volume:/var/opt/mssql
     entrypoint: /var/opt/mssql/scripts/entrypoint.sh
     healthcheck:
       test:
@@ -92,3 +93,4 @@ services:
 volumes:
   prom_data:
   grafana_data:
+  sql-server-volume:
