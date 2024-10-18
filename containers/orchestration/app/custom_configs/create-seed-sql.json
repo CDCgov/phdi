@@ -1,0 +1,44 @@
+{
+  "workflow": [
+    {
+      "service": "fhir_converter",
+      "endpoint": "/convert-to-fhir"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_names"
+    },
+    {
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_dob",
+      "params": {
+        "dob_format": ""
+      }
+    },
+    {
+      "name": "fhir_bundle",
+      "service": "ingestion",
+      "endpoint": "/fhir/harmonization/standardization/standardize_phones"
+    },
+    {
+      "name": "stamped_ecr",
+      "service": "trigger_code_reference",
+      "endpoint": "/stamp-condition-extensions"
+    },
+    {
+      "name": "message_parser_values",
+      "service": "message_parser",
+      "endpoint": "/parse_message",
+      "params": {
+        "message_format": "fhir",
+        "parsing_schema_name": "ecr_viewer_metadata.json",
+        "credential_manager": "azure"
+      }
+    }
+  ],
+  "outputs": [
+    "message_parser_values",
+    "stamped_ecr"
+  ],
+  "default-response": false
+}
