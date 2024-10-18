@@ -7,6 +7,7 @@ services:
     volumes:
       - ./sql/core.sql:/docker-entrypoint-initdb.d/core.sql
       - ./seed-scripts/sql/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./seed-scripts/sql/data.sql:/docker-entrypoint-initdb.d/data.sql
       - ./seed-scripts/sql/.pgpass/:/usr/local/lib/.pgpass
     environment:
       - POSTGRES_USER=postgres
