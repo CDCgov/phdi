@@ -12,7 +12,7 @@ type PaginationProps = {
   onClickNext?: () => void;
   onClickPrevious?: () => void;
   onClickPageNumber?: (
-    event: React.MouseEvent<HTMLAnchorElement>,
+    event: React.MouseEvent<HTMLButtonElement>,
     page: number,
   ) => void;
 };
@@ -27,7 +27,7 @@ const PaginationPage = ({
   page: number;
   isCurrent?: boolean;
   onClickPageNumber?: (
-    event: React.MouseEvent<HTMLAnchorElement>,
+    event: React.MouseEvent<HTMLButtonElement>,
     page: number,
   ) => void;
 }) => {
@@ -41,15 +41,19 @@ const PaginationPage = ({
       className="usa-pagination__item usa-pagination__page-no"
     >
       {onClickPageNumber ? (
-        <Link
-          href={createPageURL(pathname, page)}
+        <Button
+          type="button"
+          unstyled
+          data-testid="pagination-page-number"
           className={linkClasses}
           aria-label={`Page ${page}`}
           aria-current={isCurrent ? "page" : undefined}
-          onClick={(e) => onClickPageNumber(e, page)}
+          onClick={(event) => {
+            onClickPageNumber(event, page);
+          }}
         >
           {page}
-        </Link>
+        </Button>
       ) : (
         <Link
           href={createPageURL(pathname, page)}

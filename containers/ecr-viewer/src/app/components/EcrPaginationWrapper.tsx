@@ -44,12 +44,28 @@ const EcrPaginationWrapper = ({
     if (userPreferencesString) {
       setUserPreferences(JSON.parse(userPreferencesString));
     }
+
+    const referrer = document.referrer;
+    const isFromSameSite =
+      referrer && referrer.includes(window.location.origin);
+
+    if (!isFromSameSite) {
+      const updatedUserPreferences: UserPreferences = {
+        ...userPreferences,
+        page: 1,
+      };
+      setUserPreferences(updatedUserPreferences);
+      localStorage.setItem(
+        "userPreferences",
+        JSON.stringify(updatedUserPreferences),
+      );
+    }
   }, []);
 
   useEffect(() => {
     const current = new URLSearchParams(Array.from(searchParams.entries()));
     current.set("itemsPerPage", userPreferences.itemsPerPage.toString());
-    current.set("page", currentPage.toString());
+    current.set("page", userPreferences.page.toString());
     const search = current.toString();
     const query = search ? `?${search}` : "";
     router.push(`${pathname}${query}`);
@@ -77,12 +93,15 @@ const EcrPaginationWrapper = ({
           pathname={""}
           className={"flex-1"}
           onClickPageNumber={(e, page) => {
-            console.log("page", page);
             const updatedUserPreferences: UserPreferences = {
               ...userPreferences,
               page: page,
             };
             setUserPreferences(updatedUserPreferences);
+            localStorage.setItem(
+              "userPreferences",
+              JSON.stringify(updatedUserPreferences),
+            );
           }}
         />
         <div
