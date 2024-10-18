@@ -8,3 +8,4 @@ pandas>2.0.0
 sqlalchemy
 rapidfuzz
 pyarrow>=14.0.1
+mysql-connector-python>=9.1.0 # not directly required, pinned by Snyk to avoid a vulnerability
