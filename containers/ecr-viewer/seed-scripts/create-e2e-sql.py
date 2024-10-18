@@ -37,11 +37,22 @@ def save_sql_insert_metadata(metadata):
             rule_summary = parsed_values["rule_summary"]
             report_date = parsed_values["report_date"]
             data_source = "DB"
-            query = f"""INSERT INTO fhir_metadata (
-              ecr_id,patient_name_last,patient_name_first,patient_birth_date,data_source,reportable_condition,rule_summary,report_date
-            ) VALUES (
-              '{ecr_id}','{last_name}','{first_name}','{birth_date}','{data_source}','{reportable_condition}','{rule_summary}',{'NULL' if report_date is None else f"'{report_date}'"}
-            ) ON CONFLICT (ecr_id) DO NOTHING;\n"""
+            query = f"""WITH inserted_data AS (
+    INSERT INTO ecr_data (
+        eICR_ID, patient_name_last, patient_name_first, patient_birth_date, data_source, report_date
+    ) VALUES (
+        '{ecr_id}', '{last_name}', '{first_name}', '{birth_date}', '{data_source}', {'NULL' if report_date is None else f"'{report_date}'"}
+    )
+    ON CONFLICT (eICR_ID) DO NOTHING
+    RETURNING eICR_ID
+), inserted_condition AS (
+    INSERT INTO ecr_rr_conditions (uuid, eICR_ID, condition)
+    VALUES (uuid_generate_v4(), (SELECT eICR_ID FROM inserted_data), '{reportable_condition}')
+    RETURNING uuid
+)
+INSERT INTO ecr_rr_rule_summaries (uuid, ecr_rr_conditions_id, rule_summary)
+VALUES (uuid_generate_v4(), (SELECT uuid FROM inserted_condition), '{rule_summary}')
+RETURNING (SELECT eICR_ID FROM inserted_data);"""
             output_file.write(query)
 
 
