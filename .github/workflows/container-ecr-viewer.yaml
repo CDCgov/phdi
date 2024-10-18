@@ -65,12 +65,8 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm install
 
-      - name: Copy seed data
-        working-directory: ./containers/${{env.CONTAINER}}
-        run: cp ./cypress/assets/data.sql ./seed-scripts/sql
-
       - name: Start ${{env.CONTAINER}}
-        working-directory: ./containers/${{env.CONTAINER}}
+        working-directory: ./containers/${{env.CONTAINER}}/cypress
         run: docker compose --env-file .env.test up -d
 
       - name: Wait for server to be ready
