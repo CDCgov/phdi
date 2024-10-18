@@ -65,15 +65,19 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm install
 
+      - name: Copy seed data
+        working-directory: ./containers/${{env.CONTAINER}}
+        run: cp ./cypress/assets/data.sql ./seed-scripts/sql
+
       - name: Start ${{env.CONTAINER}}
         working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose --env-file .env.test up ecr-viewer postgres -d
+        run: docker compose --env-file .env.test up -d
 
       - name: Wait for server to be ready
         run: |
           until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer); do
             echo "Waiting for server to be ready..."
-            sleep 10
+            sleep 5
           done
 
       - name: Run cypress tests
