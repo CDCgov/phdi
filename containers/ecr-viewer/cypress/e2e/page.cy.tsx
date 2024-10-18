@@ -36,4 +36,16 @@ describe("Home Page", () => {
     cy.get("nav").should("have.class", "sticky-nav");
     cy.get("div").should("have.class", "ecr-viewer-container");
   });
+
+  it("Remember the page within the pagination when navigating back to the home page", () => {
+    cy.get('[data-testid="pagination-page-number"]').contains("2").click();
+    cy.url().should("include", "page=2");
+    cy.get('[data-testid="table"] tbody tr:first-child').find("a").click();
+    cy.contains("eCR Summary");
+    cy.get(".back-button").click();
+    cy.url().should("include", "page=2");
+    cy.get('[data-testid="pagination-page-number"]')
+      .contains("2")
+      .should("have.attr", "aria-current", "page");
+  });
 });
