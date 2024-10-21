@@ -208,11 +208,6 @@ export const saveMetadataToSqlServer = async (
       await ecrDataInsertRequest
         .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
         .input("eicr_set_id", sql.VarChar(255), metadata.eicr_set_id)
-        .input(
-          "fhir_reference_link",
-          sql.VarChar(255),
-          "I DON'T KNOW WHAT THIS IS SUPPOSED TO BE",
-        )
         .input("last_name", sql.VarChar(255), metadata.last_name)
         .input("first_name", sql.VarChar(255), metadata.last_name)
         .input("birth_date", sql.Date, metadata.birth_date)
@@ -331,16 +326,6 @@ export const saveMetadataToSqlServer = async (
               "test_result_code_system",
               sql.VarChar(50),
               lab.test_result_code_system,
-            )
-            .input(
-              "test_result_interpretation",
-              sql.VarChar(255),
-              "I DON'T KNOW WHAT THIS IS SUPPOSED TO BE",
-            )
-            .input(
-              "test_result_interpretation_code",
-              sql.VarChar(50),
-              "I DON'T KNOW WHAT THIS IS SUPPOSED TO BE",
             )
             .input(
               "test_result_interpretation_system",
