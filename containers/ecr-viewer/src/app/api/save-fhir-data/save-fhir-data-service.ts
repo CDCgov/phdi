@@ -52,11 +52,7 @@ export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
     console.error("Error inserting data to database:", error);
     return NextResponse.json(
       {
-        message:
-          "Failed to insert data to database. " +
-          error.message +
-          " url: " +
-          db_url,
+        message: `Failed to insert data to database. ${error.message} url: ${db_url}`,
       },
       { status: 500 },
     );
@@ -198,21 +194,18 @@ export const saveMetadataToSqlServer = async (
   let pool = await sql.connect({
     user: process.env.SQL_SERVER_USER,
     password: process.env.SQL_SERVER_PASSWORD,
-    server: process.env.SQL_SERVER_SERVER || "localhost",
+    server: process.env.SQL_SERVER_HOST || "localhost",
     options: {
       trustServerCertificate: true,
     },
   });
 
-  console.log(metadata);
-
-  const transaction = new sql.Transaction(pool);
-
   if (process.env.METADATA_DATABASE_SCHEMA == "extended") {
     try {
+      const transaction = new sql.Transaction(pool);
       await transaction.begin();
-      await pool
-        .request()
+      const ecrDataInsertRequest = new sql.Request(transaction);
+      await ecrDataInsertRequest
         .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
         .input("eicr_set_id", sql.VarChar(255), metadata.eicr_set_id)
         .input(
@@ -310,8 +303,8 @@ export const saveMetadataToSqlServer = async (
 
       if (metadata.labs) {
         for (const lab of metadata.labs) {
-          await pool
-            .request()
+          const labInsertRequest = new sql.Request(transaction);
+          await labInsertRequest
             .input("UUID", sql.VarChar(200), lab.uuid)
             .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
             .input("test_type", sql.VarChar(200), lab.test_type)
@@ -390,8 +383,8 @@ export const saveMetadataToSqlServer = async (
       if (metadata.rr) {
         for (const rule of metadata.rr) {
           const rr_conditions_uuid = randomUUID();
-          await pool
-            .request()
+          const rrConditionsInsertRequest = new sql.Request(transaction);
+          rrConditionsInsertRequest
             .input("UUID", sql.VarChar(200), rr_conditions_uuid)
             .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
             .input("condition", sql.VarChar(sql.MAX), rule.condition)
@@ -399,8 +392,8 @@ export const saveMetadataToSqlServer = async (
               "INSERT INTO dbo.ecr_rr_conditions VALUES (@UUID, @eICR_ID, @condition)",
             );
 
-          await pool
-            .request()
+          const ruleSummaryInsertRequest = new sql.Request(transaction);
+          await ruleSummaryInsertRequest
             .input("UUID", sql.VarChar(200), randomUUID())
             .input("ECR_RR_CONDITIONS_ID", sql.VarChar(200), rr_conditions_uuid)
             .input("rule_summary", sql.VarChar(sql.MAX), rule.rule_summaries)
@@ -410,12 +403,20 @@ export const saveMetadataToSqlServer = async (
         }
       }
 
+      await transaction.commit();
+
       return NextResponse.json(
         { message: "Success. Saved metadata to database: " + ecrId },
         { status: 200 },
       );
     } catch (error: any) {
       console.error("Error inserting metadata to database:", error);
+
+      if (pool) {
+        const transaction = new sql.Transaction(pool);
+        await transaction.rollback();
+      }
+
       return NextResponse.json(
         { message: "Failed to insert metadata to database. " + error.message },
         { status: 500 },

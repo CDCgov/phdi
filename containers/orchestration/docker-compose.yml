@@ -15,7 +15,7 @@ services:
       - DATABASE_URL=postgres://postgres:pw@postgres:5432/ecr_viewer_db
       - SQL_SERVER_USER=sa
       - SQL_SERVER_PASSWORD=Password1!
-      - SQL_SERVER_SERVER=sqlserver
+      - SQL_SERVER_HOST=sqlserver
       - APP_ENV=test
   orchestration-service:
     platform: linux/amd64
