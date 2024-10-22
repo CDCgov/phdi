@@ -199,11 +199,11 @@ export const saveMetadataToSqlServer = async (
       trustServerCertificate: true,
     },
   });
+  const transaction = new sql.Transaction(pool);
+  await transaction.begin();
 
   if (process.env.METADATA_DATABASE_SCHEMA == "extended") {
     try {
-      const transaction = new sql.Transaction(pool);
-      await transaction.begin();
       const ecrDataInsertRequest = new sql.Request(transaction);
       await ecrDataInsertRequest
         .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
