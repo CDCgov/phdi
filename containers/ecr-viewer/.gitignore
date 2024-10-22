@@ -4,3 +4,6 @@ node_modules
 
 # localstack data
 volume/
+
+cypress/screenshots
+cypress/videos
