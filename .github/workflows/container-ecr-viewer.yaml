@@ -82,6 +82,7 @@ jobs:
 
       - name: Get docker logs
         if: always()
+        working-directory: ./containers/${{env.CONTAINER}}/cypress
         shell: bash
         run: |
           echo "Saving $container logs"
