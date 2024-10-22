@@ -708,47 +708,46 @@ export const evaluatePractitionerRoleReference = (
  * Find encounter diagnoses
  * @param fhirBundle - The FHIR bundle containing resources.
  * @param mappings - Path mappings for resolving references.
- * @returns Comma delimited list of encounter diagnoses 
+ * @returns Comma delimited list of encounter diagnoses
  */
 export const evaluateEncounterDiagnosis = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const encounterDiagnosisRefs =
-    evaluate(fhirBundle, mappings.encounterDiagnosis);
+  const encounterDiagnosisRefs = evaluate(
+    fhirBundle,
+    mappings.encounterDiagnosis,
+  );
 
+  const conditions: Condition[] = encounterDiagnosisRefs.map((diagnosis) =>
+    evaluateReference(fhirBundle, mappings, diagnosis.condition.reference),
+  );
 
-  const conditions: Condition[] = encounterDiagnosisRefs.map(
-    diagnosis => 
-        evaluateReference(
-          fhirBundle,
-          mappings,
-          diagnosis.condition.reference,
-  ));
-
-  return conditions.map(condition => condition.code?.coding?.[0].display).join(", ");
+  return conditions
+    .map((condition) => condition.code?.coding?.[0].display)
+    .join(", ");
 };
 
 /**
  * Find encounter reason
  * @param fhirBundle - The FHIR bundle containing resources.
  * @param mappings - Path mappings for resolving references.
- * @returns Comma delimited list of encounter reasons 
+ * @returns Comma delimited list of encounter reasons
  */
 export const evaluateEncounterReason = (
   fhirBundle: Bundle,
   mappings: PathMappings,
 ) => {
-  const encounterReasonRefs =
-    evaluate(fhirBundle, mappings.encounterReasonReference);
+  const encounterReasonRefs = evaluate(
+    fhirBundle,
+    mappings.encounterReasonReference,
+  );
 
-  const conditions: Condition[] = encounterReasonRefs.map(
-    reason => 
-        evaluateReference(
-          fhirBundle,
-          mappings,
-          reason.reference,
-  ));
+  const conditions: Condition[] = encounterReasonRefs.map((reason) =>
+    evaluateReference(fhirBundle, mappings, reason.reference),
+  );
 
-  return conditions.map(condition => condition.code?.coding?.[0].display).join(", ");
+  return conditions
+    .map((condition) => condition.code?.coding?.[0].display)
+    .join(", ");
 };
