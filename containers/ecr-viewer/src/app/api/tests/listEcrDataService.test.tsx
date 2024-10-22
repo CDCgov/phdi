@@ -19,7 +19,7 @@ describe("listEcrDataService", () => {
     it("should map each object in responseBody to the correct output structure", () => {
       const responseBody: EcrMetadataModel[] = [
         {
-          ecr_id: "ecr1",
+          eicr_id: "ecr1",
           date_created: new Date(),
           patient_name_first: "Test",
           patient_name_last: "Person",
@@ -32,7 +32,7 @@ describe("listEcrDataService", () => {
           data_link: "",
         },
         {
-          ecr_id: "ecr2",
+          eicr_id: "ecr2",
           date_created: new Date(),
           patient_name_first: "Another",
           patient_name_last: "Test",
@@ -112,7 +112,7 @@ describe("listEcrDataService", () => {
       database.manyOrNone<{ EcrMetadataModel }> = jest.fn(() =>
         Promise.resolve<EcrMetadataModel[]>([
           {
-            ecr_id: "1234",
+            eicr_id: "1234",
             date_created: new Date("2024-06-21T12:00:00Z"),
             patient_birth_date: new Date("11/07/1954"),
             patient_name_first: "Billy",
@@ -152,7 +152,7 @@ describe("listEcrDataService", () => {
       database.manyOrNone<{ EcrMetadataModel }> = jest.fn(() =>
         Promise.resolve<EcrMetadataModel[]>([
           {
-            ecr_id: "1234",
+            eicr_id: "1234",
             date_created: new Date("2024-06-21T12:00:00Z"),
             patient_name_first: "boy",
             patient_name_last: "lnam",
