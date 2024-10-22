@@ -729,4 +729,5 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       return rrCodesDict;
     }
+  }
 }
