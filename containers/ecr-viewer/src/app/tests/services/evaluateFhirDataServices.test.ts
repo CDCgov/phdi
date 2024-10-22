@@ -4,6 +4,7 @@ import {
   evaluateFacilityId,
   evaluateIdentifiers,
   evaluatePatientRace,
+  evaluatePatientEthnicity,
   evaluatePractitionerRoleReference,
   evaluateReference,
   evaluateValue,
@@ -107,7 +108,17 @@ describe("Evaluate Patient Race", () => {
       BundleWithPatient as unknown as Bundle,
       mappings,
     );
-    expect(actual).toEqual("Black or African American, African");
+    expect(actual).toEqual("Black or African American\nAfrican");
+  });
+});
+
+describe("Evaluate Patient Ethnicity", () => {
+  it("should return ethnicity category and extension if available", () => {
+    const actual = evaluatePatientEthnicity(
+      BundleWithPatient as unknown as Bundle,
+      mappings,
+    );
+    expect(actual).toEqual("Hispanic or Latino\nWhite");
   });
 });
 

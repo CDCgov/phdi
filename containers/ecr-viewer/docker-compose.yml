@@ -1,6 +1,5 @@
 services:
-  # PostgreSQL database
-  db:
+  postgres:
     image: "postgres:alpine"
     ports:
       - "5432:5432"
@@ -18,7 +17,25 @@ services:
       interval: 2s
       timeout: 5s
       retries: 20
-
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password1!
+    ports:
+      - "1433:1433"
+    volumes:
+      - ./sql:/var/opt/mssql/scripts
+    entrypoint: /var/opt/mssql/scripts/entrypoint.sh
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Password1! -Q 'IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'ECR_DATA') SELECT 1 ELSE SELECT 0' -C | grep -q 1",
+        ]
+      interval: 20s
+      timeout: 10s
+      retries: 5
   # Next.js app
   ecr-viewer:
     build:
