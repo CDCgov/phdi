@@ -6,7 +6,7 @@ import {
 } from "@/app/services/formatService";
 
 export type EcrMetadataModel = {
-  ecr_id: string;
+  eicr_id: string;
   data_source: "DB" | "S3";
   data_link: string;
   patient_name_first: string;
@@ -44,7 +44,8 @@ export async function listEcrData(
     " ROWS FETCH NEXT " +
     itemsPerPage +
     " ROWS ONLY";
-  let list = await database.manyOrNone<EcrMetadataModel>(ecrDataQuery);
+  const list = await database.manyOrNone<EcrMetadataModel>(ecrDataQuery);
+
   return processMetadata(list);
 }
 
@@ -58,7 +59,7 @@ export const processMetadata = (
 ): EcrDisplay[] => {
   return responseBody.map((object) => {
     return {
-      ecrId: object.ecr_id || "",
+      ecrId: object.eicr_id || "",
       patient_first_name: object.patient_name_first || "",
       patient_last_name: object.patient_name_last || "",
       patient_date_of_birth: object.patient_birth_date
