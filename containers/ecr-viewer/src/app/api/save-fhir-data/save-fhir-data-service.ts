@@ -199,6 +199,7 @@ export const saveMetadataToSqlServer = async (
       trustServerCertificate: true,
     },
   });
+
   const transaction = new sql.Transaction(pool);
   await transaction.begin();
 
@@ -208,6 +209,7 @@ export const saveMetadataToSqlServer = async (
       await ecrDataInsertRequest
         .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
         .input("eicr_set_id", sql.VarChar(255), metadata.eicr_set_id)
+        .input("fhir_reference_link", sql.VarChar(255), null) // Not implemented
         .input("last_name", sql.VarChar(255), metadata.last_name)
         .input("first_name", sql.VarChar(255), metadata.last_name)
         .input("birth_date", sql.Date, metadata.birth_date)
@@ -293,7 +295,7 @@ export const saveMetadataToSqlServer = async (
           metadata.active_problems,
         )
         .query(
-          "INSERT INTO dbo.ECR_DATA VALUES (@eICR_ID, @eicr_set_id, @last_name, @first_name, @birth_date, @gender, @birth_sex, @gender_identity, @race, @ethnicity, @street_address1, @street_address2, @state, @zip_code, @latitude, @longitude, @homelessness_status, @disabilities, @tribal_affiliation, @tribal_enrollment_status, @current_job_title, @current_job_industry, @usual_occupation, @usual_industry, @preferred_language, @pregnancy_status, @rr_id, @processing_status, @eicr_version_number, @authoring_date, @authoring_time, @authoring_provider, @provider_id, @facility_id, @facility_name, @encounter_type, @encounter_start_date, @encounter_start_time, @encounter_end_date, @encounter_end_time, @reason_for_visit, @active_problems)",
+          "INSERT INTO dbo.ECR_DATA VALUES (@eICR_ID, @eicr_set_id, @fhir_reference_link, @last_name, @first_name, @birth_date, @gender, @birth_sex, @gender_identity, @race, @ethnicity, @street_address1, @street_address2, @state, @zip_code, @latitude, @longitude, @homelessness_status, @disabilities, @tribal_affiliation, @tribal_enrollment_status, @current_job_title, @current_job_industry, @usual_occupation, @usual_industry, @preferred_language, @pregnancy_status, @rr_id, @processing_status, @eicr_version_number, @authoring_date, @authoring_time, @authoring_provider, @provider_id, @facility_id, @facility_name, @encounter_type, @encounter_start_date, @encounter_start_time, @encounter_end_date, @encounter_end_time, @reason_for_visit, @active_problems)",
         );
 
       if (metadata.labs) {
@@ -327,6 +329,8 @@ export const saveMetadataToSqlServer = async (
               sql.VarChar(50),
               lab.test_result_code_system,
             )
+            .input("test_result_interpretation", sql.VarChar(255), null) // Not implemented
+            .input("test_result_interpretation_code", sql.VarChar(50), null) // Not implemented
             .input(
               "test_result_interpretation_system",
               sql.VarChar(255),
@@ -360,7 +364,7 @@ export const saveMetadataToSqlServer = async (
             )
             .input("performing_lab", sql.VarChar(255), lab.performing_lab)
             .query(
-              "INSERT INTO dbo.ecr_labs VALUES (@UUID, @eICR_ID, @test_type, @test_type_code, @test_type_system, @test_result_qualitative, @test_result_quantitative, @test_result_units, @test_result_code, @test_result_code_display, @test_result_code_system, @test_result_interpretation_system, @test_result_ref_range_low_value, @test_result_ref_range_low_units, @test_result_ref_range_high_value, @test_result_ref_range_high_units, @specimen_type, @specimen_collection_date, @performing_lab)",
+              "INSERT INTO dbo.ecr_labs VALUES (@UUID, @eICR_ID, @test_type, @test_type_code, @test_type_system, @test_result_qualitative, @test_result_quantitative, @test_result_units, @test_result_code, @test_result_code_display, @test_result_code_system, @test_result_interpretation, @test_result_interpretation_code, @test_result_interpretation_system, @test_result_ref_range_low_value, @test_result_ref_range_low_units, @test_result_ref_range_high_value, @test_result_ref_range_high_units, @specimen_type, @specimen_collection_date, @performing_lab)",
             );
         }
       }
@@ -369,7 +373,7 @@ export const saveMetadataToSqlServer = async (
         for (const rule of metadata.rr) {
           const rr_conditions_uuid = randomUUID();
           const rrConditionsInsertRequest = new sql.Request(transaction);
-          rrConditionsInsertRequest
+          await rrConditionsInsertRequest
             .input("UUID", sql.VarChar(200), rr_conditions_uuid)
             .input("eICR_ID", sql.VarChar(200), metadata.eicr_id)
             .input("condition", sql.VarChar(sql.MAX), rule.condition)
@@ -397,15 +401,16 @@ export const saveMetadataToSqlServer = async (
     } catch (error: any) {
       console.error("Error inserting metadata to database:", error);
 
-      if (pool) {
-        const transaction = new sql.Transaction(pool);
-        await transaction.rollback();
-      }
+      // Rollback the transaction if any error occurs
+      await transaction.rollback();
 
       return NextResponse.json(
         { message: "Failed to insert metadata to database. " + error.message },
         { status: 500 },
       );
+    } finally {
+      // Close the connection pool
+      pool.close();
     }
   } else {
     return NextResponse.json(
