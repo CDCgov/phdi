@@ -51,13 +51,34 @@ export const evaluatePatientRace = (
   mappings: PathMappings,
 ) => {
   const raceCat = evaluate(fhirBundle, mappings.patientRace)[0];
-  const raceDetailedExt =
-    evaluate(fhirBundle, mappings.patinetRaceExtension)[0] ?? "";
+  const raceDetailed =
+    evaluate(fhirBundle, mappings.patientRaceDetailed)[0] ?? "";
 
-  if (raceDetailedExt) {
-    return `${raceCat}, ${raceDetailedExt}`;
+  if (raceDetailed) {
+    return raceCat + "\n" + raceDetailed;
   } else {
     return raceCat;
+  }
+};
+
+/**
+ * Evaluates the patients ethnicity from the FHIR bundle and formats for display.
+ * @param fhirBundle - The FHIR bundle containing patient contact info.
+ * @param mappings - The object containing the fhir paths.
+ * @returns - The patient's ethnicity information, including additional ethnicity extension (if available).
+ */
+export const evaluatePatientEthnicity = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const ethnicity = evaluate(fhirBundle, mappings.patientEthnicity)[0] ?? "";
+  const ethnicityDetailed =
+    evaluate(fhirBundle, mappings.patientEthnicityDetailed)[0] ?? "";
+
+  if (ethnicityDetailed) {
+    return ethnicity + "\n" + ethnicityDetailed;
+  } else {
+    return ethnicity;
   }
 };
 
@@ -158,11 +179,11 @@ const evaluateTravelHistory = (
 };
 
 /**
- * Calculates the age of a patient to a given date or today.
+ * Calculates the age of a patient to a given date or today, unless DOD exists.
  * @param fhirBundle - The FHIR bundle containing patient information.
  * @param fhirPathMappings - The mappings for retrieving patient date of birth.
  * @param [givenDate] - Optional. The target date to calculate the age. Defaults to the current date if not provided.
- * @returns - The age of the patient in years, or undefined if date of birth is not available.
+ * @returns - The age of the patient in years, or undefined if date of birth is not available or if date of death exists.
  */
 export const calculatePatientAge = (
   fhirBundle: Bundle,
@@ -170,10 +191,37 @@ export const calculatePatientAge = (
   givenDate?: string,
 ) => {
   const patientDOBString = evaluate(fhirBundle, fhirPathMappings.patientDOB)[0];
-  if (patientDOBString) {
+  const patientDODString = evaluate(fhirBundle, fhirPathMappings.patientDOD)[0];
+  if (patientDOBString && !patientDODString && !givenDate) {
     const patientDOB = new Date(patientDOBString);
-    const targetDate = givenDate ? new Date(givenDate) : new Date();
-    return dateFns.differenceInYears(targetDate, patientDOB);
+    return dateFns.differenceInYears(new Date(), patientDOB);
+  } else if (patientDOBString && givenDate) {
+    const patientDOB = new Date(patientDOBString);
+    return dateFns.differenceInYears(new Date(givenDate), patientDOB);
+  } else {
+    return undefined;
+  }
+};
+
+/**
+ * Calculates Patient Age at Death if DOB and DOD exist, otherwise returns undefined
+ * @param fhirBundle - The FHIR bundle containing patient information.
+ * @param fhirPathMappings - The mappings for retrieving patient date of birth and date of death.
+ * @returns - The age of the patient at death in years, or undefined if date of birth or date of death is not available.
+ */
+export const calculatePatientAgeAtDeath = (
+  fhirBundle: Bundle,
+  fhirPathMappings: PathMappings,
+) => {
+  const patientDOBString = evaluate(fhirBundle, fhirPathMappings.patientDOB)[0];
+  const patientDODString = evaluate(fhirBundle, fhirPathMappings.patientDOD)[0];
+
+  if (patientDOBString && patientDODString) {
+    const patientDOB = new Date(patientDOBString);
+    const patientDOD = new Date(patientDODString);
+    return dateFns.differenceInYears(patientDOD, patientDOB);
+  } else {
+    return undefined;
   }
 };
 
@@ -249,10 +297,19 @@ export const evaluateDemographicsData = (
       value: calculatePatientAge(fhirBundle, mappings)?.toString(),
     },
     {
+      title: "Age at Death",
+      value: calculatePatientAgeAtDeath(fhirBundle, mappings),
+    },
+    {
       title: "Vital Status",
-      value: evaluate(fhirBundle, mappings.patientVitalStatus)[0]
-        ? "Deceased"
-        : "Alive",
+      value:
+        evaluate(fhirBundle, mappings.patientVitalStatus)[0] === false
+          ? "Alive"
+          : "Deceased",
+    },
+    {
+      title: "Date of Death",
+      value: evaluate(fhirBundle, mappings.patientDOD)[0],
     },
     { title: "Sex", value: evaluate(fhirBundle, mappings.patientGender)[0] },
     {
@@ -261,7 +318,7 @@ export const evaluateDemographicsData = (
     },
     {
       title: "Ethnicity",
-      value: evaluate(fhirBundle, mappings.patientEthnicity)[0],
+      value: evaluatePatientEthnicity(fhirBundle, mappings),
     },
     {
       title: "Tribal Affiliation",
