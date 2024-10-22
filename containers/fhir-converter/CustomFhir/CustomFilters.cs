@@ -665,6 +665,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       var result = new Dictionary<string, bool>();
       var entryDicts = ProcessItem(entries);
+
+      if (entryDicts.Count == 0)
+      {
+        return result;
+      }
+
       var latestEffectiveTime = DateTime.UnixEpoch;
       var latestEncounterIndex = 0;
 
@@ -672,16 +678,17 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       for (int i = 0; i < entryDicts.Count; i++)
       {
         var effectiveTimes = DrillDown(entryDicts[i], new List<string> { "encounter", "effectiveTime", "low", "value" });
-        if(effectiveTimes != null && effectiveTimes.Count > 0) 
+        if (effectiveTimes != null && effectiveTimes.Count > 0)
         {
           var effectiveTimeDatetime = Convert.ToDateTime(effectiveTimes[0].ToString());
-          if(effectiveTimeDatetime.CompareTo(latestEffectiveTime) > 0) {
+          if (effectiveTimeDatetime.CompareTo(latestEffectiveTime) > 0)
+          {
             latestEffectiveTime = effectiveTimeDatetime;
             latestEncounterIndex = i;
           }
         }
       }
-  
+
       var encounterEntryRelationships = DrillDown(entryDicts[latestEncounterIndex], new List<string> { "encounter", "entryRelationship" });
 
       if (encounterEntryRelationships != null) {
@@ -689,7 +696,8 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {
           var actEntryRelationships = DrillDown(encounterER, new List<string> { "act", "entryRelationship" });
 
-          if (actEntryRelationships != null) {
+          if (actEntryRelationships != null) 
+          {
             foreach (var actER in actEntryRelationships)
             {
               // There will only be one but DrillDown returns a list
@@ -706,11 +714,6 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       return result;
     }
   
-    /// <summary>
-    /// Creates dictionary of RR codes to their codesystems
-    /// </summary>
-    /// <param name="rrCodes">The list of condition code and codesystem pairs in the format "code|codesystem".</param>
-    /// <returns>A dictionary of condition codes, with the value being the codesystem that the code is from.</returns>
     public static IDictionary<string, string> GetRRCodesDict(IList<string> rrCodes)
     {
       var rrCodesDict = new Dictionary<string, string>();
@@ -726,5 +729,4 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       return rrCodesDict;
     }
-  }
 }
