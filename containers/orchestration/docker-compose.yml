@@ -1,14 +1,21 @@
 services:
-  ecr-viewer-db:
+  postgres:
     extends:
       file: ../ecr-viewer/docker-compose.yml
-      service: db
+      service: postgres
+  sqlserver:
+    extends:
+      file: ../ecr-viewer/docker-compose.yml
+      service: sqlserver
   ecr-viewer:
     extends:
       file: ../ecr-viewer/docker-compose.yml
       service: ecr-viewer
     environment:
-      - DATABASE_URL=postgres://postgres:pw@ecr-viewer-db:5432/ecr_viewer_db
+      - DATABASE_URL=postgres://postgres:pw@postgres:5432/ecr_viewer_db
+      - SQL_SERVER_USER=sa
+      - SQL_SERVER_PASSWORD=Password1!
+      - SQL_SERVER_HOST=sqlserver
       - APP_ENV=test
   orchestration-service:
     platform: linux/amd64
