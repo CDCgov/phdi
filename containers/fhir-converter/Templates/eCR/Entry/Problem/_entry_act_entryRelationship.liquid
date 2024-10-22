@@ -2,6 +2,19 @@
     {% if probRelationship.observation.code.code == "64572001" or probRelationship.observation.code.code == "55607006" or probRelationship.observation.code.code == "282291009" or probRelationship.observation.code.translation.code == "64572001" or probRelationship.observation.code.translation.code == "55607006" -%}
         {% if probRelationship.observation.value.code and probRelationship.observation.value.value.code != "NA" -%}
             {% assign conditionId = probRelationship.observation | to_json_string | generate_uuid -%}
+            {% if rrCodesDict %}
+                {% if rrCodesDict[probRelationship.observation.value.code] == probRelationship.observation.code.codeSystem or rrCodesDict[probRelationship.observation.value.value.code] == probRelationship.observation.code.codeSystem %}
+                    {% assign rrConditionsList = rrConditionsList | append: ',' | append: conditionId %}
+                {% else if probRelationship.observation.value.translation %}
+                    {% assign translationCodes = probRelationship.observation.value.translation | to_array %}
+                    {% for translationCode in translationCodes %}
+                        {% if rrCodesDict[translationCode.code] == translation.codeSystem %}
+                            {% assign rrConditionsList = rrConditionsList | append: ',' | append: conditionId %}
+                            {% break %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
             {% include 'Resource/Condition' conditionEntry: probRelationship.observation, ID: conditionId, text: text, relatedEntries: relatedEntries -%}
             {% include 'Reference/Condition/Subject' ID: conditionId, REF: fullPatientId -%}
             {% assign isDiagnosis = diagnoses[probRelationship.observation.value.code] %}

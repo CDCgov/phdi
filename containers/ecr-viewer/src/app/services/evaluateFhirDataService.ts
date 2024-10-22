@@ -329,7 +329,7 @@ export const evaluateEncounterData = (
     },
     {
       title: "Encounter Reason",
-      value: evaluate(fhirBundle, mappings.encounterReasonForVisit),
+      value: evaluateEncounterReason(fhirBundle, mappings),
     },
   ];
   return evaluateData(encounterData);
@@ -667,6 +667,30 @@ export const evaluateEncounterDiagnosis = (
           fhirBundle,
           mappings,
           diagnosis.condition.reference,
+  ));
+
+  return conditions.map(condition => condition.code?.coding?.[0].display).join(", ");
+};
+
+/**
+ * Find encounter reason
+ * @param fhirBundle - The FHIR bundle containing resources.
+ * @param mappings - Path mappings for resolving references.
+ * @returns Comma delimited list of encounter reasons 
+ */
+export const evaluateEncounterReason = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const encounterReasonRefs =
+    evaluate(fhirBundle, mappings.encounterReasonReference);
+
+  const conditions: Condition[] = encounterReasonRefs.map(
+    reason => 
+        evaluateReference(
+          fhirBundle,
+          mappings,
+          reason.reference,
   ));
 
   return conditions.map(condition => condition.code?.coding?.[0].display).join(", ");

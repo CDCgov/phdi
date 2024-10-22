@@ -13,8 +13,7 @@
 
 {% if msg.ClinicalDocument.componentOf.encompassingEncounter -%}
   {% assign encounterId = msg.ClinicalDocument.componentOf.encompassingEncounter | to_json_string | generate_uuid -%}
-  {% assign reasonForVisit = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.12' %}
-  {% include 'Resource/Encounter' encounter: msg.ClinicalDocument.componentOf.encompassingEncounter, ID: encounterId, REASON: reasonForVisit  -%}
+  {% include 'Resource/Encounter' encounter: msg.ClinicalDocument.componentOf.encompassingEncounter, ID: encounterId  -%}
   {% assign encounterSection = msg | get_first_ccda_sections_by_template_id: '2.16.840.1.113883.10.20.22.2.22.1' %}  
   {% assign encounterEntries = encounterSection.2_16_840_1_113883_10_20_22_2_22_1.entry | to_array %}
   {% assign diagnoses = encounterEntries | get_diagnosis_dictionary %}
@@ -56,6 +55,7 @@
 {% if msg.ClinicalDocument.section.code.code and msg.ClinicalDocument.section.code.code == "88085-6" -%}
   {% assign sectionId = msg.ClinicalDocument.section | to_json_string | generate_uuid -%}
   {% assign entries = msg.ClinicalDocument.section.entry | to_array -%}
+  {% assign rrCodesList = '' %}
   {% for entry in entries -%}
     {% if entry.organizer.templateId.root and entry.organizer.templateId.root == "2.16.840.1.113883.10.20.15.2.3.34" -%}
       {% assign comps = entry.organizer.component | to_array -%}
@@ -69,6 +69,8 @@
               {% assign observationId = ob.value | to_json_string | generate_uuid -%}
             {% endif -%}
 
+            {% assign rrCodesList = rrCodesList | append: ',' | append: ob.code.code + '|' + ob.code.codeSystem  %}
+
             {% if ob.entryRelationship and ob.entryRelationship.organizer and ob.entryRelationship.organizer.participant %}
               {% assign participants = ob.entryRelationship.organizer.participant | to_array %}
               {% for participant in participants %}
@@ -81,13 +83,27 @@
             {% endif -%}
 
             {% include "Resource/ObservationRRCondition" observationEntry: ob, ID: observationId, RoutingEntityId: organizationRoutingEntityId, RoutingEntityName: organizationRoutingEntityName-%}
-
           {% endif -%}
         {% endfor -%}
       {% endfor -%}
     {% endif -%}
   {% endfor -%}
 {% endif -%}
+
+{% if rrCodesList and rrCodesList != '' %}
+  {% assign rrCodesList = rrCodesList | remove_first: ',' | split: ',' %}
+  {% assign rrCodesDict = rrCodesList | get_rr_codes_dict %}
+{% endif %}
+{% assign rrConditionsList = '' %}
+{% include 'Section/Problem' with rrCodesDict %}
+
+{% if msg.ClinicalDocument.componentOf.encompassingEncounter and rrConditionsList != '' %}
+  {% assign rrConditionsList = rrConditionsList | remove_first: ',' | split: ',' %}
+  {% for rrCondition in rrConditionsList%}
+    {% assign conditionReference = rrCondition | prepend: 'Condition/' %}
+    {% include 'Reference/Encounter/ReasonReference' ID: encounterId, REF: conditionReference -%}
+  {% endfor %}
+{% endif %}
 
 {% if msg.ClinicalDocument.custodian.assignedCustodian.representedCustodianOrganization.name._ -%}
   {% evaluate custId using 'Utils/GenerateId' obj: msg.ClinicalDocument.custodian.assignedCustodian.representedCustodianOrganization -%}

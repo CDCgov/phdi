@@ -294,6 +294,13 @@ public class CustomFilterTests
   public void GetDiagnosisDictionary_ReturnsDiagnosisDictionary()
   {
     var actual = Filters.GetDiagnosisDictionary(CustomFilterTestFixtures.EncounterDiagnoses);
-    Assert.Equal(new Dictionary<string, bool>() {{ "B05.9", true }, { "B06.0", true }, { "B06.1", true }, { "B06.2", true }}, actual);
+    Assert.Equal(new Dictionary<string, bool>() {{ "B05.9", true }, { "B06.0", true }, { "B06.1", true }}, actual);
+  }
+
+  [Fact]
+  public void GetRRCodesDict_ConvertsListOfStringsToDictionary()
+  {
+    var actual = Filters.GetRRCodesDict(new List<string>() { "code|codeSystem", "code2|codeSystem2" });
+    Assert.Equal(new Dictionary<string, string>() { { "code", "codeSystem" }, { "code2", "codeSystem2" } }, actual);
   }
 }

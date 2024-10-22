@@ -657,6 +657,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
   
     /// <summary>
     /// Creates dictionary of diagnosis codes from list of entries
+    /// Only collects diagnoses from most recent encounter
     /// </summary>
     /// <param name="entries">The list of entries to parse.</param>
     /// <returns>A dictionary of codes found in the entries, with the value being true.</returns>
@@ -664,25 +665,38 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     {
       var result = new Dictionary<string, bool>();
       var entryDicts = ProcessItem(entries);
+      var latestEffectiveTime = DateTime.UnixEpoch;
+      var latestEncounterIndex = 0;
 
-      foreach (var entry in entryDicts)
+      // Find most recent encounter
+      for (int i = 0; i < entryDicts.Count; i++)
       {
-        var encounterEntryRelationships = DrillDown(entry, new List<string> { "encounter", "entryRelationship" });
+        var effectiveTimes = DrillDown(entryDicts[i], new List<string> { "encounter", "effectiveTime", "low", "value" });
+        if(effectiveTimes != null && effectiveTimes.Count > 0) 
+        {
+          var effectiveTimeDatetime = Convert.ToDateTime(effectiveTimes[0].ToString());
+          if(effectiveTimeDatetime.CompareTo(latestEffectiveTime) > 0) {
+            latestEffectiveTime = effectiveTimeDatetime;
+            latestEncounterIndex = i;
+          }
+        }
+      }
+  
+      var encounterEntryRelationships = DrillDown(entryDicts[latestEncounterIndex], new List<string> { "encounter", "entryRelationship" });
 
-        if (encounterEntryRelationships != null) {
-          foreach (var encounterER in encounterEntryRelationships)
-          {
-            var actEntryRelationships = DrillDown(encounterER, new List<string> { "act", "entryRelationship" });
+      if (encounterEntryRelationships != null) {
+        foreach (var encounterER in encounterEntryRelationships)
+        {
+          var actEntryRelationships = DrillDown(encounterER, new List<string> { "act", "entryRelationship" });
 
-            if (actEntryRelationships != null) {
-              foreach (var actER in actEntryRelationships)
+          if (actEntryRelationships != null) {
+            foreach (var actER in actEntryRelationships)
+            {
+              // There will only be one but DrillDown returns a list
+              var value = DrillDown(actER, new List<string> { "observation", "value" });
+              if (value != null && value.Count > 0 && value.First().TryGetValue("code", out object? code) && code != null) 
               {
-                // There will only be one but DrillDown returns a list
-                var value = DrillDown(actER, new List<string> { "observation", "value" });
-                if (value != null && value.Count > 0 && value.First().TryGetValue("code", out object? code) && code != null) 
-                {
-                  result.Add(code.ToString(), true);
-                }
+                result.TryAdd(code.ToString(), true);
               }
             }
           }
@@ -690,6 +704,27 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
       }
 
       return result;
+    }
+  
+    /// <summary>
+    /// Creates dictionary of RR codes to their codesystems
+    /// </summary>
+    /// <param name="rrCodes">The list of condition code and codesystem pairs in the format "code|codesystem".</param>
+    /// <returns>A dictionary of condition codes, with the value being the codesystem that the code is from.</returns>
+    public static IDictionary<string, string> GetRRCodesDict(IList<string> rrCodes)
+    {
+      var rrCodesDict = new Dictionary<string, string>();
+
+      foreach (var rrCode in rrCodes)
+      {
+        var rrCodeTuple = rrCode.Split("|");
+        if (rrCodeTuple.Length > 1)
+        {
+          rrCodesDict.Add(rrCodeTuple[0], rrCodeTuple[1]);
+        }
+      }
+
+      return rrCodesDict;
     }
   }
 }
