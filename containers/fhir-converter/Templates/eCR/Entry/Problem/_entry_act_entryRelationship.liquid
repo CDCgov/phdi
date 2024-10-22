@@ -3,12 +3,14 @@
         {% if probRelationship.observation.value.code and probRelationship.observation.value.value.code != "NA" -%}
             {% assign conditionId = probRelationship.observation | to_json_string | generate_uuid -%}
             {% if rrCodesDict %}
-                {% if rrCodesDict[probRelationship.observation.value.code] == probRelationship.observation.code.codeSystem or rrCodesDict[probRelationship.observation.value.value.code] == probRelationship.observation.code.codeSystem %}
+                {% if probRelationship.observation.value.code and rrCodesDict[probRelationship.observation.value.code] == probRelationship.observation.value.codeSystem %}
                     {% assign rrConditionsList = rrConditionsList | append: ',' | append: conditionId %}
-                {% else if probRelationship.observation.value.translation %}
+                {% elsif probRelationship.observation.value.value.code and rrCodesDict[probRelationship.observation.value.value.code] == probRelationship.observation.value.value.codeSystem %}
+                    {% assign rrConditionsList = rrConditionsList | append: ',' | append: conditionId %}
+                {% elsif probRelationship.observation.value.translation %}
                     {% assign translationCodes = probRelationship.observation.value.translation | to_array %}
                     {% for translationCode in translationCodes %}
-                        {% if rrCodesDict[translationCode.code] == translation.codeSystem %}
+                        {% if rrCodesDict[translationCode.code] and rrCodesDict[translationCode.code] == translation.codeSystem %}
                             {% assign rrConditionsList = rrConditionsList | append: ',' | append: conditionId %}
                             {% break %}
                         {% endif %}

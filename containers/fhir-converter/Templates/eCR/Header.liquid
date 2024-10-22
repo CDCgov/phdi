@@ -69,7 +69,7 @@
               {% assign observationId = ob.value | to_json_string | generate_uuid -%}
             {% endif -%}
 
-            {% assign rrCodesList = rrCodesList | append: ',' | append: ob.code.code + '|' + ob.code.codeSystem  %}
+            {% assign rrCodesList = rrCodesList | append: ',' | append: ob.value.code | append: '|' | append: ob.value.codeSystem  %}
 
             {% if ob.entryRelationship and ob.entryRelationship.organizer and ob.entryRelationship.organizer.participant %}
               {% assign participants = ob.entryRelationship.organizer.participant | to_array %}
