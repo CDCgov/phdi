@@ -104,6 +104,7 @@ jobs:
         with:
           name: logs
           path: cypress-run.log
+
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 20
