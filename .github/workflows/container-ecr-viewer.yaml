@@ -65,13 +65,9 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm install
 
-      - name: Copy seed data
-        working-directory: ./containers/${{env.CONTAINER}}
-        run: cp ./cypress/assets/data.sql ./seed-scripts/sql
-
       - name: Start ${{env.CONTAINER}}
-        working-directory: ./containers/${{env.CONTAINER}}
-        run: docker compose --env-file .env.test up -d
+        working-directory: ./containers/${{env.CONTAINER}}/cypress
+        run: docker compose --env-file ../.env.test up -d
 
       - name: Wait for server to be ready
         run: |
@@ -92,6 +88,21 @@ jobs:
           path: |
             containers/ecr-viewer/cypress/screenshots/*
             containers/ecr-viewer/cypress/videos/*
+
+      - name: Get docker logs
+        if: always()
+        working-directory: ./containers/${{env.CONTAINER}}/cypress
+        shell: bash
+        run: |
+          echo "Saving $container logs"
+          docker compose logs --timestamps >& cypress-run.log
+
+      - name: Archive docker logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: ./containers/${{env.CONTAINER}}/cypress/cypress-run.log
 
   lighthouse:
     runs-on: ubuntu-latest

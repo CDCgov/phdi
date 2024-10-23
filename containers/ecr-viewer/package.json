@@ -16,7 +16,7 @@
     "update-cypress-data": "docker compose -f ./seed-scripts/docker-compose-create-sql.yml up --build --abort-on-container-exit",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:run-local": "cp ./cypress/assets/data.sql ./seed-scripts/sql && docker compose --env-file .env.test up db -d && concurrently --kill-others 'npm run dev' 'npx wait-on http://localhost:3000 && NODE_ENV=dev cypress run ; docker compose down && rm ./seed-scripts/sql/data.sql'",
+    "cypress:run-local": "docker compose -f cypress/docker-compose.yml --env-file .env.test up postgres -d && concurrently --kill-others 'npm run dev' 'npx wait-on http://localhost:3000 && NODE_ENV=dev cypress run ; docker compose down'",
     "cypress:run-prod": "NODE_ENV=production cypress run"
   },
   "dependencies": {

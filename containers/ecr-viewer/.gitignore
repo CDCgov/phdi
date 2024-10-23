@@ -7,3 +7,6 @@ volume/
 seed-scripts/baseECR/TN
 seed-scripts/baseECR/KY
 seed-scripts/baseECR/ME
+
+cypress/screenshots
+cypress/videos
