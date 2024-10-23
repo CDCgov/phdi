@@ -6,13 +6,13 @@ import {
 } from "@/app/services/formatService";
 
 export type EcrMetadataModel = {
-  ecr_id: string;
+  eicr_id: string;
   data_source: "DB" | "S3";
   data_link: string;
   patient_name_first: string;
   patient_name_last: string;
   patient_birth_date: Date;
-  reportable_condition: string;
+  condition: string;
   rule_summary: string;
   report_date: Date;
   date_created: Date;
@@ -38,13 +38,14 @@ export async function listEcrData(
   startIndex: number,
   itemsPerPage: number,
 ): Promise<EcrDisplay[]> {
-  const fhirMetadataQuery =
-    "SELECT ecr_id, patient_name_first, patient_name_last, patient_birth_date, report_date, reportable_condition, rule_summary, date_created FROM fhir_metadata order by date_created DESC OFFSET " +
+  const ecrDataQuery =
+    "SELECT ed.eICR_ID, ed.patient_name_first, ed.patient_name_last, ed.patient_birth_date, ed.date_created, ed.report_date, erc.condition, ers.rule_summary, ed.report_date FROM ecr_data ed LEFT JOIN ecr_rr_conditions erc ON ed.eICR_ID = erc.eICR_ID LEFT JOIN ecr_rr_rule_summaries ers ON erc.uuid = ers.ecr_rr_conditions_id order by ed.report_date DESC OFFSET " +
     startIndex +
     " ROWS FETCH NEXT " +
     itemsPerPage +
     " ROWS ONLY";
-  let list = await database.manyOrNone<EcrMetadataModel>(fhirMetadataQuery);
+  const list = await database.manyOrNone<EcrMetadataModel>(ecrDataQuery);
+
   return processMetadata(list);
 }
 
@@ -58,13 +59,13 @@ export const processMetadata = (
 ): EcrDisplay[] => {
   return responseBody.map((object) => {
     return {
-      ecrId: object.ecr_id || "",
+      ecrId: object.eicr_id || "",
       patient_first_name: object.patient_name_first || "",
       patient_last_name: object.patient_name_last || "",
       patient_date_of_birth: object.patient_birth_date
         ? formatDate(new Date(object.patient_birth_date!).toISOString())
         : "",
-      reportable_condition: object.reportable_condition || "",
+      reportable_condition: object.condition || "",
       rule_summary: object.rule_summary || "",
       date_created: object.date_created
         ? convertUTCToLocalString(
@@ -81,10 +82,10 @@ export const processMetadata = (
 };
 
 /**
- * Retrieves the total number of eCRs stored in the fhir table.
+ * Retrieves the total number of eCRs stored in the ecr_data table.
  * @returns A promise resolving to the total number of eCRs.
  */
 export const getTotalEcrCount = async (): Promise<number> => {
-  let number = await database.one("SELECT count(*) FROM fhir_metadata");
+  let number = await database.one("SELECT count(*) FROM ecr_data");
   return number.count;
 };
