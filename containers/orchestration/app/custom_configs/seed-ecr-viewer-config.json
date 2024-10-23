@@ -48,5 +48,10 @@
         "stamped_ecr": "fhirBundle"
       }
     }
-  ]
+  ],
+  "outputs": [
+    "metadata_values",
+    "stamped_ecr"
+  ],
+  "default-response": false
 }

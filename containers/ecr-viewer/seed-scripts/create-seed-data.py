@@ -45,7 +45,6 @@ def convert_files():
                                 "rr_data": rr_file.read(),
                             }
 
-                            print(f"{URL}/process-message")
                             response = requests.post(
                                 f"{URL}/process-message", json=payload
                             )
