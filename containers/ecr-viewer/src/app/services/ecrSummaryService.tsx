@@ -10,7 +10,6 @@ import {
   evaluatePatientContactInfo,
   evaluatePatientAddress,
   evaluateEncounterDiagnosis,
-  evaluateEncounterReason,
 } from "./evaluateFhirDataService";
 import { DisplayDataProps } from "@/app/view-data/components/DataDisplay";
 import { returnProblemsTable } from "@/app/view-data/components/common";
@@ -100,10 +99,6 @@ export const evaluateEcrSummaryEncounterDetails = (
     {
       title: "Encounter Diagnosis",
       value: evaluateEncounterDiagnosis(fhirBundle, fhirPathMappings),
-    },
-    {
-      title: "Encounter Reason",
-      value: evaluateEncounterReason(fhirBundle, fhirPathMappings),
     },
     {
       title: "Facility Name",
