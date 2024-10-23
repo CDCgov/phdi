@@ -45,7 +45,6 @@ def convert_files():
                                 "rr_data": rr_file.read(),
                             }
 
-                            print(f"{URL}/process-message")
                             response = requests.post(
                                 f"{URL}/process-message", json=payload
                             )
@@ -78,7 +77,7 @@ def convert_files():
                         print(f"Required file not found in {folder_path}: {e}")
                     except Exception as e:
                         print(
-                            f"An error occurred processing {folder} in {subfolder}: {e}"
+                            f"An error occurred processing {folder} in {subfolder}: {e}, : {response.json()}"
                         )
                 # If the subfolder is not a directory, print a message
                 else:
