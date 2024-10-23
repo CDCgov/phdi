@@ -168,7 +168,7 @@ async def call_apis(
         "call-apis",
         kind=trace.SpanKind(0),
         attributes={
-            "config": config,
+            "config": str(config),
             "message_type": input.get("message_type"),
             "data_type": input.get("data_type"),
         },

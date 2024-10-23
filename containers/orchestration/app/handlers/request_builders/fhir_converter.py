@@ -39,7 +39,7 @@ def build_fhir_converter_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ) as handler_span:
         # Template will depend on input data formatting and typing
