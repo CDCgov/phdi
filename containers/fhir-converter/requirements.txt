@@ -1,4 +1,4 @@
-anyio==3.7.1
+anyio==4.4.0
 asgiref==3.5.2
 attrs==22.1.0
 certifi==2024.7.4
@@ -41,3 +41,4 @@ websockets==10.3
 uuid
 lxml
 hl7
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
