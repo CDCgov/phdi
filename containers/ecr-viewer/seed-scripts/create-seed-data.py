@@ -1,5 +1,5 @@
-import json
 import os
+import traceback
 
 import requests
 
@@ -45,28 +45,13 @@ def convert_files():
                                 "rr_data": rr_file.read(),
                             }
 
-                            print(f"{URL}/process-message")
+                            print(f"{URL}/process-message for {subfolder}/{folder}")
                             response = requests.post(
                                 f"{URL}/process-message", json=payload
                             )
                             if response.status_code == 200:
-                                responses_json = response.json()["processed_values"][
-                                    "responses"
-                                ]
-                                for response in responses_json:
-                                    if "stamped_ecr" in response:
-                                        with open(
-                                            os.path.join(folder_path, "bundle.json"),
-                                            "w",
-                                        ) as fhir_file:
-                                            json.dump(
-                                                response["stamped_ecr"][
-                                                    "extended_bundle"
-                                                ],
-                                                fhir_file,
-                                                indent=4,
-                                            )
-
+                                responses_json_raw = response.json()
+                                print(responses_json_raw)
                                 print(
                                     f"Converted {folder} in {subfolder} successfully."
                                 )
@@ -78,7 +63,7 @@ def convert_files():
                         print(f"Required file not found in {folder_path}: {e}")
                     except Exception as e:
                         print(
-                            f"An error occurred processing {folder} in {subfolder}: {e}"
+                            f"An error occurred processing {folder} in {subfolder}: {e}\n\n{traceback.format_exc()}"
                         )
                 # If the subfolder is not a directory, print a message
                 else:
