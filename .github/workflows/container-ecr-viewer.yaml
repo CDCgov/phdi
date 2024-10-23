@@ -80,6 +80,13 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
 
+      - name: Stop containers
+        if: always()
+        working-directory: ./containers/${{env.CONTAINER}}/cypress
+        shell: bash
+        run: |
+          docker compose down
+
       - name: Get docker logs
         if: always()
         working-directory: ./containers/${{env.CONTAINER}}/cypress
