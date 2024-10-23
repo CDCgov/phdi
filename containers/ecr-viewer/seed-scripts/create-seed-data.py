@@ -77,7 +77,7 @@ def convert_files():
                         print(f"Required file not found in {folder_path}: {e}")
                     except Exception as e:
                         print(
-                            f"An error occurred processing {folder} in {subfolder}: {e}, : {response.json()}"
+                            f"An error occurred processing {folder} in {subfolder}: {e}"
                         )
                 # If the subfolder is not a directory, print a message
                 else:
