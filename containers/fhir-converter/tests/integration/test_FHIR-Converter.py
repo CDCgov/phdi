@@ -171,8 +171,7 @@ def test_multiple_administrated_medications():
 @pytest.mark.integration
 def test_encounter_diagnosis():
     input_data = open(
-        Path(__file__).parent.parent
-        / "test_files/eICR_with_diagnosis.xml"
+        Path(__file__).parent.parent / "test_files/eICR_with_diagnosis.xml"
     ).read()
     request = {"input_data": input_data, "input_type": "ecr", "root_template": "EICR"}
     ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
@@ -192,8 +191,5 @@ def test_encounter_diagnosis():
             diagnosis_references.append(diagnosis["condition"]["reference"])
 
     assert len(diagnosis_references) == 1
-    
-    assert (
-        "Condition/2ff2e2f9-108a-fece-706a-8bd483652bb3"
-        in diagnosis_references
-    )
+
+    assert "Condition/2ff2e2f9-108a-fece-706a-8bd483652bb3" in diagnosis_references
