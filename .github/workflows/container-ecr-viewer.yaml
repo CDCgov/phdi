@@ -80,21 +80,6 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}
         run: npm run cypress:run
 
-      - name: Stop containers
-        if: always()
-        working-directory: ./containers/${{env.CONTAINER}}/cypress
-        shell: bash
-        run: |
-          docker compose stop
-
-      - name: Get docker logs
-        if: always()
-        working-directory: ./containers/${{env.CONTAINER}}/cypress
-        shell: bash
-        run: |
-          echo "Saving $container logs"
-          docker compose logs --timestamps >& cypress-run.log
-
       - name: Archive cypress failures
         if: always()
         uses: actions/upload-artifact@v4
@@ -103,6 +88,14 @@ jobs:
           path: |
             containers/ecr-viewer/cypress/screenshots/*
             containers/ecr-viewer/cypress/videos/*
+
+      - name: Get docker logs
+        if: always()
+        working-directory: ./containers/${{env.CONTAINER}}/cypress
+        shell: bash
+        run: |
+          echo "Saving $container logs"
+          docker compose logs --timestamps >& cypress-run.log
 
       - name: Archive docker logs
         if: always()
