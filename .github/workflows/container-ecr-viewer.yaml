@@ -85,7 +85,7 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}}/cypress
         shell: bash
         run: |
-          docker compose down
+          docker compose stop
 
       - name: Get docker logs
         if: always()
