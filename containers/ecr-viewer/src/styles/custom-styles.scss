@@ -145,6 +145,24 @@ h4 {
   }
 }
 
+.sortable-column{
+  text-align: right;
+  background-color: transparent;
+  @include add-background-svg("usa-icons/sort_arrow");
+}
+
+.sortable-desc-column{
+  text-align: right;
+  background-color: transparent;
+  @include add-background-svg("usa-icons/arrow_downward");
+}
+
+.sortable-asc-column{
+  text-align: right;
+  background-color: transparent;
+  @include add-background-svg("usa-icons/arrow_upward");
+}
+
 .ecr-library-wrapper {
   height: calc(100% - 4rem);
 }
