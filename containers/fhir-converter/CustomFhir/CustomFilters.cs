@@ -723,7 +723,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         var rrCodeTuple = rrCode.Split("|");
         if (rrCodeTuple.Length > 1)
         {
-          rrCodesDict.Add(rrCodeTuple[0], rrCodeTuple[1]);
+          rrCodesDict.TryAdd(rrCodeTuple[0], rrCodeTuple[1]);
         }
       }
 
