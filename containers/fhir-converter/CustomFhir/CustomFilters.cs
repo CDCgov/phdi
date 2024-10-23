@@ -713,21 +713,5 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
       return result;
     }
-  
-    public static IDictionary<string, string> GetRRCodesDict(IList<string> rrCodes)
-    {
-      var rrCodesDict = new Dictionary<string, string>();
-
-      foreach (var rrCode in rrCodes)
-      {
-        var rrCodeTuple = rrCode.Split("|");
-        if (rrCodeTuple.Length > 1)
-        {
-          rrCodesDict.TryAdd(rrCodeTuple[0], rrCodeTuple[1]);
-        }
-      }
-
-      return rrCodesDict;
-    }
   }
 }
