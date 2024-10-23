@@ -137,7 +137,7 @@ export const returnImmunizations = (
     return undefined;
   }
 
-  const columnInfo = [
+  const columnInfo: ColumnInfoInput[] = [
     { columnName: "Name", infoPath: "immunizationsName" },
     { columnName: "Administration Dates", infoPath: "immunizationsAdminDate" },
     { columnName: "Dose Number", infoPath: "immunizationsDoseNumber" },
