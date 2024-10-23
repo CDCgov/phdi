@@ -339,7 +339,7 @@ export function formatTablesToJSON(htmlString: string): TableJson[] {
       const resultId = getDataId(li);
       const firstChildNode = getFirstNonCommentChild(li);
       const resultName = firstChildNode
-        ? (firstChildNode.textContent?.trim() ?? "")
+        ? firstChildNode.textContent?.trim() ?? ""
         : "";
       li.querySelectorAll("table").forEach((table) => {
         tables.push(processTable(table));

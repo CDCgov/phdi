@@ -90,7 +90,10 @@
         "name": [
           {
             "family": "Unlucky",
-            "given": ["Hyper", "A."],
+            "given": [
+              "Hyper",
+              "A."
+            ],
             "period": {
               "start": "1975-12-06",
               "end": "2020-01-22"
@@ -112,7 +115,9 @@
         "birthDate": "1975-12-06",
         "address": [
           {
-            "line": ["49 Meadow St"],
+            "line": [
+              "49 Meadow St"
+            ],
             "city": "Lansing",
             "state": "MI",
             "postalCode": "48864",
@@ -123,7 +128,9 @@
             }
           },
           {
-            "line": ["183 Mountain View St"],
+            "line": [
+              "183 Mountain View St"
+            ],
             "city": "Lansing",
             "state": "MI",
             "postalCode": "48901",
@@ -172,14 +179,20 @@
         "name": [
           {
             "family": "Pocondriac",
-            "given": ["Hai"],
-            "prefix": ["Dr"]
+            "given": [
+              "Hai"
+            ],
+            "prefix": [
+              "Dr"
+            ]
           }
         ],
         "address": [
           {
             "use": "home",
-            "line": ["4531 Marketplace Drive"],
+            "line": [
+              "4531 Marketplace Drive"
+            ],
             "city": "Lansing",
             "state": "MI",
             "postalCode": "48893"
@@ -252,7 +265,9 @@
         ],
         "address": [
           {
-            "line": ["2034 West Main St"],
+            "line": [
+              "2034 West Main St"
+            ],
             "city": "Hamersville",
             "state": "OH",
             "postalCode": "45130",
@@ -534,7 +549,6 @@
         "url": "Encounter/42eede74-6328-44e4-8dcf-fd9f4057b464"
       }
     },
-
     {
       "fullUrl": "Observation/0a33326b-fbf2-4a59-a785-ad9ba5c40ce0",
       "resource": {
@@ -1039,7 +1053,6 @@
         "url": "MedicationAdministration/dfa9a326-b056-4ec1-89bf-2a04a36af86b"
       }
     },
-
     {
       "fullUrl": "Account/54375c99-189d-4e4d-90c5-36cc4278a36c",
       "resource": {
@@ -5918,10 +5931,10 @@
             {
               "system": "http://loinc.org",
               "code": "54109-4",
-              "display": "Newborn hearing screening of Ear – right"
+              "display": "Newborn hearing screening of Ear \u2013 right"
             }
           ],
-          "text": "Newborn hearing screening of Ear – right"
+          "text": "Newborn hearing screening of Ear \u2013 right"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -6002,10 +6015,10 @@
             {
               "system": "http://loinc.org",
               "code": "54108-6",
-              "display": "Newborn hearing screening of Ear – left"
+              "display": "Newborn hearing screening of Ear \u2013 left"
             }
           ],
-          "text": "Newborn hearing screening of Ear – left"
+          "text": "Newborn hearing screening of Ear \u2013 left"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -6130,10 +6143,10 @@
             {
               "system": "http://loinc.org",
               "code": "73742-9",
-              "display": "Newborn hearing screen reason not performed – right"
+              "display": "Newborn hearing screen reason not performed \u2013 right"
             }
           ],
-          "text": "Newborn hearing screen reason not performed – right"
+          "text": "Newborn hearing screen reason not performed \u2013 right"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -6144,10 +6157,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "103709008",
-              "display": "Attempted but unsuccessful – technical fail"
+              "display": "Attempted but unsuccessful \u2013 technical fail"
             }
           ],
-          "text": "Attempted but unsuccessful – technical fail"
+          "text": "Attempted but unsuccessful \u2013 technical fail"
         }
       },
       "search": {
@@ -6218,10 +6231,10 @@
             {
               "system": "http://loinc.org",
               "code": "73739-5",
-              "display": "Newborn hearing screen reason not performed – left"
+              "display": "Newborn hearing screen reason not performed \u2013 left"
             }
           ],
-          "text": "Newborn hearing screen reason not performed – left"
+          "text": "Newborn hearing screen reason not performed \u2013 left"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -6232,10 +6245,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "103709008",
-              "display": "Attempted but unsuccessful – technical fail"
+              "display": "Attempted but unsuccessful \u2013 technical fail"
             }
           ],
-          "text": "Attempted but unsuccessful – technical fail"
+          "text": "Attempted but unsuccessful \u2013 technical fail"
         }
       },
       "search": {
@@ -6415,10 +6428,10 @@
             {
               "system": "http://loinc.org",
               "code": "54109-4",
-              "display": "Newborn hearing screening of Ear – right"
+              "display": "Newborn hearing screening of Ear \u2013 right"
             }
           ],
-          "text": "Newborn hearing screening of Ear – right"
+          "text": "Newborn hearing screening of Ear \u2013 right"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -6459,10 +6472,10 @@
             {
               "system": "http://loinc.org",
               "code": "54108-6",
-              "display": "Newborn hearing screening of Ear – left"
+              "display": "Newborn hearing screening of Ear \u2013 left"
             }
           ],
-          "text": "Newborn hearing screening of Ear – left"
+          "text": "Newborn hearing screening of Ear \u2013 left"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -9697,7 +9710,6 @@
         "url": "Condition/3bc88fa3-c57e-4c0f-b02b-89a46f5b6739"
       }
     },
-
     {
       "fullUrl": "Observation/6d22c4f2-1e19-42c7-8618-ed0f6b8e4f7b",
       "resource": {
@@ -11180,7 +11192,6 @@
         "url": "MedicationRequest/d3c8fbcd-8212-437e-bafd-7cb946770c3f"
       }
     },
-
     {
       "fullUrl": "Observation/d6bd9aa8-5d83-437e-9ce5-8021e50bc583",
       "resource": {
@@ -11197,10 +11208,10 @@
             {
               "system": "http://loinc.org",
               "code": "54109-4",
-              "display": "Newborn hearing screening of Ear – right"
+              "display": "Newborn hearing screening of Ear \u2013 right"
             }
           ],
-          "text": "Newborn hearing screening of Ear – right"
+          "text": "Newborn hearing screening of Ear \u2013 right"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -11281,10 +11292,10 @@
             {
               "system": "http://loinc.org",
               "code": "54108-6",
-              "display": "Newborn hearing screening of Ear – left"
+              "display": "Newborn hearing screening of Ear \u2013 left"
             }
           ],
-          "text": "Newborn hearing screening of Ear – left"
+          "text": "Newborn hearing screening of Ear \u2013 left"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -11409,10 +11420,10 @@
             {
               "system": "http://loinc.org",
               "code": "73742-9",
-              "display": "Newborn hearing screen reason not performed – right"
+              "display": "Newborn hearing screen reason not performed \u2013 right"
             }
           ],
-          "text": "Newborn hearing screen reason not performed – right"
+          "text": "Newborn hearing screen reason not performed \u2013 right"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -11423,10 +11434,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "103709008",
-              "display": "Attempted but unsuccessful – technical fail"
+              "display": "Attempted but unsuccessful \u2013 technical fail"
             }
           ],
-          "text": "Attempted but unsuccessful – technical fail"
+          "text": "Attempted but unsuccessful \u2013 technical fail"
         }
       },
       "search": {
@@ -11497,10 +11508,10 @@
             {
               "system": "http://loinc.org",
               "code": "73739-5",
-              "display": "Newborn hearing screen reason not performed – left"
+              "display": "Newborn hearing screen reason not performed \u2013 left"
             }
           ],
-          "text": "Newborn hearing screen reason not performed – left"
+          "text": "Newborn hearing screen reason not performed \u2013 left"
         },
         "subject": {
           "reference": "Patient/f288c654-6885-4f48-999c-48d776dc06af"
@@ -11511,10 +11522,10 @@
             {
               "system": "http://snomed.info/sct",
               "code": "103709008",
-              "display": "Attempted but unsuccessful – technical fail"
+              "display": "Attempted but unsuccessful \u2013 technical fail"
             }
           ],
-          "text": "Attempted but unsuccessful – technical fail"
+          "text": "Attempted but unsuccessful \u2013 technical fail"
         }
       },
       "search": {
@@ -11525,7 +11536,6 @@
         "url": "Observation/fa5ce0c1-3137-4d1a-a7e3-b360fa1c6e2a"
       }
     },
-
     {
       "fullUrl": "Observation/6874c0b9-37fc-4844-84fb-7270445ffe8b",
       "resource": {
@@ -11679,7 +11689,6 @@
         "url": "Observation/9d223a7a-eae5-45b8-bdb5-6035463c3667"
       }
     },
-
     {
       "fullUrl": "Observation/3b7516fb-cdee-4f62-9376-2784cd0a06e3",
       "resource": {

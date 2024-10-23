@@ -71,3 +71,4 @@ ci:
   autoupdate_schedule: weekly
   skip: [pretty-format-json, terraform-fmt]
   submodules: false
+exclude: examples/*

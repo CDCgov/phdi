@@ -27,10 +27,8 @@ const ECRViewerPage: React.FC = () => {
   const [mappings, setMappings] = useState<PathMappings>({});
   const [errors, setErrors] = useState<Error>();
   const searchParams = useSearchParams();
-  const fhirId = searchParams ? (searchParams.get("id") ?? "") : "";
-  const snomedCode = searchParams
-    ? (searchParams.get("snomed-code") ?? "")
-    : "";
+  const fhirId = searchParams ? searchParams.get("id") ?? "" : "";
+  const snomedCode = searchParams ? searchParams.get("snomed-code") ?? "" : "";
   const isNonIntegratedViewer =
     process.env.NEXT_PUBLIC_NON_INTEGRATED_VIEWER === "true";
 
