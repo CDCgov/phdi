@@ -114,7 +114,7 @@ careTeamParticipantPeriod: "period.text"
 
 # Immunization Info
 immunizations: "Bundle.entry.resource.where(resourceType = 'Immunization')"
-immunizationsName: "Immunization.note.text"
+immunizationsName: "Immunization.vaccineCode.coding.display.first()"
 immunizationsAdminDate: "Immunization.occurrenceDateTime"
 immunizationsDoseNumber: "Immunization.protocolApplied.where(doseNumberPositiveInt.exists()).doseNumberPositiveInt"
 immunizationsManufacturerName: "Immunization.manufacturer.name"
