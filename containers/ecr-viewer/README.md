@@ -60,7 +60,9 @@ To run the eCR Viewer locally:
 2. Clone the PHDI repository with `git clone https://github.com/CDCgov/phdi`.
 3. Navigate to `/phdi/containers/ecr-viewer/`.
 4. Install all of the Node dependencies for the eCR Viewer with `npm install`.
-5. Run the eCR Viewer on `localhost:3000` with `npm run local-dev`.
+5. Setup your `.env.local` by running `npm run setup-local-env`.
+6. Create seed data with `npm run convert-seed-data` - this will take ~10 minutes.
+7. Run the eCR Viewer on `localhost:3000` with `npm run local-dev`.
 
 ### Windows Setup
 
@@ -68,10 +70,10 @@ The eCR Viewer is primailly deveoped on Mac silicon machines, See this [integrea
 
 ### Updating Seed Data
 
-Sample eICRs are included in `containers/ecr-viewer/seed-scripts/baseECR/`. `npm run local-dev` will run [`seed-scripts/sql/data.sql`](seed-scripts/sql/data.sql) to insert their pre-converted eCRs into the Postgres database. If you ever need to update the eCRs or add new eCRs you can regenerate the data by:
+Sample eICRs are included in `containers/ecr-viewer/seed-scripts/baseECR/`. If you ever need to update the eCRs or add new eCRs you can regenerate the data by:
 
 1. Run `npm run convert-seed-data` to re-run the FHIR conversion of the seed eCRs
-2. Delete the current volume used by your DB: `docker compose down -v`
+2. Delete the current volume used by your DB: `docker compose -f ./seed-scripts/docker-compose.yml --profile "*" down -v`
 3. Run `npm run local-dev` to re-run the eCR Viewer with the newly converted data.
 
 ### Developer Commands
