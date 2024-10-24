@@ -1,3 +1,4 @@
+import json
 import os
 import traceback
 
@@ -51,8 +52,22 @@ def convert_files():
                                 f"{URL}/process-message", json=payload
                             )
                             if response.status_code == 200:
-                                responses_json_raw = response.json()
-                                print(responses_json_raw)
+                                responses_json = response.json()["processed_values"][
+                                    "responses"
+                                ]
+                                for response in responses_json:
+                                    if "stamped_ecr" in response:
+                                        with open(
+                                            os.path.join(folder_path, "bundle.json"),
+                                            "w",
+                                        ) as fhir_file:
+                                            json.dump(
+                                                response["stamped_ecr"][
+                                                    "extended_bundle"
+                                                ],
+                                                fhir_file,
+                                                indent=4,
+                                            )
                                 print(
                                     f"Converted {folder} in {subfolder} successfully."
                                 )
