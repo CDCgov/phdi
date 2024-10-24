@@ -47,6 +47,9 @@ coverage.xml
 # PyPI
 .pypitoken
 
+# ASDF
+.tool-versions
+
 # Azure Functions
 *local.settings.json
 bin/
