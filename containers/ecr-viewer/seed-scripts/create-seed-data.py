@@ -1,5 +1,6 @@
 import json
 import os
+import traceback
 
 import requests
 
@@ -45,6 +46,8 @@ def convert_files():
                                 "rr_data": rr_file.read(),
                             }
 
+                            print(f"{URL}/process-message for {subfolder}/{folder}")
+
                             response = requests.post(
                                 f"{URL}/process-message", json=payload
                             )
@@ -65,7 +68,6 @@ def convert_files():
                                                 fhir_file,
                                                 indent=4,
                                             )
-
                                 print(
                                     f"Converted {folder} in {subfolder} successfully."
                                 )
@@ -77,7 +79,7 @@ def convert_files():
                         print(f"Required file not found in {folder_path}: {e}")
                     except Exception as e:
                         print(
-                            f"An error occurred processing {folder} in {subfolder}: {e}"
+                            f"An error occurred processing {folder} in {subfolder}: {e}\n\n{traceback.format_exc()}"
                         )
                 # If the subfolder is not a directory, print a message
                 else:

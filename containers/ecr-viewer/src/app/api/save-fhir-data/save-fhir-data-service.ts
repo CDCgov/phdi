@@ -1,6 +1,7 @@
 import { BlobServiceClient } from "@azure/storage-blob";
 import { NextResponse } from "next/server";
 import pgPromise from "pg-promise";
+import { database, db_url } from "../services/db";
 import {
   S3Client,
   PutObjectCommand,
@@ -31,10 +32,6 @@ const s3Client =
  * @throws {Error} Throws an error if the FHIR bundle cannot be saved to postgress.
  */
 export const saveToPostgres = async (fhirBundle: Bundle, ecrId: string) => {
-  const db_url = process.env.DATABASE_URL || "";
-  const db = pgPromise();
-  const database = db(db_url);
-
   const { ParameterizedQuery: PQ } = pgPromise;
   const addFhir = new PQ({
     text: "INSERT INTO fhir VALUES ($1, $2) RETURNING ecr_id",
@@ -436,10 +433,6 @@ export const saveMetadataToPostgres = async (
   metadata: BundleMetadata,
   ecrId: string,
 ) => {
-  const db_url = process.env.DATABASE_URL || "";
-  const db = pgPromise();
-  const database = db(db_url);
-
   const { ParameterizedQuery: PQ } = pgPromise;
 
   if (process.env.METADATA_DATABASE_SCHEMA == "extended") {
