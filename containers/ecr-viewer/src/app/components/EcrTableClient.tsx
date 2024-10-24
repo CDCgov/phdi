@@ -41,7 +41,7 @@ export const EcrTableClient: React.FC<EcrTableClientProps> = ({
     setSortConfig({ columnId, direction });
 
     // Fetch new sorted data from an API route or directly from server
-    // @todo: Add sort to query call
+    // @todo: Add sort to query call with sortConfig
     const sortedData = await listEcrData(startIndex, itemsPerPage);
 
     // Update the sorted data
