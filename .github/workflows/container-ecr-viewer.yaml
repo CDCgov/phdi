@@ -71,9 +71,9 @@ jobs:
 
       - name: Wait for server to be ready
         run: |
-          until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer); do
+          until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer/view-data?id=1.2.840.114350.1.13.478.3.7.8.688883.230886); do
             echo "Waiting for server to be ready..."
-            sleep 5
+            sleep 40
           done
 
       - name: Run cypress tests
