@@ -185,6 +185,22 @@ public class CustomFilterTests
   }
 
   [Fact]
+  public void GetRxnormName_ValidRxnorm_ReturnsName()
+  {
+    var rxnorm = "1044916";
+    var actual = Filters.GetRxnormName(rxnorm);
+    Assert.Equal("VioNex", actual);
+  }
+
+  [Fact]
+  public void GetRxnormName_InvalidRxnorm_ReturnsNull()
+  {
+    var rxnorm = "ABC";
+    var actual = Filters.GetRxnormName(rxnorm);
+    Assert.Null(actual);
+  }
+
+  [Fact]
   public void FindObjectByIdRecursive_ValidId_ReturnsObject()
   {
     var text1 = new List<object>(){
