@@ -36,13 +36,15 @@ RUN /root/.pyenv/bin/pyenv global 3.10.13
 
 RUN /root/.pyenv/shims/pip install --no-cache --upgrade pip setuptools
 
-RUN useradd -m myuser
-USER myuser
-
 # Install requirements
 WORKDIR /code
+
 COPY requirements.txt .
 RUN /root/.pyenv/shims/pip install -r requirements.txt
+
+RUN useradd -m myuser
+USER myuser
+RUN chown -R myuser:myuser /code
 
 # Copy FastAPI app
 COPY app /code/app
@@ -50,7 +52,6 @@ COPY assets /code/assets
 COPY README.md /code/README.md
 COPY /CustomFhir/Loinc.csv /code/
 
-RUN chown -R myuser:myuser /code
 
 # Get an up to date copy of active rxnorm codes and names
 RUN curl 'https://rxnav.nlm.nih.gov/REST/allstatus.json?status=active' \
