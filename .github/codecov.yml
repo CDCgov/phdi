@@ -39,9 +39,6 @@ flags:
   record-linkage:
     paths:
       - "containers/record-linkage"
-  tefca-viewer:
-    paths:
-      - "containers/tefca-viewer"
   trigger-code-reference:
     paths:
       - "containers/trigger-code-reference"

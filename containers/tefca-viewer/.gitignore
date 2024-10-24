@@ -1,8 +1,0 @@
-node_modules
-.next/
-*.local
-certificates
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
