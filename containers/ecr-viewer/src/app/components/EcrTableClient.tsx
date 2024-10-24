@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "@trussworks/react-uswds";
 import { SortButton } from "@/app/components/SortButton";
-import { EcrDisplay, listEcrData } from "@/app/api/services/listEcrDataService";
+import { EcrDisplay } from "@/app/api/services/listEcrDataService";
 import { toSentenceCase } from "@/app/services/formatService";
 
 const basePath =
@@ -32,6 +32,14 @@ export const EcrTableClient: React.FC<EcrTableClientProps> = ({
 }) => {
   const [sortedData, setSortedData] = useState(data);
   const [sortConfig, setSortConfig] = useState(defaultSort);
+  const [initialIndex, setStartIndex] = useState(startIndex);
+  const [ipp, setItemsPerPage] = useState(itemsPerPage);
+
+  useEffect(() => {
+    setStartIndex(startIndex);
+    setItemsPerPage(itemsPerPage);
+    setSortedData(data);
+  }, [startIndex, itemsPerPage, data]);
 
   const handleSort = async (columnId) => {
     // Toggle sorting direction
@@ -41,8 +49,8 @@ export const EcrTableClient: React.FC<EcrTableClientProps> = ({
     setSortConfig({ columnId, direction });
 
     // Fetch new sorted data from an API route or directly from server
-    // @todo: Add sort to query call with sortConfig
-    const sortedData = await listEcrData(startIndex, itemsPerPage);
+    // @todo: Add new API call to query for sorted column - sortedData = getSortData(sortConfig, initialIndex, ipp)
+    //const sortedData = await listEcrData(startIndex, itemsPerPage);
 
     // Update the sorted data
     setSortedData(sortedData);
@@ -115,7 +123,6 @@ export const EcrTableClient: React.FC<EcrTableClientProps> = ({
                   <div>
                     <SortButton
                       columnName={column.id}
-                      columnSortDirection={column.sortDirection}
                       className={"sortable-desc-column"}
                       onClick={() => handleSort(column.id)}
                     ></SortButton>
@@ -134,7 +141,6 @@ export const EcrTableClient: React.FC<EcrTableClientProps> = ({
                     <div>
                       <SortButton
                         columnName={column.id}
-                        columnSortDirection={column.sortDirection}
                         className={"sortable-column"}
                         onClick={() => handleSort(column.id)}
                       ></SortButton>

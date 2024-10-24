@@ -4,25 +4,19 @@ import { Button } from "@trussworks/react-uswds";
 
 type SortButtonProps = {
   columnName: string;
-  columnSortDirection: string;
   className: string;
-  currentSortedColumnId: string;
 };
 
 /**
  * Functional component for a sort button.
  * @param props - Props containing button configurations.
  * @param props.columnName - The name of the column to sort
- * @param props.columnSortDirection - The direction of the sort
  * @param props.className   - The class name of the button
- * @param props.currentSortedColumnId - The ID of the current sorted column
  * @returns The JSX element representing the sort button.
  */
 export const SortButton: React.FC<SortButtonProps> = ({
   columnName,
-  columnSortDirection,
   className,
-  currentSortedColumnId,
 }) => {
   const buttonSelector = `${columnName}-sort-button`;
   // const headerSelector = `${currentSortedColumnId}-header`;
