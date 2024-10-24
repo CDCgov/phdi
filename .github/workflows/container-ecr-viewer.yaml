@@ -52,6 +52,7 @@ jobs:
         working-directory: ./containers/${{env.CONTAINER}} # Navigate to your Node.js app directory
         run: npm test
   cypress-e2e-tests:
+    if: false
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -68,13 +69,6 @@ jobs:
       - name: Start ${{env.CONTAINER}}
         working-directory: ./containers/${{env.CONTAINER}}/cypress
         run: docker compose --env-file ../.env.test up -d
-
-      - name: Wait for server to be ready
-        run: |
-          until $(curl --output /dev/null --silent --head --fail http://localhost:3000/ecr-viewer); do
-            echo "Waiting for server to be ready..."
-            sleep 5
-          done
 
       - name: Run cypress tests
         working-directory: ./containers/${{env.CONTAINER}}

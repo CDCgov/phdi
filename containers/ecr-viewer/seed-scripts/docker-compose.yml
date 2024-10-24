@@ -14,6 +14,9 @@ services:
       driver: "json-file"
     env_file:
       - ../../orchestration/.env
+    environment:
+      - OTEL_TRACES_EXPORTER=none
+      - OTEL_METRICS_EXPORTER=none
     healthcheck:
       test: ["CMD", "curl", "-f", "http://orchestration-service:8080/"]
       interval: 10s

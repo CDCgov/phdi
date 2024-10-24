@@ -29,7 +29,7 @@ def build_save_fhir_data_body(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ):
         if workflow_params.get("fhirBundle"):

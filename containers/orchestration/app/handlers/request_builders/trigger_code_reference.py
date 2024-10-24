@@ -30,7 +30,7 @@ def build_stamp_condition_extensions_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ):
         # Initialize workflow_params as an empty dictionary if it's None

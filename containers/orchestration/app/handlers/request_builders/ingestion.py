@@ -32,7 +32,7 @@ def build_validation_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ):
         return {
@@ -69,7 +69,7 @@ def build_ingestion_name_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ) as handler_span:
         # Default parameter values
@@ -131,7 +131,7 @@ def build_ingestion_phone_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ):
         # Since only one param, just add it explicitly
@@ -170,7 +170,7 @@ def build_ingestion_dob_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ) as handler_span:
         # Default parameter values
@@ -223,7 +223,7 @@ def build_geocoding_request(
         attributes={
             "message_type": orchestration_request.get("message_type"),
             "data_type": orchestration_request.get("data_type"),
-            "workflow_params": workflow_params,
+            "workflow_params": str(workflow_params),
         },
     ) as handler_span:
         # Default parameter values
