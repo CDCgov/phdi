@@ -26,7 +26,12 @@ const EcrTable = async ({
 
   return (
     <div className="ecr-client-wrapper width-full overflow-auto">
-      <EcrTableClient data={initialData} defaultSort={defaultSort} />
+      <EcrTableClient
+        data={initialData}
+        defaultSort={defaultSort}
+        startIndex={startIndex}
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };
