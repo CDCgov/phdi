@@ -26,7 +26,7 @@ COPY --from=build /build/FHIR-Converter/data/Templates /build/FHIR-Converter/dat
 ENV PYTHONUNBUFFERED=1
 
 # Install python via pyenv
-RUN apt-get update && apt-get install -y curl git build-essential libreadline-dev libncursesw5-dev  libssl-dev  libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
+RUN apt-get update && apt-get install -y curl git jq build-essential libreadline-dev libncursesw5-dev  libssl-dev  libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev zlib1g-dev
 RUN curl https://pyenv.run | bash
 RUN export PYENV_ROOT="$HOME/.pyenv"
 RUN export PATH="$PYENV_ROOT/bin:$PATH"
@@ -41,10 +41,6 @@ WORKDIR /code
 
 COPY requirements.txt .
 RUN /root/.pyenv/shims/pip install -r requirements.txt
-
-RUN useradd -m myuser
-USER myuser
-RUN chown -R myuser:myuser /code
 
 # Copy FastAPI app
 COPY app /code/app
