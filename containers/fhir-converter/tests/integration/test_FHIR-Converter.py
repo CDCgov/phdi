@@ -71,22 +71,20 @@ def test_ecr_conversion(setup, snapshot):
 
 
 @pytest.mark.integration
-def test_ecr_conversion_with_rr(setup, snapshot):
+@pytest.mark.parametrize(
+    "dir_name",
+    [
+        (case.name)
+        for case in (Path(__file__).parent.parent / "test_files/snapshot").iterdir()
+        if case.is_dir()
+    ],
+)
+def test_ecr_conversion_with_rr(dir_name, snapshot):
     rr_data = open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "rr_extraction"
-        / "CDA_RR.xml"
+        Path(__file__).parent.parent / "test_files/snapshot" / dir_name / "CDA_RR.xml"
     ).read()
     input_data = open(
-        Path(__file__).parent.parent.parent.parent.parent
-        / "tests"
-        / "assets"
-        / "fhir-converter"
-        / "rr_extraction"
-        / "CDA_eICR.xml"
+        Path(__file__).parent.parent / "test_files/snapshot" / dir_name / "CDA_eICR.xml"
     ).read()
     request = {
         "input_data": input_data,

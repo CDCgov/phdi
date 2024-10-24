@@ -31,6 +31,13 @@ describe("Immunizations Table", () => {
             system: "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
           },
         ],
+        vaccineCode: {
+          coding: [
+            {
+              display: "DTAP-HIB-IPV (PENTACEL)",
+            },
+          ],
+        },
         resourceType: "Immunization",
         primarySource: true,
         occurrenceDateTime: "04/16/2010",
@@ -57,6 +64,7 @@ describe("Immunizations Table", () => {
           coding: [
             {
               code: "49281-400-10",
+              display: "TDAP, (ADOL/ADULT)",
               system: "urn:oid:2.16.840.1.113883.6.69",
             },
           ],
@@ -89,6 +97,9 @@ describe("Immunizations Table", () => {
             system: "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
           },
         ],
+        vaccineCode: {
+          coding: [{ display: "HEP A (ADULT) 2 DOSE" }],
+        },
         resourceType: "Immunization",
         primarySource: true,
         occurrenceDateTime: "11/11/2011",
@@ -115,6 +126,8 @@ describe("Immunizations Table", () => {
           coding: [
             {
               code: "50090-1890-1",
+              display:
+                "MENINGOCOCCAL CONJUGATE,MENACTRA                                        (PED/ADOL/ADULT)",
               system: "urn:oid:2.16.840.1.113883.6.69",
             },
           ],
@@ -138,6 +151,9 @@ describe("Immunizations Table", () => {
             system: "urn:oid:1.2.840.114350.1.13.297.3.7.2.768076",
           },
         ],
+        vaccineCode: {
+          coding: [{ display: "HEP B (PED,ADOLESCENT) 3 DOSE" }],
+        },
         resourceType: "Immunization",
         primarySource: true,
         occurrenceDateTime: "03/21/1974",
