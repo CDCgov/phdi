@@ -1,10 +1,13 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE ecr_data (
   eICR_ID VARCHAR(200) PRIMARY KEY,
   data_source VARCHAR(2), -- S3 or DB
-  data_link VARCHAR(500), -- Link to the data
+  fhir_reference_link VARCHAR(500), -- Link to the ecr fhir bundle
   patient_name_first VARCHAR(100),
   patient_name_last VARCHAR(100),
   patient_birth_date DATE,
+  date_created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   report_date DATE
 );
 

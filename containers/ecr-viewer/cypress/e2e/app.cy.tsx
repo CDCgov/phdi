@@ -2,11 +2,13 @@ describe("Happy Path", () => {
   it("Should load the eCR Viewer for a known ID", () => {
     // Visit a valid URL
     const basePath = Cypress.env("BASE_PATH") || "";
-    cy.visit(`${basePath}/view-data?id=6100896d-b520-497c-b2fe-1c111c679274`);
+    cy.visit(
+      `${basePath}/view-data?id=1.2.840.114350.1.13.478.3.7.8.688883.230886`,
+    );
 
     // Gets the expected content
     cy.get("#patient-summary").contains("Patient Summary");
-    cy.contains("VICTORIA HUNTER");
+    cy.contains("APPLE ZTEST");
   });
 });
 
