@@ -36,6 +36,9 @@ RUN /root/.pyenv/bin/pyenv global 3.10.13
 
 RUN /root/.pyenv/shims/pip install --no-cache --upgrade pip setuptools
 
+RUN useradd -m myuser
+USER myuser
+
 # Install requirements
 WORKDIR /code
 COPY requirements.txt .
@@ -47,9 +50,12 @@ COPY assets /code/assets
 COPY README.md /code/README.md
 COPY /CustomFhir/Loinc.csv /code/
 
+RUN chown -R myuser:myuser /code
+
 # Get an up to date copy of active rxnorm codes and names
-RUN curl 'https://rxnav.nlm.nih.gov/REST/allstatus.json?status=active' | \
-  jq --raw-output '[["code", "name"]] + [.minConceptGroup.minConcept[] | [.rxcui, .name]] | .[] | @csv' > rxnorm.csv
+RUN curl 'https://rxnav.nlm.nih.gov/REST/allstatus.json?status=active' \
+  | jq --raw-output '[["code", "name"]] + [.minConceptGroup.minConcept[] | [.rxcui, .name]] | .[] | @csv' \
+  > rxnorm.csv
 
 # Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
