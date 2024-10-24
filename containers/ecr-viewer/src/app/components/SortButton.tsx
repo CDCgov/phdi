@@ -34,22 +34,23 @@ export const SortButton: React.FC<SortButtonProps> = ({
         className={`usa-button ${className}`}
         type="button"
         onClick={() => {
-          // todo: only reset buttons that are were sorted
-          // Reset arrow direction
-          const buttonsToReset = document.querySelectorAll(`button`);
-          console.log(buttonsToReset);
+          // Reset arrow direction if changing column
+          const buttonsToReset = document.querySelectorAll(
+            'th[aria-sort="ascending"] button',
+          );
+          //console.log("Buttons to reset");
+          //console.log(buttonsToReset);
           buttonsToReset.forEach((header) => {
-            header.className === "usa-button sortable-desc-column" ||
-            header.className === "usa-button sortable-asc-column"
+            header.id !== buttonSelector
               ? header.setAttribute("class", "usa-button sortable-column")
               : "";
           });
 
           // Change arrow direction
-          console.log(columnSortDirection);
-          console.log(`button#${buttonSelector}`);
+          //console.log(columnSortDirection);
+          //console.log(`button#${buttonSelector}`);
           const buttons = document.querySelectorAll(`button#${buttonSelector}`);
-          console.log(buttons);
+          //console.log(buttons);
           buttons.forEach((button) => {
             button.className === "usa-button sortable-column"
               ? button.setAttribute("class", "usa-button sortable-asc-column")
@@ -64,16 +65,9 @@ export const SortButton: React.FC<SortButtonProps> = ({
                   );
           });
 
-          // button.className === "usa-button sortable-asc-column"
-          //     ?
-          //     : button.setAttribute("class", "usa-button sortable-asc-column");
-          // button.className === "usa-button sortable-desc-column"
-          //     ? button.setAttribute("class", "usa-button sortable-asc-column")
-          //     : "";
-
           // Reset header marker
           const headersToReset = document.querySelectorAll(`th`);
-          console.log(headersToReset);
+          //console.log(headersToReset);
           headersToReset.forEach((header) => {
             header.removeAttribute("aria-sort");
           });
@@ -82,7 +76,7 @@ export const SortButton: React.FC<SortButtonProps> = ({
           const headerToSet = document.querySelectorAll(
             `th#${headerSelectorToSort}`,
           );
-          console.log(headerToSet);
+          //console.log(headerToSet);
           headerToSet.forEach((header) =>
             header.setAttribute("aria-sort", "ascending"),
           );
