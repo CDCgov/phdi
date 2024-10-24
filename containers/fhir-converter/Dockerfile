@@ -14,10 +14,6 @@ RUN mkdir bin && \
   wget https://github.com/deislabs/oras/releases/download/v0.12.0/oras_0.12.0_windows_amd64.tar.gz -O ./bin/oras.tar.gz && \
   tar -xvf ./bin/oras.tar.gz -C ./bin
 
-# Get an up to date copy of active rxnorm codes and names
-RUN curl 'https://rxnav.nlm.nih.gov/REST/allstatus.json?status=active' | \
-  jq --raw-output '[["code", "name"]] + [.minConceptGroup.minConcept[] | [.rxcui, .name]] | .[] | @csv' > rxnorm.csv
-
 # Build Microsoft FHIR Converter
 RUN dotnet build -c Release -o output
 
@@ -50,6 +46,10 @@ COPY app /code/app
 COPY assets /code/assets
 COPY README.md /code/README.md
 COPY /CustomFhir/Loinc.csv /code/
+
+# Get an up to date copy of active rxnorm codes and names
+RUN curl 'https://rxnav.nlm.nih.gov/REST/allstatus.json?status=active' | \
+  jq --raw-output '[["code", "name"]] + [.minConceptGroup.minConcept[] | [.rxcui, .name]] | .[] | @csv' > rxnorm.csv
 
 # Copy eCR templates
 COPY Templates/eCR /build/FHIR-Converter/data/Templates/eCR
