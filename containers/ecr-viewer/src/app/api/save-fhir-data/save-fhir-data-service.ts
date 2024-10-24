@@ -1,7 +1,7 @@
 import { BlobServiceClient } from "@azure/storage-blob";
 import { NextResponse } from "next/server";
 import pgPromise from "pg-promise";
-import { database, db_url } from '../services/db';
+import { database, db_url } from "../services/db";
 import {
   S3Client,
   PutObjectCommand,
