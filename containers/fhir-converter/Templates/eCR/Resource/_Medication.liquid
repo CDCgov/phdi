@@ -6,12 +6,9 @@
         "code":
         {
             {% assign translations = medication.code.translation | to_array -%}
-            {% if translations.first -%}
-            {% include 'DataType/CodeableConcept' CodeableConcept: translations.first -%}
-            {% endif -%}
-            {% if translations.first == null -%}
-            {% include 'DataType/CodeableConcept' CodeableConcept: medication.code -%}
-            {% endif -%}
+            {% assign code = medication.code | to_array -%}
+            {% assign codes = code | concat: translations %}
+            {% include 'DataType/CodeableConcept' CodeableConcept: codes -%}
         },
     },
     "request":{

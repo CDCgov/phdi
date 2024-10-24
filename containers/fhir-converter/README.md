@@ -210,7 +210,7 @@ When testing, you can print from the liquid templates with the following command
 {{ objectName | print_object }}
 ```
 
-This will print objects or strings to the console for debugging purposes.
+This will print objects or strings to the console for debugging purposes. You must set the environment variables `DEV_MODE` and `DEBUG_LOG` to `"true"`.
 
 # License (for Microsoft FHIR Converter)
 

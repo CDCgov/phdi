@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Microsoft.VisualBasic.FileIO;
 using DotLiquid.Util;
+using System.IO.Enumeration;
 
 namespace Microsoft.Health.Fhir.Liquid.Converter
 {
@@ -22,6 +23,7 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
         {"paragraph", "p"}
     };
     private static Dictionary<string, string>? loincDict;
+    private static Dictionary<string, string>? rxnormDict;
 
     // Items from the filter could be arrays or objects, process them to be the same
     private static List<Dictionary<string, object>> ProcessItem(object item)
@@ -306,9 +308,9 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     // Overloaded method with default level value
     public static void PrintObject(object obj)
     {
-      var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
-      var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
-      if (devMode != "true" || debugLog != "true")
+      var devMode = Environment.GetEnvironmentVariable("DEV_MODE") ?? "false";
+      var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG") ?? "false";
+      if (devMode.Trim() != "true" || debugLog.Trim() != "true")
       {
         return;
       }
@@ -318,9 +320,9 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
 
     private static void PrintObject(object obj, int level)
     {
-      var devMode = Environment.GetEnvironmentVariable("DEV_MODE");
-      var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG");
-      if (devMode != "true" || debugLog != "true")
+      var devMode = Environment.GetEnvironmentVariable("DEV_MODE") ?? "false";
+      var debugLog = Environment.GetEnvironmentVariable("DEBUG_LOG") ?? "false";
+      if (devMode.Trim() != "true" || debugLog.Trim() != "true")
       {
         return;
       }
@@ -455,12 +457,12 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     }
 
     /// <summary>
-    /// Parses a CSV file containing LOINC codes and Long Common Names and returns a dictionary where the LOINC codes are keys and the LCN are values.
+    /// Parses a CSV file containing keys and values in the first and second columns and returns a dictionary.
     /// </summary>
-    /// <returns>A dictionary where the keys are LOINC codes and the values are descriptions.</returns>
-    private static Dictionary<string, string> LoincDictionary()
+    /// <returns>A dictionary where the keys are codes and the values are descriptions.</returns>
+    private static Dictionary<string, string> CSVMapDictionary(string filename)
     {
-      TextFieldParser parser = new TextFieldParser("Loinc.csv");
+      TextFieldParser parser = new TextFieldParser(filename);
       Dictionary<string, string> csvData = new Dictionary<string, string>();
 
       parser.HasFieldsEnclosedInQuotes = true;
@@ -489,8 +491,20 @@ namespace Microsoft.Health.Fhir.Liquid.Converter
     /// <returns>The name associated with the specified LOINC code, or null if the code is not found in the dictionary.</returns>
     public static string? GetLoincName(string loinc)
     {
-      loincDict ??= LoincDictionary();
+      loincDict ??= CSVMapDictionary("Loinc.csv");
       loincDict.TryGetValue(loinc, out string? element);
+      return element;
+    }
+
+    /// <summary>
+    /// Retrieves the name associated with the specified RxNorm code from the RxNorm dictionary.
+    /// </summary>
+    /// <param name="rxnorm">The RxNorm code for which to retrieve the name.</param>
+    /// <returns>The name associated with the specified LOINC code, or null if the code is not found in the dictionary.</returns>
+    public static string? GetRxnormName(string rxnorm)
+    {
+      rxnormDict ??= CSVMapDictionary("rxnorm.csv");
+      rxnormDict.TryGetValue(rxnorm, out string? element);
       return element;
     }
 

@@ -34,15 +34,10 @@
         "status":"{{ observationEntry.statusCode.code | get_property: 'ValueSet/ObservationStatus' }}",
         "code":
         {
-            {% if observationEntry.code.translation.code -%}
-            {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code.translation -%}
-            {% endif -%}
-            {% if observationEntry.code.translation.code == null -%}
-            {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
-            {% endif -%}
-            {% if observationEntry.code.code -%}
-                {% include 'DataType/CodeableConcept' CodeableConcept: observationEntry.code -%}
-            {% endif %}
+            {% assign translations = observationEntry.code.translation | to_array -%}
+            {% assign code = observationEntry.code | to_array -%}
+            {% assign codes = code | concat: translations %}
+            {% include 'DataType/CodeableConcept' CodeableConcept: codes -%}
         },
         "effectivePeriod":
         {

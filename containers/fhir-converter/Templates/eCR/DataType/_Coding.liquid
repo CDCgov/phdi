@@ -1,11 +1,14 @@
-"code":"{{ Coding.code }}",
+"code": "{{ Coding.code }}",
+{% assign codeSystemName = Coding.codeSystemName | default: "unknown" | downcase -%}
 {% if Coding.displayName -%}
   "display": "{{ Coding.displayName | strip }}",
 {% elsif Coding.originalText._ -%}
   "display": "{{ Coding.originalText._ | strip }}",
-{% elseif Coding.originalText.reference._ %}
+{% elsif Coding.originalText.reference._ -%}
   "display": "{{ Coding.originalText.reference._ }}",
-{% elsif Coding.code %}
+{% elsif codeSystemName contains "loinc" -%}
   "display": "{{ Coding.code | get_loinc_name }}",
+{% elsif codeSystemName contains "rxnorm" -%}
+  "display": "{{ Coding.code | get_rxnorm_name }}",
 {% endif -%}
 "system":{% include 'ValueSet/SystemReference' code: Coding.codeSystem -%},
