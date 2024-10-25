@@ -1,6 +1,7 @@
 import {
   Bundle,
   CodeableConcept,
+  Condition,
   Encounter,
   Identifier,
   Location,
@@ -379,6 +380,10 @@ export const evaluateEncounterData = (
       title: "Encounter ID",
       value: evaluateEncounterId(fhirBundle, mappings),
     },
+    {
+      title: "Encounter Diagnosis",
+      value: evaluateEncounterDiagnosis(fhirBundle, mappings),
+    },
   ];
   return evaluateData(encounterData);
 };
@@ -693,4 +698,28 @@ export const evaluatePractitionerRoleReference = (
     practitionerRole?.organization?.reference ?? "",
   );
   return { practitioner, organization };
+};
+
+/**
+ * Find encounter diagnoses
+ * @param fhirBundle - The FHIR bundle containing resources.
+ * @param mappings - Path mappings for resolving references.
+ * @returns Comma delimited list of encounter diagnoses
+ */
+export const evaluateEncounterDiagnosis = (
+  fhirBundle: Bundle,
+  mappings: PathMappings,
+) => {
+  const encounterDiagnosisRefs = evaluate(
+    fhirBundle,
+    mappings.encounterDiagnosis,
+  );
+
+  const conditions: Condition[] = encounterDiagnosisRefs.map((diagnosis) =>
+    evaluateReference(fhirBundle, mappings, diagnosis.condition.reference),
+  );
+
+  return conditions
+    .map((condition) => condition.code?.coding?.[0].display)
+    .join(", ");
 };

@@ -166,3 +166,30 @@ def test_multiple_administrated_medications():
         "urn:uuid:44220e5f-c8ce-8841-056d-ed4c52e12520"
         in medication_administration_references
     )
+
+
+@pytest.mark.integration
+def test_encounter_diagnosis():
+    input_data = open(
+        Path(__file__).parent.parent / "test_files/eICR_with_diagnosis.xml"
+    ).read()
+    request = {"input_data": input_data, "input_type": "ecr", "root_template": "EICR"}
+    ecr_conversion_response = httpx.post(CONVERT_TO_FHIR, json=request)
+    assert ecr_conversion_response.status_code == 200
+
+    entryDiagnoses = [
+        entry["resource"]["diagnosis"]
+        for entry in filter(
+            lambda entry: entry["resource"]["resourceType"] == "Encounter",
+            ecr_conversion_response.json()["response"]["FhirResource"]["entry"],
+        )
+    ]
+
+    diagnosis_references = []
+    for diagnoses in entryDiagnoses:
+        for diagnosis in diagnoses:
+            diagnosis_references.append(diagnosis["condition"]["reference"])
+
+    assert len(diagnosis_references) == 1
+
+    assert "Condition/2ff2e2f9-108a-fece-706a-8bd483652bb3" in diagnosis_references

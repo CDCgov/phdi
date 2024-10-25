@@ -49,7 +49,7 @@ compositionAuthorRefs: "Bundle.entry.resource.where(resourceType = 'Composition'
 # Encounter Info
 encounterEndDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.end"
 encounterStartDate: "Bundle.entry.resource.where(resourceType = 'Encounter').period.start"
-encounterReasonForVisit: "Bundle.entry.resource.where(resourceType = 'Encounter').reason[0].value[0].concept.text"
+encounterDiagnosis: "Bundle.entry.resource.where(resourceType = 'Encounter').diagnosis"
 encounterType: "Bundle.entry.resource.where(resourceType='Encounter')[0].class.display"
 encounterID: "Bundle.entry.resource.where(resourceType='Encounter')[0].identifier"
 facilityCity: "Bundle.entry.resource.where(resourceType = 'Location')[0].address.city"
